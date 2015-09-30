@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Estaciones</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="primavera">Primavera</string>
+    <string name="verano">Verano</string>
+    <string name="otono">Otoño</string>
+    <string name="invierno">Invierno</string>
+    <string name="meGusta">Me gusta</string>
+    <string name="titulo">Las cuatro estaciones</string>
+</resources>

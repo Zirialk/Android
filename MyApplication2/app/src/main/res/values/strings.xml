@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Saludo</string>
+
+    <string name="nombre">Introduce tu nombre</string>
+    <string name="action_settings">Settings</string>
+    <string name="saludo">Que hay </string>
+    <string name="saludoEducado">Hola señor </string>
+    <string name="ModoEducado">Modo educado activado </string>
+    <string name="ModoNoEducado">Modo educado desactivado </string>
+    <string name="educado">Educado</string>
+    <string name="saludar">Saludar</string>
+</resources>
