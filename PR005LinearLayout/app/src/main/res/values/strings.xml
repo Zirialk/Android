@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">PR005LinearLayout</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="conexion">CONEXIÓN</string>
+    <string name="usuario">Usuario</string>
+    <string name="clave">Clave</string>
+    <string name="aceptar">Aceptar</string>
+    <string name="cancelar">Cancelar</string>
+    <string name="conectando">"Conectando con el usuario "</string>
+</resources>
