@@ -24,7 +24,8 @@
                     android:gravity="end"
                     android:text="@string/cuenta"
                     android:paddingRight="@dimen/paddingCuenta"
-                    android:paddingTop="@dimen/paddingCuenta"/>
+                    android:paddingTop="@dimen/paddingCuenta"
+                    android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"/>
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
