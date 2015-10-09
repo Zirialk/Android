@@ -6,6 +6,7 @@
     <string name="cuenta">Cuenta</string>
     <string name="euro">€</string>
     <string name="cero">0.00</string>
+    <string name="zero">0</string>
     <string name="propina">Propina</string>
     <string name="lblPorcentajePropina">% Prop.</string>
     <string name="total">Total</string>

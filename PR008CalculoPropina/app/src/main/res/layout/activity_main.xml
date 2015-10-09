@@ -65,6 +65,7 @@
                     android:textAppearance="@android:style/TextAppearance.Medium"
                     />
                 <TextView
+                    android:id="@+id/lblPorcentajePropina"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/euroCuenta"
@@ -118,10 +119,10 @@
                     android:layout_below="@id/lblPropina"
                     android:layout_toLeftOf="@+id/lblPorcentaje"
                     android:layout_toStartOf="@id/lblPorcentaje"
-                    android:text="@string/cero"
+                    android:text="@string/zero"
                     android:gravity="end"
                     style="@style/Base.TextAppearance.AppCompat.Headline"
-                    android:inputType="numberDecimal"
+                    android:inputType="number"
                     />
                 <TextView
                     android:id="@+id/lblTotal"
