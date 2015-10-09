@@ -3,4 +3,6 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="anchura70">Anchura: 70%</string>
+    <string name="anchura24">Anchura: 24%</string>
 </resources>

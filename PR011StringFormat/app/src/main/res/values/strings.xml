@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">PR011StringFormat</string>
+
+    <string name="suspensos">Suspensos</string>
+    <string name="action_settings">Settings</string>
+    <string name="numPorDefecto">0</string>
+    <string name="ver">Ver</string>
+</resources>

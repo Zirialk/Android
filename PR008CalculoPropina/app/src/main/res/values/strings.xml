@@ -4,4 +4,16 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="cuenta">Cuenta</string>
+    <string name="euro">€</string>
+    <string name="cero">0.00</string>
+    <string name="propina">Propina</string>
+    <string name="lblPorcentajePropina">% Prop.</string>
+    <string name="total">Total</string>
+    <string name="calcular">Calcular</string>
+    <string name="redondear">Redondear</string>
+    <string name="limpiar">Limpiar</string>
+    <string name="porcentaje">%</string>
+    <string name="porComensal">Por Comensal</string>
+    <string name="comensales">Comensales</string>
+    <string name="uno">1</string>
 </resources>

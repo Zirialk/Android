@@ -3,17 +3,25 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:layout_margin="@dimen/marginGeneral">
 
 
     <TextView
+        android:layout_height="0dp"
+        android:layout_width="0dp"
         android:id="@+id/c1"
         android:gravity="center"
         app:layout_heightPercent="@fraction/altura"
         app:layout_widthPercent="70%"
-        android:alignParentLeft="true"
-        android:text="Hola"/>
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:text="@string/anchura70"
+        android:background="@color/cyan"/>
+
     <TextView
+        android:layout_height="0dp"
+        android:layout_width="0dp"
         android:gravity="center"
         app:layout_heightPercent="@fraction/altura"
         app:layout_widthPercent="24%"
@@ -21,7 +29,70 @@
         android:layout_toEndOf="@+id/c1"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:text="Hola2"/>
+        android:layout_marginLeft="@dimen/marginLeftGeneral"
+        android:layout_marginStart="@dimen/marginLeftGeneral"
+        android:text="@string/anchura24"
+        android:background="@color/red"/>
+
+    <TextView
+        android:id="@+id/c3"
+        android:layout_height="0dp"
+        android:layout_width="0dp"
+        android:gravity="center"
+        app:layout_heightPercent="@fraction/altura"
+        app:layout_widthPercent="47%"
+        android:layout_below="@id/c1"
+        android:layout_toRightOf="@+id/c4"
+        android:layout_toEndOf="@+id/c4"
+        android:text="Hola3"
+        android:layout_marginLeft="@dimen/marginLeftGeneral"
+        android:layout_marginStart="@dimen/marginLeftGeneral"
+        android:background="@color/brown"/>
+
+    <TextView
+        android:id="@+id/c4"
+        android:layout_height="0dp"
+        android:layout_width="0dp"
+        android:gravity="center"
+        app:layout_heightPercent="@fraction/altura"
+        app:layout_widthPercent="47%"
+        android:layout_below="@id/c1"
+        android:text="Hola4"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:background="@color/green"/>
+
+    <TextView
+        android:id="@+id/c5"
+        android:layout_height="0dp"
+        android:layout_width="0dp"
+        android:gravity="center"
+        app:layout_heightPercent="@fraction/altura"
+        app:layout_widthPercent="84%"
+        android:layout_below="@id/c3"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:text="Hola5"
+
+        android:background="@color/purple"/>
+
+
+    <TextView
+        android:layout_height="0dp"
+        android:layout_width="0dp"
+        android:gravity="center"
+        app:layout_heightPercent="@fraction/altura"
+        app:layout_widthPercent="10%"
+        android:layout_below="@id/c3"
+        android:layout_toLeftOf="@+id/c5"
+        android:layout_toStartOf="@+id/c5"
+        android:text="Hola6"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+
+        android:background="@color/grey"/>
+
+
 
 
 </android.support.percent.PercentRelativeLayout>
