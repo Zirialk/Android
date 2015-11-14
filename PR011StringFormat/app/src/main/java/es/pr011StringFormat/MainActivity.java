@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private void createToast(){
         int num= Integer.parseInt(txtSuspensos.getText().toString());
         String mensaje=getResources().getQuantityString(R.plurals.suspensos,num,num);
-        Toast.makeText(this,mensaje,Toast.LENGTH_SHORT);
+        Toast.makeText(this,mensaje,Toast.LENGTH_SHORT).show();
     }
 
 }
