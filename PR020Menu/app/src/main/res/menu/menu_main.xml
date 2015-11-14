@@ -1,0 +1,15 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
+
+    <item android:id="@+id/mnuAprobar"
+        android:title="@string/aprobar"
+        app:showAsAction="ifRoom|withText"
+        android:icon="@drawable/ic_icono"
+        />
+    <item android:id="@+id/mnuSuspender"
+        android:title="@string/suspender"
+        app:showAsAction="ifRoom|withText"
+        android:icon="@drawable/ic_icono"
+        />
+</menu>

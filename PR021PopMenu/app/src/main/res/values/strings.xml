@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">PR021PopMenu</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="llamar">Llamar</string>
+    <string name="juan">Juan</string>
+    <string name="pepe">Pepe</string>
+    <string name="tlfJUan">956640548</string>
+    <string name="llamando_A">"Llamando a "</string>
+    <string name="enviandoMensaje_A">"Enviando mensaje a "</string>
+</resources>

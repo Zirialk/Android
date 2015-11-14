@@ -1,0 +1,33 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/lblNum"
+        android:text="@string/cero"
+        android:textSize="@dimen/tamanoCero"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"/>
+
+    <Button
+        android:id="@+id/btnNum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/incrementar"
+        android:textSize="20sp"
+        android:layout_below="@+id/lblNum"
+        android:layout_centerHorizontal="true"/>
+    <EditText
+        android:id="@+id/txtAlgo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btnNum"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/txtAlgoMarginTop"
+        />
+
+</RelativeLayout>

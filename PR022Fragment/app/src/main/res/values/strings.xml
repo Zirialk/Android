@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">PR022Fragment</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="uno">uno</string>
+    <string name="cambiar">Cambiar</string>
+</resources>

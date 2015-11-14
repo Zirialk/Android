@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">PR019ListViewSeleccion</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="pregunta">¿De qué color es el caballo blanco de Santiago?</string>
+    <string name="comprobar">Comprobar</string>
+    <string-array name="imagenes">
+        <item>http://lorempixel.com/75/75/</item>
+        <item>http://lorempixel.com/75/75/</item>
+        <item>http://lorempixel.com/75/75/</item>
+    </string-array>
+</resources>

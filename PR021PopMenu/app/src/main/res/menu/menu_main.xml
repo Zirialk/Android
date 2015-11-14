@@ -1,0 +1,12 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
+
+    <item android:id="@+id/llamar"
+        android:title="@string/llamar"
+        app:showAsAction="never" />
+
+    <item android:id="@+id/enviarMensaje"
+        android:title="Enviar mensaje"
+        app:showAsAction="never" />
+</menu>

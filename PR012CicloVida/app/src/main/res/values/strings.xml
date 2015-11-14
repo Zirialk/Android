@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">PR012CicloVida</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="cero">0</string>
+    <string name="incrementar">Incrementar</string>
+</resources>

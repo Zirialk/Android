@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/panel_margin"
+    android:paddingTop="@dimen/panel_margin">
+
+    <TextView
+        android:id="@+id/lblListado"
+        style="?android:attr/listSeparatorTextViewStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="@dimen/panel_margin"
+        android:text="@string/listaAlumnos"
+        tools:context=".MainActivity"/>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_above="@+id/divider"
+        android:layout_below="@+id/lblListado">
+
+        <ListView
+            android:id="@+id/lstAlumnos"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingLeft="@dimen/panel_margin"
+            android:paddingRight="@dimen/panel_margin"
+            android:scrollbarStyle="outsideOverlay"
+            android:transcriptMode="alwaysScroll"
+            tools:listitem="@android:layout/simple_list_item_1"/>
+
+        <TextView
+            android:id="@+id/lblNoHayAlumnos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/lblNoHayAlumnos"
+            android:textAppearance="?android:attr/textAppearanceMedium"/>
+    </FrameLayout>
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_above="@+id/btnAgregar"
+        android:layout_marginTop="@dimen/panel_margin"
+        android:background="@android:drawable/divider_horizontal_textfield"/>
+
+    <EditText
+        android:id="@+id/txtNombre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignTop="@+id/btnAgregar"
+        android:layout_below="@+id/divider"
+        android:layout_marginLeft="@dimen/panel_margin"
+        android:layout_marginRight="@dimen/panel_margin"
+        android:layout_toLeftOf="@+id/btnAgregar"
+        android:layout_toStartOf="@+id/btnAgregar"
+        android:hint="@string/hintNombre"
+        android:imeOptions="actionDone"
+        android:inputType="textPersonName">
+
+        <requestFocus/>
+    </EditText>gf
+
+    <Button
+        android:id="@+id/btnAgregar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="@dimen/panel_margin"
+        android:layout_marginEnd="@dimen/panel_margin"
+        android:layout_marginTop="@dimen/panel_margin"
+        android:padding="8dp"
+        android:text="@string/enviar"
+        android:scaleType="center"/>
+
+</RelativeLayout>
