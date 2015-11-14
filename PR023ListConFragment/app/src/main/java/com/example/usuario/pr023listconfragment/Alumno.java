@@ -3,6 +3,8 @@ package com.example.usuario.pr023listconfragment;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.Objects;
+
 
 public class Alumno implements Parcelable{
     private String nombre;
@@ -78,4 +80,5 @@ public class Alumno implements Parcelable{
             return new Alumno[size];
         }
     };
+
 }

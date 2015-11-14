@@ -14,16 +14,17 @@ import com.squareup.picasso.Picasso;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 
 public class AlumnoAdapter extends ArrayAdapter<Alumno>{
-    private List<Alumno> mAlumnos;
+    private ArrayList<Alumno> mAlumnos;
     private LayoutInflater mInflador;
 
-    public AlumnoAdapter(Context context, List<Alumno> alumnos){
+    public AlumnoAdapter(Context context, ArrayList<Alumno> alumnos){
         super(context,R.layout.item_alumno,alumnos);
         mAlumnos=alumnos;
         mInflador= LayoutInflater.from(context);
