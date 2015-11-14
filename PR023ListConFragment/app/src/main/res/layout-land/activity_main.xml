@@ -5,13 +5,13 @@
     android:layout_height="match_parent">
 
     <FrameLayout
-        android:id="@+id/flHuecoLista"
+        android:id="@+id/flHuecoPrincipal"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="40"
         />
     <FrameLayout
-        android:id="@+id/flHuecoDetalles"
+        android:id="@+id/flHuecoSecundario"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="50"

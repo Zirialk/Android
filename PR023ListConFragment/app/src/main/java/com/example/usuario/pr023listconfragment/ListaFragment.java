@@ -51,9 +51,6 @@ public class ListaFragment extends Fragment {
             }
         });
 
-
-
-
         super.onActivityCreated(savedInstanceState);
     }
 

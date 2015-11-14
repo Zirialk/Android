@@ -16,7 +16,6 @@ public class MainActivity extends AppCompatActivity implements ListaFragment.OnI
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         mGestor = getSupportFragmentManager();
         mGestor.addOnBackStackChangedListener(this);
         initViews();
@@ -24,61 +23,51 @@ public class MainActivity extends AppCompatActivity implements ListaFragment.OnI
 
     private void initViews() {
         ArrayList<Alumno> listaAlumno = new ArrayList<Alumno>();
-
-
         listaAlumno.add(new Alumno("Alejandro Torres Gómez", 18, "Jimena", "La Loba", "http://lorempixel.com/1000/1000/people/1/"));
         listaAlumno.add(new Alumno("Manué", 18, "Algeciras", "Sevilla", "http://lorempixel.com/1000/1000/people/3/"));
-        loadFragmentLista(R.id.flHuecoLista, listaAlumno,"fgrListaVertical");
+
+        loadFragmentLista(R.id.flHuecoPrincipal, listaAlumno, "fgrListaVertical");
+
 
     }
 
-
-
-    private void loadFragmentLista(int idHueco, ArrayList<Alumno> listaAlumnos,String tag){
-        FragmentTransaction transaction= mGestor.beginTransaction();
-
+    private void loadFragmentLista(int idHueco, ArrayList<Alumno> listaAlumnos,String tag) {
+        FragmentTransaction transaction = mGestor.beginTransaction();
 
         //Solo se cargará el fragmento si no estaba cargado de antes.
-        if(mGestor.findFragmentByTag(tag)==null) {
+        if (mGestor.findFragmentByTag(tag) == null) {
             transaction.replace(idHueco, ListaFragment.newInstance(listaAlumnos), tag);
             transaction.addToBackStack("a");
-        }
-
+        }else
+            transaction.replace(idHueco, mGestor.findFragmentByTag(tag));
         transaction.commit();
     }
 
-    private void loadFragmentDetalles(int idHueco, Alumno alumno, String tag,boolean guardarEnPila){
+    private void loadFragmentDetalles(int idHueco, Alumno alumno, String tag){
         FragmentTransaction transaction = mGestor.beginTransaction();
         //Solo se cargará el fragmento si no estaba cargado de antes.
         if(mGestor.findFragmentByTag(tag)==null){
             transaction.replace(idHueco, DetallesFragment.newInstance(alumno), tag);
             transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
-            //Decide si guardarse en la BackStack.
-            if(guardarEnPila)
-                transaction.addToBackStack(alumno.getNombre());
+
             transaction.commit();
         }
-
     }
-
 
     @Override
     public void onBackStackChanged() {
         //Si ya no existe nada más en la cola del BackStack al presionar el botón atrás, se saldrá de la aplicación.
         if(mGestor.getBackStackEntryCount()==0)
             onBackPressed();
-
     }
     @Override
-
     public void pulsado(Alumno alumno) {
-        //Si no existe flHuecoDetalles, es porque el movil no está en modo apaisado (LandScape).
-        if(findViewById(R.id.flHuecoDetalles)==null)
-            //Se le pasa true, para que se guarde en pila ya que al reemplazar al fragmento anterior,
-            //lo necesita para no eliminar el anterior.
-            loadFragmentDetalles(R.id.flHuecoLista, alumno, "fgrListaHorizontal",true);
+
+        if(findViewById(R.id.flHuecoSecundario)==null) //Modo Vertical
+            //Se inicia otra actividad con los detalles del alumno pulsado.
+            DetallesActivity.start(this,alumno);
+
         else
-            //No necesita guardar en pila porque se cargará el fragmento contiguo a la lista, ya que se encuentra en apaisado.
-            loadFragmentDetalles(R.id.flHuecoDetalles, alumno, alumno.getNombre(),false);
+            loadFragmentDetalles(R.id.flHuecoSecundario, alumno, alumno.getNombre());
     }
 }
