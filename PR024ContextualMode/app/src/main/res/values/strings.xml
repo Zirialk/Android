@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">PR018ListViewSimple</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="listaAlumnos">Lista de Alumnos</string>
+    <string name="lblNoHayAlumnos">No hay alumnos</string>
+    <string name="hintNombre">(Nombre)</string>
+    <string name="enviar">Enviar</string>
+    <string name="nombre">Nombre:</string>
+</resources>

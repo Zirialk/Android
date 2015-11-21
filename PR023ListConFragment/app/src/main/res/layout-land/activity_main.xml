@@ -1,20 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
+    android:layout_height="match_parent"
+    >
+    <include layout="@layout/toolbar"/>
     <FrameLayout
         android:id="@+id/flHuecoPrincipal"
-        android:layout_width="0dp"
+        android:layout_below="@+id/toolbar"
+        android:layout_width="230dp"
         android:layout_height="match_parent"
-        android:layout_weight="40"
+
+
         />
     <FrameLayout
         android:id="@+id/flHuecoSecundario"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="50"
-        />
+        android:layout_below="@+id/toolbar"
+        android:layout_toRightOf="@id/flHuecoPrincipal"
+        android:layout_toEndOf="@id/flHuecoPrincipal"
+        android:background="@android:color/darker_gray"
+         />
 
-</LinearLayout>
+</RelativeLayout>

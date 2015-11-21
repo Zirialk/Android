@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
         listaAlumno.add(new Alumno("Manué",28,"982989899"));
         listaAlumno.add(new Alumno("Gabrié",22,"654987321"));
         listaAlumno.add(new Alumno("Juan Pabló",28,"6123456789"));
+
         initViews();
     }
 

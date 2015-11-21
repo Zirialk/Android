@@ -2,10 +2,13 @@ package com.example.usuario.pr023listconfragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 
 public class DetallesActivity extends AppCompatActivity {
 
@@ -16,9 +19,14 @@ public class DetallesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detalles);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        if(getApplication().getResources().getConfiguration().orientation== Configuration.ORIENTATION_LANDSCAPE)
+            onBackPressed();
         Intent intent= getIntent();
         Alumno alumno = intent.getParcelableExtra(EXTRA_ALUMNO);
-        loadFragmentDetalles(alumno,"detalles");
+        loadFragmentDetalles(alumno, "detalles");
+
     }
 
     public static void start(Context contexto, Alumno alumno){
@@ -32,4 +40,6 @@ public class DetallesActivity extends AppCompatActivity {
         FragmentTransaction transaction = mGestor.beginTransaction();
         transaction.replace(R.id.flHuecoPrincipal, DetallesFragment.newInstance(alumno), tag).commit();
     }
+
+
 }

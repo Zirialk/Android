@@ -25,7 +25,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="@dimen/paddingText"
-        android:paddingTop="15dp"
+        android:paddingTop="@dimen/paddingTopLblNombre"
         />
 
     <TextView
@@ -42,7 +42,8 @@
         android:layout_below="@id/lblNombre"
         android:textSize="@dimen/secondaryText"
         android:layout_toRightOf="@+id/lblEdad"
-        android:paddingLeft="100dp"
+        android:layout_toEndOf="@id/lblEdad"
+        android:paddingLeft="@dimen/paddingLeftLblLocalidad"
         android:height="@dimen/textHeight"/>
 
 </RelativeLayout>

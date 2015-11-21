@@ -4,10 +4,14 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -54,9 +58,33 @@ public class DetallesFragment extends Fragment {
         //Carga en el ImageView una imagen cargada por una URL.
         Picasso.with(getActivity()).load(alumno.getAvatar()).into(imgAvatar);
 
+        setHasOptionsMenu(true);
         super.onActivityCreated(savedInstanceState);
     }
+    //EJERCICIO DE CLASE DE ITEMS DE MENU DESDE FRAGMENTS
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        // Se infla el menú a partir del XML
+        menu.removeItem(R.id.itemLlamar);
+        inflater.inflate(R.menu.menu_main, menu);
+
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.itemLlamar:
+                Toast.makeText(getActivity(),"Llamando..",Toast.LENGTH_SHORT).show();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+
+    }
+
     public Alumno getAlumno(){
         return alumno;
     }
+
 }

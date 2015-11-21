@@ -48,8 +48,10 @@ public class AlumnoAdapter extends ArrayAdapter<Alumno>{
         Alumno alumno = mAlumnos.get(position);
 
         holder.lblNombre.setText(alumno.getNombre());
-        holder.lblEdad.setText(alumno.getEdad()+" años");
-        holder.lblLocalidad.setText(alumno.getLocalidad());
+        if(holder.lblEdad!=null) {
+            holder.lblEdad.setText(alumno.getEdad() + " años");
+            holder.lblLocalidad.setText(alumno.getLocalidad());
+        }
         Picasso.with(getContext()).load(alumno.getAvatar()).into(holder.imgAvatar);
 
     }

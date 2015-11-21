@@ -56,4 +56,6 @@ public class Adaptador extends ArrayAdapter<Alumno> {
         else
             viewHolder.edad.setTextColor(Color.RED);
     }
+
+
 }

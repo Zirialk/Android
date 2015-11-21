@@ -10,4 +10,12 @@
     <dimen name="paddingText">72dp</dimen>
     <dimen name="sizeDetallesSecundario">22sp</dimen>
     <dimen name="separacionDetalles">30dp</dimen>
+    <dimen name="marginTopLblNombre">30dp</dimen>
+    <dimen name="marginLeftLblNombre">20dp</dimen>
+    <dimen name="marginRightLblNombre">10dp</dimen>
+    <dimen name="tamAvatar">120dp</dimen>
+    <dimen name="marginTopAvatar">20dp</dimen>
+    <dimen name="marginRightAvatar">16dp</dimen>
+    <dimen name="paddingTopLblNombre">15dp</dimen>
+    <dimen name="paddingLeftLblLocalidad">100dp</dimen>
 </resources>
