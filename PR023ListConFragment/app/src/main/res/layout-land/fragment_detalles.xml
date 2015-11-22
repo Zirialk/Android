@@ -12,7 +12,7 @@
         android:layout_marginTop="@dimen/marginTopAvatar"
         android:layout_marginEnd="@dimen/marginRightAvatar"
         android:layout_marginRight="@dimen/marginRightAvatar"
-        />
+        android:contentDescription="@string/imagenAvatar" />
     <TextView
         android:id="@+id/lblNombre"
         android:textSize="24sp"
@@ -29,7 +29,7 @@
         />
     <TextView
         android:id="@+id/lblTituloEdad"
-        android:text="Edad"
+        android:text="@string/edad"
         android:layout_below="@id/lblNombre"
         android:layout_marginTop="@dimen/separacionDetalles"
         android:layout_alignLeft="@+id/lblEdad"
@@ -59,20 +59,22 @@
     <TextView
         android:id="@+id/lblCalle"
         android:textSize="@dimen/sizeDetallesSecundario"
-        android:layout_width="match_parent"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/lblTituloCalle"
         android:layout_alignLeft="@id/lblEdad"
         android:layout_alignStart="@id/lblEdad"
-        android:layout_alignRight="@id/imgAvatar"
-        android:layout_alignEnd="@id/imgAvatar"/>
+
+        />
     <TextView
         android:id="@+id/lblTituloLocalidad"
         android:text="@string/localidad"
-        android:layout_below="@+id/lblCalle"
+        android:layout_below="@+id/lblEdad"
+        android:layout_toRightOf="@id/lblTituloCalle"
+        android:layout_toEndOf="@id/lblTituloCalle"
         android:layout_marginTop="@dimen/separacionDetalles"
-        android:layout_alignLeft="@id/lblEdad"
-        android:layout_alignStart="@id/lblEdad"
+        android:layout_marginLeft="@dimen/lblTituloLocalidadMarginLeft"
+        android:layout_marginStart="@dimen/lblTituloLocalidadMarginLeft"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <TextView
@@ -81,8 +83,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/lblTituloLocalidad"
-        android:layout_alignLeft="@id/lblEdad"
-        android:layout_alignStart="@id/lblEdad"
+        android:layout_alignLeft="@id/lblTituloLocalidad"
+        android:layout_alignStart="@id/lblTituloLocalidad"
         android:layout_alignRight="@id/imgAvatar"
         android:layout_alignEnd="@id/imgAvatar"/>
 </RelativeLayout>

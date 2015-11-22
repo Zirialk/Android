@@ -18,4 +18,6 @@
     <dimen name="marginRightAvatar">16dp</dimen>
     <dimen name="paddingTopLblNombre">15dp</dimen>
     <dimen name="paddingLeftLblLocalidad">100dp</dimen>
+    <dimen name="lblTituloLocalidadMarginLeft">150dp</dimen>
+    <dimen name="paddingSeparadorLista">8dp</dimen>
 </resources>

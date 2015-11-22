@@ -20,12 +20,6 @@ import com.squareup.picasso.Picasso;
 public class DetallesFragment extends Fragment {
 
     private static final String ARG_ALUMNO = "AlumnoDetalles";
-    //Se guardan las Views por si en un futuro se añade la funcionalidad de editar contacto.
-    private TextView lblNombre;
-    private TextView lblEdad;
-    private TextView lblLocalidad;
-    private TextView lblCalle;
-    private ImageView imgAvatar;
     private Alumno alumno;
 
     public static DetallesFragment newInstance(Alumno alumno) {
@@ -44,20 +38,20 @@ public class DetallesFragment extends Fragment {
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        TextView lblNombre = (TextView) getView().findViewById(R.id.lblNombre);
+        TextView lblEdad = (TextView) getView().findViewById(R.id.lblEdad);
+        TextView lblLocalidad = (TextView) getView().findViewById(R.id.lblLocalidad);
+        TextView lblCalle = (TextView) getView().findViewById(R.id.lblCalle);
+        ImageView imgAvatar = (ImageView) getView().findViewById(R.id.imgAvatar);
+        //Se recupera el alumno
         alumno = getArguments().getParcelable(ARG_ALUMNO);
 
-        lblNombre = (TextView) getView().findViewById(R.id.lblNombre);
-        lblEdad = (TextView) getView().findViewById(R.id.lblEdad);
-        lblLocalidad = (TextView) getView().findViewById(R.id.lblLocalidad);
-        lblCalle = (TextView) getView().findViewById(R.id.lblCalle);
-        imgAvatar = (ImageView) getView().findViewById(R.id.imgAvatar);
-
         lblNombre.setText(alumno.getNombre());
-        lblEdad.setText(alumno.getEdad()+" años");
+        lblEdad.setText(alumno.getEdad() + " años");
         lblLocalidad.setText(alumno.getLocalidad());
         lblCalle.setText(alumno.getCalle());
 
-        if(imgAvatar!=null) // Pregunta si puede ser null porque en fragmen_detalles(Land) no existe imgAvatar.
+        if(imgAvatar !=null) // Pregunta si puede ser null porque en fragmen_detalles(Land) no existe imgAvatar.
             //Carga en el ImageView una imagen cargada por una URL.
         Picasso.with(getActivity()).load(alumno.getAvatar()).into(imgAvatar);
 
@@ -84,10 +78,6 @@ public class DetallesFragment extends Fragment {
                 return super.onOptionsItemSelected(item);
         }
 
-    }
-
-    public Alumno getAlumno(){
-        return alumno;
     }
 
 }

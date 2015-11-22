@@ -6,4 +6,5 @@
     <string name="calle">Calle</string>
     <string name="localidad">Localidad</string>
     <string name="imagen_cabecera">Imagen de cabecera</string>
+    <string name="imagenAvatar">Imagen Avatar</string>
 </resources>

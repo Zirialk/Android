@@ -10,7 +10,9 @@
         android:id="@+id/flHuecoPrincipal"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".MainActivity" />
+        tools:context=".MainActivity"
+        android:paddingTop="@dimen/paddingSeparadorLista"
+        android:paddingBottom="@dimen/paddingSeparadorLista"/>
 
 </LinearLayout>
 
