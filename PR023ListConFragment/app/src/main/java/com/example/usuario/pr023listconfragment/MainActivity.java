@@ -3,6 +3,7 @@ package com.example.usuario.pr023listconfragment;
 import android.content.res.Configuration;
 import android.graphics.drawable.GradientDrawable;
 import android.os.PersistableBundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -44,6 +45,7 @@ public class MainActivity extends AppCompatActivity implements ListaFragment.OnI
         loadFragmentLista(R.id.flHuecoPrincipal, listaAlumno, "fgrListaVertical");
 
 
+
     }
 
     private void loadFragmentLista(int idHueco, ArrayList<Alumno> listaAlumnos,String tag) {
@@ -61,12 +63,14 @@ public class MainActivity extends AppCompatActivity implements ListaFragment.OnI
     private void loadFragmentDetalles(int idHueco, Alumno alumno, String tag){
         FragmentTransaction transaction = mGestor.beginTransaction();
         //Solo se cargará el fragmento si no estaba cargado de antes.
-        if(mGestor.findFragmentByTag(tag)==null){
+        if(mGestor.findFragmentByTag(tag)== null) {
             transaction.replace(idHueco, DetallesFragment.newInstance(alumno), tag);
             transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
 
             transaction.commit();
+
         }
+
     }
 
     @Override
@@ -114,8 +118,11 @@ public class MainActivity extends AppCompatActivity implements ListaFragment.OnI
         //anteriormente en DetallesActivity.
         if(getApplication().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
             alumnoSeleccionado=savedInstanceState.getParcelable(STATE_ALUMNO);
-            if(alumnoSeleccionado!=null)
+            if(alumnoSeleccionado!=null){
                 loadFragmentDetalles(R.id.flHuecoSecundario, alumnoSeleccionado, alumnoSeleccionado.getNombre());
+            }
+
+
         }
 
     }

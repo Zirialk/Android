@@ -56,13 +56,15 @@ public class DetallesFragment extends Fragment {
         lblEdad.setText(alumno.getEdad()+" años");
         lblLocalidad.setText(alumno.getLocalidad());
         lblCalle.setText(alumno.getCalle());
-        //Carga en el ImageView una imagen cargada por una URL.
+
+        if(imgAvatar!=null) // Pregunta si puede ser null porque en fragmen_detalles(Land) no existe imgAvatar.
+            //Carga en el ImageView una imagen cargada por una URL.
         Picasso.with(getActivity()).load(alumno.getAvatar()).into(imgAvatar);
 
         setHasOptionsMenu(true);
         super.onActivityCreated(savedInstanceState);
     }
-    //EJERCICIO DE CLASE DE ITEMS DE MENU DESDE FRAGMENTS
+
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         // Se infla el menú a partir del XML

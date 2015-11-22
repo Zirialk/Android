@@ -21,6 +21,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 
 public class AlumnoAdapter extends ArrayAdapter<Alumno>{
+
     private ArrayList<Alumno> mAlumnos;
     private LayoutInflater mInflador;
 
@@ -66,8 +67,12 @@ public class AlumnoAdapter extends ArrayAdapter<Alumno>{
         }else
             holder=(ViewHolder) convertView.getTag();
 
-        onBindViewHolder(holder,position);
+        onBindViewHolder(holder, position);
 
         return convertView;
     }
+    public ArrayList<Alumno> getmAlumnos() {
+        return mAlumnos;
+    }
+
 }

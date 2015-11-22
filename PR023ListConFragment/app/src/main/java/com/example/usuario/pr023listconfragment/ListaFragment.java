@@ -2,9 +2,12 @@ package com.example.usuario.pr023listconfragment;
 
 
 import android.app.Activity;
+import android.content.res.Resources;
+import android.graphics.Color;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v7.internal.widget.ThemeUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +23,7 @@ public class ListaFragment extends Fragment {
     private static final String ARG_ALUMNOS = "Alumnos";
     private ListView lsvAlumnos;
     private OnItemSelected listener;
+    public View aux;
 
     public static ListaFragment newInstance(ArrayList<Alumno> listaAlumnos) {
 
@@ -41,18 +45,31 @@ public class ListaFragment extends Fragment {
         Bundle args = getArguments();
         ArrayList<Alumno> listaAlumnos= args.getParcelableArrayList(ARG_ALUMNOS);
 
-        AlumnoAdapter adaptador= new AlumnoAdapter(getActivity(),listaAlumnos);
+        final AlumnoAdapter adaptador= new AlumnoAdapter(getActivity(),listaAlumnos);
         lsvAlumnos = (ListView) getView().findViewById(R.id.lsvAlumnos);
         lsvAlumnos.setAdapter(adaptador);
         lsvAlumnos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //Volver al color original el item de la lista pulsado anteriormente.
+                if(aux != null)
+                    aux.setBackgroundColor(Color.TRANSPARENT);
+
                 listener.pulsado((Alumno) parent.getItemAtPosition(position));
+                aux = view;
+                //Colorear el item de la lista pulsado cuando está en horizontal.
+                if(getActivity().findViewById(R.id.flHuecoSecundario)!=null)
+                    aux.setBackgroundColor(getResources().getColor(R.color.accent));
+
             }
+
         });
 
         super.onActivityCreated(savedInstanceState);
     }
+
+
+
 
     public interface OnItemSelected {
         public void pulsado(Alumno alumno);
@@ -63,6 +80,7 @@ public class ListaFragment extends Fragment {
         super.onAttach(activity);
         try {
             listener= (OnItemSelected) activity;
+
         } catch (ClassCastException e) {
             throw new ClassCastException("The interface must implements CallBack interface");
         }
@@ -74,4 +92,6 @@ public class ListaFragment extends Fragment {
         super.onDetach();
         listener=null;
     }
+
+
 }

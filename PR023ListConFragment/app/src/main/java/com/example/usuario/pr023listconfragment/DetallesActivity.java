@@ -10,6 +10,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.widget.ImageView;
+
+import com.squareup.picasso.Picasso;
 
 public class DetallesActivity extends AppCompatActivity {
 
@@ -41,6 +44,8 @@ public class DetallesActivity extends AppCompatActivity {
     private void loadFragmentDetalles(Alumno alumno,String tag){
         FragmentTransaction transaction = mGestor.beginTransaction();
         transaction.replace(R.id.flHuecoPrincipal, DetallesFragment.newInstance(alumno), tag).commit();
+        //Carga la imagen de la collapseToolBar desde una URL
+        Picasso.with(this).load(alumno.getAvatar()).into((ImageView)findViewById(R.id.imgAvatar));
     }
 
 

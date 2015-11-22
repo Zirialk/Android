@@ -5,10 +5,10 @@
     android:paddingStart="@dimen/paddingItem"
     android:paddingLeft="@dimen/paddingItem"
     android:paddingRight="@dimen/paddingItem"
-    android:paddingEnd="@dimen/paddingItem"
+    android:paddingEnd="@dimen/paddingItem">
 
 
-    >
+
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/imgAvatar"
         android:layout_width="62dp"
