@@ -6,7 +6,7 @@
     android:paddingLeft="@dimen/paddingItem"
     android:paddingRight="@dimen/paddingItem"
     android:paddingEnd="@dimen/paddingItem"
-
+    android:background="@drawable/seleccionado"
 
     >
     <de.hdodenhof.circleimageview.CircleImageView
