@@ -23,7 +23,6 @@ public class ListaFragment extends Fragment {
     private static final String ARG_ALUMNOS = "Alumnos";
     private ListView lsvAlumnos;
     private OnItemSelected listener;
-    public View aux;
 
     public static ListaFragment newInstance(ArrayList<Alumno> listaAlumnos) {
 
@@ -51,15 +50,10 @@ public class ListaFragment extends Fragment {
         lsvAlumnos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //Volver al color original el item de la lista pulsado anteriormente.
-                if(aux != null)
-                    aux.setBackgroundColor(Color.TRANSPARENT);
+
 
                 listener.pulsado((Alumno) parent.getItemAtPosition(position));
-                aux = view;
-                //Colorear el item de la lista pulsado cuando está en horizontal.
-                if(getActivity().findViewById(R.id.flHuecoSecundario)!=null)
-                    aux.setBackgroundColor(getResources().getColor(R.color.accent));
+
 
             }
 
