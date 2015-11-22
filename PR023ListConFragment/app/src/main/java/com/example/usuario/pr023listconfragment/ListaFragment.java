@@ -11,6 +11,7 @@ import android.support.v7.internal.widget.ThemeUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
@@ -50,19 +51,18 @@ public class ListaFragment extends Fragment {
         lsvAlumnos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-
                 listener.pulsado((Alumno) parent.getItemAtPosition(position));
-
-
             }
 
         });
-
+        configurarLista();
         super.onActivityCreated(savedInstanceState);
     }
 
-
+    private void configurarLista() {
+        lsvAlumnos.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
+        
+    }
 
 
     public interface OnItemSelected {

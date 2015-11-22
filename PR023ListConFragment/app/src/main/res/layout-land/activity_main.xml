@@ -20,7 +20,7 @@
         android:layout_below="@+id/toolbar"
         android:layout_toRightOf="@id/flHuecoPrincipal"
         android:layout_toEndOf="@id/flHuecoPrincipal"
-        android:background="@android:color/darker_gray"
+        android:background="@android:color/white"
          />
 
 </RelativeLayout>
