@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+
+    <ImageView
+        android:id="@+id/imgAvatar"
+        android:layout_width="@dimen/tamAvatar"
+        android:layout_height="@dimen/tamAvatar"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="@dimen/marginTopAvatar"
+        android:layout_marginEnd="@dimen/marginRightAvatar"
+        android:layout_marginRight="@dimen/marginRightAvatar"
+        />
+    <TextView
+        android:id="@+id/lblNombre"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@id/imgAvatar"
+        android:layout_toStartOf="@id/imgAvatar"
+        android:layout_marginTop="@dimen/marginTopLblNombre"
+        android:layout_marginLeft="@dimen/marginLeftLblNombre"
+        android:layout_marginStart="@dimen/marginLeftLblNombre"
+        android:layout_marginRight="@dimen/marginRightLblNombre"
+        android:layout_marginEnd="@dimen/marginRightLblNombre"
+        />
+    <TextView
+        android:id="@+id/lblTituloEdad"
+        android:text="Edad"
+        android:layout_below="@id/lblNombre"
+        android:layout_marginTop="@dimen/separacionDetalles"
+        android:layout_alignLeft="@+id/lblEdad"
+        android:layout_alignStart="@+id/lblEdad"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/lblEdad"
+        android:textSize="@dimen/sizeDetallesSecundario"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/lblTituloEdad"
+        android:layout_alignLeft="@id/lblNombre"
+        android:layout_alignStart="@id/lblNombre"
+        android:layout_alignRight="@id/lblNombre"
+        android:layout_alignEnd="@id/lblNombre"/>
+
+    <TextView
+        android:id="@+id/lblTituloCalle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/calle"
+        android:layout_below="@id/lblEdad"
+        android:layout_alignLeft="@+id/lblEdad"
+        android:layout_alignStart="@+id/lblEdad"
+        android:layout_marginTop="@dimen/separacionDetalles"/>
+    <TextView
+        android:id="@+id/lblCalle"
+        android:textSize="@dimen/sizeDetallesSecundario"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/lblTituloCalle"
+        android:layout_alignLeft="@id/lblEdad"
+        android:layout_alignStart="@id/lblEdad"
+        android:layout_alignRight="@id/imgAvatar"
+        android:layout_alignEnd="@id/imgAvatar"/>
+    <TextView
+        android:id="@+id/lblTituloLocalidad"
+        android:text="@string/localidad"
+        android:layout_below="@+id/lblCalle"
+        android:layout_marginTop="@dimen/separacionDetalles"
+        android:layout_alignLeft="@id/lblEdad"
+        android:layout_alignStart="@id/lblEdad"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/lblLocalidad"
+        android:textSize="@dimen/sizeDetallesSecundario"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/lblTituloLocalidad"
+        android:layout_alignLeft="@id/lblEdad"
+        android:layout_alignStart="@id/lblEdad"
+        android:layout_alignRight="@id/imgAvatar"
+        android:layout_alignEnd="@id/imgAvatar"/>
+</RelativeLayout>
