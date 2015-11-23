@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ImageView
+        android:id="@+id/imgAvatar"
+        android:layout_width="match_parent"
+        android:layout_height="225dp"
+        android:contentDescription="Imagen Contacto" />
+
+
+    <ImageView
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_below="@id/imgAvatar"
+        android:src="@drawable/ic_action_person"
+        android:layout_marginLeft="@dimen/marginLeftIconMaterialDesign"
+        android:layout_marginStart="@dimen/marginLeftIconMaterialDesign"
+        android:layout_marginTop="@dimen/marginTopIconMaterialDesign"
+        />
+    <EditText
+        android:id="@+id/txtNombre"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_below="@id/imgAvatar"
+        android:layout_marginTop="@dimen/spaceContentArea"
+        android:layout_marginBottom="@dimen/spaceContentArea"
+        android:paddingTop="@dimen/paddingItem"
+        android:paddingBottom="@dimen/paddingItem"
+        android:hint="@string/hintNombre"
+        android:layout_marginLeft="@dimen/marginLeftMaterialDesign"
+        android:layout_marginStart="@dimen/marginLeftMaterialDesign"
+        android:layout_marginRight="@dimen/marginRightMaterialDesign"
+        android:layout_marginEnd="@dimen/marginRightMaterialDesign"
+        />
+
+    <ImageView
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_below="@id/txtNombre"
+        android:src="@drawable/ic_action_place"
+        android:layout_marginLeft="@dimen/marginLeftIconMaterialDesign"
+        android:layout_marginStart="@dimen/marginLeftIconMaterialDesign"
+        android:layout_marginTop="@dimen/marginTopIconMaterialDesign"
+        />
+    <EditText
+        android:id="@+id/txtLocalidad"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_below="@id/txtNombre"
+        android:layout_marginTop="@dimen/spaceContentArea"
+        android:layout_marginBottom="@dimen/spaceContentArea"
+        android:paddingTop="@dimen/paddingItem"
+        android:paddingBottom="@dimen/paddingItem"
+        android:hint="@string/hintLocalidad"
+        android:layout_marginLeft="@dimen/marginLeftMaterialDesign"
+        android:layout_marginStart="@dimen/marginLeftMaterialDesign"
+        android:layout_marginRight="@dimen/marginRightMaterialDesign"
+        android:layout_marginEnd="@dimen/marginRightMaterialDesign"
+        />
+
+    <ImageView
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_below="@id/txtLocalidad"
+        android:src="@drawable/ic_action_place"
+        android:layout_marginLeft="@dimen/marginLeftIconMaterialDesign"
+        android:layout_marginStart="@dimen/marginLeftIconMaterialDesign"
+        android:layout_marginTop="@dimen/marginTopIconMaterialDesign"
+        />
+    <EditText
+        android:id="@+id/txtCalle"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_below="@id/txtLocalidad"
+        android:layout_marginTop="@dimen/spaceContentArea"
+        android:layout_marginBottom="@dimen/spaceContentArea"
+        android:paddingTop="@dimen/paddingItem"
+        android:paddingBottom="@dimen/paddingItem"
+        android:hint="@string/hintCalle"
+        android:layout_marginLeft="@dimen/marginLeftMaterialDesign"
+        android:layout_marginStart="@dimen/marginLeftMaterialDesign"
+        android:layout_marginRight="@dimen/marginRightMaterialDesign"
+        android:layout_marginEnd="@dimen/marginRightMaterialDesign"
+        />
+
+
+</RelativeLayout>
