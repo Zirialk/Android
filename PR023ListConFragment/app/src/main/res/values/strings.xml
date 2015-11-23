@@ -7,4 +7,7 @@
     <string name="localidad">Localidad</string>
     <string name="imagen_cabecera">Imagen de cabecera</string>
     <string name="imagenAvatar">Imagen Avatar</string>
+    <string name="hintNombre">Nombre</string>
+    <string name="hintLocalidad">Localidad</string>
+    <string name="hintCalle">Calle</string>
 </resources>

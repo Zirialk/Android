@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements ListaFragment.OnI
         listaAlumno.add(new Alumno("Teresa", 25, "Sabinillas", "Málaga", "http://lorempixel.com/1000/1000/people/1/"));
         listaAlumno.add(new Alumno("Ana", 12, "Granada", "Granada", "http://lorempixel.com/1000/1000/people/10/"));
         listaAlumno.add(new Alumno("Pepe", 42, "Madrid", "Madrid", "http://lorempixel.com/1000/1000/people/7/"));
+
         loadFragmentLista(R.id.flHuecoPrincipal, listaAlumno, "fgrListaVertical");
 
 

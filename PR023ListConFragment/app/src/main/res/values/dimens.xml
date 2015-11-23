@@ -2,6 +2,7 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="circleImage">62dp</dimen>
     <dimen name="paddingItem">16dp</dimen>
     <dimen name="textHeight">48dp</dimen>
     <dimen name="tileSize">16sp</dimen>
@@ -20,4 +21,9 @@
     <dimen name="paddingLeftLblLocalidad">100dp</dimen>
     <dimen name="lblTituloLocalidadMarginLeft">150dp</dimen>
     <dimen name="paddingSeparadorLista">8dp</dimen>
+    <dimen name="spaceContentArea">8dp</dimen>
+    <dimen name="marginLeftMaterialDesign">72dp</dimen>
+    <dimen name="marginRightMaterialDesign">16dp</dimen>
+    <dimen name="marginLeftIconMaterialDesign">16dp</dimen>
+    <dimen name="marginTopIconMaterialDesign">16dp</dimen>
 </resources>

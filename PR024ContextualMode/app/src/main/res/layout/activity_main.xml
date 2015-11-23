@@ -70,7 +70,7 @@
         android:inputType="textPersonName">
 
         <requestFocus/>
-    </EditText>gf
+    </EditText>
 
     <Button
         android:id="@+id/btnAgregar"
