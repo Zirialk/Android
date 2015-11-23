@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.view.MenuItem;
 
 import java.util.ArrayList;
 
@@ -91,16 +92,31 @@ public class MainActivity extends AppCompatActivity implements ListaFragment.OnI
             loadFragmentDetalles(R.id.flHuecoSecundario, alumno, alumno.getNombre());
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         //Elimina el item de menú cuando esta en postrait
         if (getApplication().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)
              menu.removeItem(R.id.itemLlamar);
+
         return super.onPrepareOptionsMenu(menu);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.itemAdd:
+                
 
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {

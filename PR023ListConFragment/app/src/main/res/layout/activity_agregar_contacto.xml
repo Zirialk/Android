@@ -7,7 +7,10 @@
         android:id="@+id/imgAvatar"
         android:layout_width="match_parent"
         android:layout_height="225dp"
-        android:contentDescription="Imagen Contacto" />
+        android:contentDescription="Imagen Contacto"
+        android:src="@drawable/icon_user_default"
+        android:scaleType="fitXY"
+        />
 
 
     <ImageView

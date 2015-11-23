@@ -21,6 +21,7 @@ public class DetallesFragment extends Fragment {
 
     private static final String ARG_ALUMNO = "AlumnoDetalles";
     private Alumno alumno;
+    private final int NUM_ITEMS_MENU=2;
 
     public static DetallesFragment newInstance(Alumno alumno) {
 
@@ -62,11 +63,17 @@ public class DetallesFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         // Se infla el menú a partir del XML
-        menu.removeItem(R.id.itemLlamar);
         inflater.inflate(R.menu.menu_main, menu);
+        menu.removeItem(R.id.itemAdd);
+        //Evita que salgan en MainActivity (Land) 2 simbolos de llamar iguales.
+        if(menu.size()>=NUM_ITEMS_MENU)
+            menu.removeItem(R.id.itemLlamar);
+
 
         super.onCreateOptionsMenu(menu, inflater);
     }
+
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
