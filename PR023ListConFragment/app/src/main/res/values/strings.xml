@@ -16,4 +16,5 @@
     <string name="hintPrefijo">+34</string>
     <string name="lenghtPrefijo">3</string>
     <string name="lenghtPhone">11</string>
+    <string name="hintEdad">Edad</string>
 </resources>
