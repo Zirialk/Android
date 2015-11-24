@@ -28,7 +28,9 @@
         </activity>
         <activity
             android:name=".AgregarContactoActivity"
-            android:label="Agregar contacto">
+            android:label="Agregar contacto"
+            android:screenOrientation="portrait"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -2,7 +2,10 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    >
+    <include layout="@layout/toolbar"
+        android:id="@+id/toolbar"/>
     <ImageView
         android:id="@+id/imgAvatar"
         android:layout_width="match_parent"
@@ -10,6 +13,7 @@
         android:contentDescription="Imagen Contacto"
         android:src="@drawable/icon_user_default"
         android:scaleType="fitXY"
+        android:layout_below="@+id/toolbar"
         />
 
 
@@ -25,7 +29,7 @@
     <EditText
         android:id="@+id/txtNombre"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="wrap_content"
         android:layout_below="@id/imgAvatar"
         android:layout_marginTop="@dimen/spaceContentArea"
         android:layout_marginBottom="@dimen/spaceContentArea"
@@ -36,6 +40,8 @@
         android:layout_marginStart="@dimen/marginLeftMaterialDesign"
         android:layout_marginRight="@dimen/marginRightMaterialDesign"
         android:layout_marginEnd="@dimen/marginRightMaterialDesign"
+        android:maxLines="1"
+
         />
 
     <ImageView
@@ -50,7 +56,7 @@
     <EditText
         android:id="@+id/txtLocalidad"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="wrap_content"
         android:layout_below="@id/txtNombre"
         android:layout_marginTop="@dimen/spaceContentArea"
         android:layout_marginBottom="@dimen/spaceContentArea"
@@ -75,7 +81,7 @@
     <EditText
         android:id="@+id/txtCalle"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="wrap_content"
         android:layout_below="@id/txtLocalidad"
         android:layout_marginTop="@dimen/spaceContentArea"
         android:layout_marginBottom="@dimen/spaceContentArea"

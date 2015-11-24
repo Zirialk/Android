@@ -61,11 +61,9 @@ public class ListaFragment extends Fragment {
 
     }
 
-
-
-
     public interface OnItemSelected {
         public void pulsado(Alumno alumno);
+        public Alumno addContacto();
     }
 
     @Override

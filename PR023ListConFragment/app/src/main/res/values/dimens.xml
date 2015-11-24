@@ -25,5 +25,5 @@
     <dimen name="marginLeftMaterialDesign">72dp</dimen>
     <dimen name="marginRightMaterialDesign">16dp</dimen>
     <dimen name="marginLeftIconMaterialDesign">16dp</dimen>
-    <dimen name="marginTopIconMaterialDesign">16dp</dimen>
+    <dimen name="marginTopIconMaterialDesign">24dp</dimen>
 </resources>
