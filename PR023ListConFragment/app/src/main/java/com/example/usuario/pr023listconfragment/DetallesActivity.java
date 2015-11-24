@@ -28,8 +28,8 @@ public class DetallesActivity extends AppCompatActivity {
 
         if(getApplication().getResources().getConfiguration().orientation== Configuration.ORIENTATION_LANDSCAPE)
             onBackPressed();
-        Intent intent= getIntent();
-        Alumno alumno = intent.getParcelableExtra(EXTRA_ALUMNO);
+
+        Alumno alumno = getIntent().getParcelableExtra(EXTRA_ALUMNO);
         loadFragmentDetalles(alumno, "detalles");
 
     }

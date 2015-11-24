@@ -92,11 +92,6 @@ public class MainActivity extends AppCompatActivity implements ListaFragment.OnI
             loadFragmentDetalles(R.id.flHuecoSecundario, alumno, alumno.getNombre());
     }
 
-    @Override
-    public Alumno addContacto() {
-        
-    }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -117,10 +112,7 @@ public class MainActivity extends AppCompatActivity implements ListaFragment.OnI
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.itemAdd:
-                AgregarContactoActivity.startForResult(this,1);
-
-                addContacto();
-
+                AgregarContactoActivity.startForResult(this, 1);
                 break;
         }
         return super.onOptionsItemSelected(item);

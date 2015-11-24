@@ -10,4 +10,10 @@
     <string name="hintNombre">Nombre</string>
     <string name="hintLocalidad">Localidad</string>
     <string name="hintCalle">Calle</string>
+    <string name="maxLinesAddContacto">1</string>
+    <string name="lenghtTxtAddContacto">26</string>
+    <string name="hintTelefono">Teléfono</string>
+    <string name="hintPrefijo">+34</string>
+    <string name="lenghtPrefijo">3</string>
+    <string name="lenghtPhone">11</string>
 </resources>
