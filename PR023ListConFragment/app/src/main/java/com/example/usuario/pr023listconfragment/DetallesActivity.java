@@ -46,6 +46,7 @@ public class DetallesActivity extends AppCompatActivity {
         transaction.replace(R.id.flHuecoPrincipal, DetallesFragment.newInstance(alumno), tag).commit();
         //Carga la imagen de la collapseToolBar desde una URL
         Picasso.with(this).load(alumno.getAvatar()).into((ImageView)findViewById(R.id.imgAvatar));
+
     }
 
 

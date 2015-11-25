@@ -9,7 +9,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements ListaFragment.OnItemSelected, FragmentManager.OnBackStackChangedListener{
 
@@ -31,18 +30,7 @@ public class MainActivity extends AppCompatActivity implements ListaFragment.OnI
     }
 
     private void initViews() {
-
-        ListaFragment.listaAlumnos.add(new Alumno("Alejandro Torres Gómez", 18, "Jimena", "La Loba", "http://lorempixel.com/1000/1000/sports/6/", "+34956640548"));
-        ListaFragment.listaAlumnos.add(new Alumno("Manué", 18, "Algeciras", "Sevilla", "http://lorempixel.com/1000/1000/people/3/", "+34956640548"));
-        ListaFragment.listaAlumnos.add(new Alumno("Estefan", 32, "Conil", "Cádiz", "http://lorempixel.com/1000/1000/people/2/","+34956640548"));
-        ListaFragment.listaAlumnos.add(new Alumno("Lucia", 22, "Castelló de la Plana", "Valencia", "http://lorempixel.com/1000/1000/people/9/","+34956640548"));
-        ListaFragment.listaAlumnos.add(new Alumno("Baldomero", 42, "Estepona", "Málaga", "http://lorempixel.com/1000/1000/people/8/","+34956640548"));
-        ListaFragment.listaAlumnos.add(new Alumno("Teresa", 25, "Sabinillas", "Málaga", "http://lorempixel.com/1000/1000/people/1/","+34956640548"));
-        ListaFragment.listaAlumnos.add(new Alumno("Ana", 12, "Granada", "Granada", "http://lorempixel.com/1000/1000/people/10/","+34956640548"));
-        ListaFragment.listaAlumnos.add(new Alumno("Pepe", 42, "Madrid", "Madrid", "http://lorempixel.com/1000/1000/people/7/","+34956640548"));
-
         loadFragmentLista(R.id.flHuecoPrincipal, "fgrListaVertical");
-
     }
 
     private void loadFragmentLista(int idHueco,String tag) {
@@ -104,11 +92,12 @@ public class MainActivity extends AppCompatActivity implements ListaFragment.OnI
         return super.onPrepareOptionsMenu(menu);
     }
 
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.itemAdd:
-
+                AgregarContactoActivity.startForResult(this,1);
 
                 break;
         }

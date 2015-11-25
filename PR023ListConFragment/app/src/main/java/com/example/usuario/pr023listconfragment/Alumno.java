@@ -15,6 +15,9 @@ public class Alumno implements Parcelable{
     private String tlf;
 
 
+    public Alumno(){
+
+    }
 
     public Alumno(String nombre, int edad, String localidad,String calle, String rutaAvatar,String tlf){
         this.nombre=nombre;
@@ -48,6 +51,25 @@ public class Alumno implements Parcelable{
         dest.writeString(tlf);
     }
 
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<Alumno> CREATOR = new Creator<Alumno>() {
+        @Override
+        public Alumno createFromParcel(Parcel in) {
+            return new Alumno(in);
+        }
+
+        @Override
+        public Alumno[] newArray(int size) {
+            return new Alumno[size];
+        }
+    };
+
+    //GETTERS && SETTERS
     public String getNombre() {
         return nombre;
     }
@@ -70,21 +92,24 @@ public class Alumno implements Parcelable{
     public String getTlf() {return tlf;}
     public void setTlf(String tlf) {this.tlf = tlf;}
 
-    @Override
-    public int describeContents() {
-        return 0;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
-    public static final Creator<Alumno> CREATOR = new Creator<Alumno>() {
-        @Override
-        public Alumno createFromParcel(Parcel in) {
-            return new Alumno(in);
-        }
+    public void setEdad(int edad) {
+        this.edad = edad;
+    }
 
-        @Override
-        public Alumno[] newArray(int size) {
-            return new Alumno[size];
-        }
-    };
+    public void setLocalidad(String localidad) {
+        this.localidad = localidad;
+    }
+
+    public void setCalle(String calle) {
+        this.calle = calle;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
 
 }
