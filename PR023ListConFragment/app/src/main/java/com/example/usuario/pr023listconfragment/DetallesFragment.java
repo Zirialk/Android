@@ -45,7 +45,6 @@ public class DetallesFragment extends Fragment {
         TextView lblEdad = (TextView) getView().findViewById(R.id.lblEdad);
         TextView lblLocalidad = (TextView) getView().findViewById(R.id.lblLocalidad);
         TextView lblCalle = (TextView) getView().findViewById(R.id.lblCalle);
-        ImageView imgAvatar = (ImageView) getView().findViewById(R.id.imgAvatar);
         TextView lblTlf = (TextView) getView().findViewById(R.id.lblTlf);
         //Se recupera el alumno
         alumno = getArguments().getParcelable(ARG_ALUMNO);
@@ -57,9 +56,6 @@ public class DetallesFragment extends Fragment {
         lblTlf.setText(alumno.getTlf());
 
 
-        if(imgAvatar !=null) // Pregunta si puede ser null porque en fragmen_detalles(Land) no existe imgAvatar.
-            //Carga en el ImageView una imagen cargada por una URL.
-        Picasso.with(getActivity()).load(alumno.getAvatar()).into(imgAvatar);
 
         setHasOptionsMenu(true);
         super.onActivityCreated(savedInstanceState);

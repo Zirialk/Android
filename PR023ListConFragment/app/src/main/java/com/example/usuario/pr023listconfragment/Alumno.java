@@ -1,9 +1,8 @@
 package com.example.usuario.pr023listconfragment;
 
+import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
-
-import java.util.Objects;
 
 
 public class Alumno implements Parcelable{
@@ -46,7 +45,7 @@ public class Alumno implements Parcelable{
         dest.writeString(nombre);
         dest.writeInt(edad);
         dest.writeString(localidad);
-        dest.writeString(avatar);
+        dest.writeValue(avatar);
         dest.writeString(calle);
         dest.writeString(tlf);
     }

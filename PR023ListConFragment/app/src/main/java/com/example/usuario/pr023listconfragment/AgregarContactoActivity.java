@@ -4,6 +4,8 @@ package com.example.usuario.pr023listconfragment;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -20,6 +22,9 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
+
+import java.io.File;
+import java.io.FileOutputStream;
 
 public class AgregarContactoActivity extends AppCompatActivity {
 
@@ -60,8 +65,12 @@ public class AgregarContactoActivity extends AppCompatActivity {
         });
 
         txtNombre.addTextChangedListener(new TextWatcher() {
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
             public void afterTextChanged(Editable s) {
                 //Solo se podrá guardar un alumno cuando tengan mínimo un nombre y un teléfono.
                 if (TextUtils.isEmpty(s) || TextUtils.isEmpty(txtTlf.getText()))
@@ -71,11 +80,15 @@ public class AgregarContactoActivity extends AppCompatActivity {
             }
         });
         txtTlf.addTextChangedListener(new TextWatcher() {
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {    }
-            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
             public void afterTextChanged(Editable s) {
                 //Solo se podrá guardar un alumno cuando tengan mínimo un nombre y un teléfono.
-                if(TextUtils.isEmpty(s) || TextUtils.isEmpty(txtNombre.getText()))
+                if (TextUtils.isEmpty(s) || TextUtils.isEmpty(txtNombre.getText()))
                     menu.findItem(R.id.itemNewContact).setVisible(false);
                 else
                     menu.findItem(R.id.itemNewContact).setVisible(true);
@@ -95,7 +108,7 @@ public class AgregarContactoActivity extends AppCompatActivity {
             switch (requestCode){
                 case 1:
                     Uri uriGaleria = data.getData();
-                    cargarImagen(getRealPath(uriGaleria));
+                    mostrarImagen(getRealPath(uriGaleria));
                     break;
             }
         super.onActivityResult(requestCode, resultCode, data);
@@ -111,12 +124,33 @@ public class AgregarContactoActivity extends AppCompatActivity {
         c.close();
         return path;
     }
-    private void cargarImagen(String realPathImage){
+    private void mostrarImagen(String realPathImage){
         newAlumno.setAvatar(realPathImage);
-        Picasso.with(this).load(realPathImage).into(imgAvatar);
-        Toast.makeText(this,realPathImage,Toast.LENGTH_SHORT).show();
+
+        new Escalador(realPathImage,imgAvatar).run();
+
     }
 
+    private Bitmap escalarImagen(String realPathImage){
+        // Se obtiene el tamaño de la vista de destino.
+        int anchoImageView = imgAvatar.getWidth();
+        int altoImageView = imgAvatar.getHeight();
+
+        // Se obtiene el tamaño de la imagen.
+        BitmapFactory.Options opciones = new BitmapFactory.Options();
+        opciones.inJustDecodeBounds = true; // Solo para cálculo.
+        BitmapFactory.decodeFile(realPathImage, opciones);
+        int anchoFoto = opciones.outWidth;
+        int altoFoto = opciones.outHeight;
+        // Se obtiene el factor de escalado para la imagen.
+        int  factorEscalado = Math.min(anchoFoto/anchoImageView, altoFoto/altoImageView);
+
+        // Se escala la imagen con dicho factor de escalado.
+        opciones.inJustDecodeBounds = false; // Se escalará.
+        opciones.inSampleSize = factorEscalado;
+
+        return BitmapFactory.decodeFile(realPathImage, opciones);
+    }
     public static void startForResult(Activity activity, int requestCode){
         Intent intent = new Intent(activity,AgregarContactoActivity.class);
 

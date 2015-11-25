@@ -1,0 +1,18 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
+
+    <group android:id="@+id/group">
+        <item
+            android:id="@+id/itemNewContact"
+            android:title="Agregar"
+            android:icon="@drawable/ic_action_accept"
+            app:showAsAction="ifRoom"
+            />
+        <item android:id="@+id/itemCancelContact"
+            android:title="Cancerlar"
+            android:icon="@drawable/ic_action_cancel"
+            app:showAsAction="ifRoom" />
+
+    </group>
+</menu>
