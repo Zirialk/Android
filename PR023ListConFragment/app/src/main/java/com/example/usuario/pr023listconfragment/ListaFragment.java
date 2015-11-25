@@ -17,18 +17,14 @@ import java.util.ArrayList;
 
 public class ListaFragment extends Fragment {
 
+    public static ArrayList<Alumno> listaAlumnos = new ArrayList<>();
 
-    private static final String ARG_ALUMNOS = "Alumnos";
+
     private ListView lsvAlumnos;
     private OnItemSelected mListener;
 
-    public static ListaFragment newInstance(ArrayList<Alumno> listaAlumnos) {
-
-        ListaFragment fragment = new ListaFragment();
-        Bundle args = new Bundle();
-        args.putParcelableArrayList(ARG_ALUMNOS,listaAlumnos);
-        fragment.setArguments(args);
-        return fragment;
+    public static ListaFragment newInstance() {
+        return new ListaFragment();
     }
 
     @Nullable
@@ -39,8 +35,7 @@ public class ListaFragment extends Fragment {
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
-        Bundle args = getArguments();
-        ArrayList<Alumno> listaAlumnos= args.getParcelableArrayList(ARG_ALUMNOS);
+
 
         final AlumnoAdapter adaptador= new AlumnoAdapter(getActivity(),listaAlumnos);
         lsvAlumnos = (ListView) getView().findViewById(R.id.lsvAlumnos);

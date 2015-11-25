@@ -1,7 +1,6 @@
 package com.example.usuario.pr023listconfragment;
 
 import android.content.res.Configuration;
-import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -32,28 +31,26 @@ public class MainActivity extends AppCompatActivity implements ListaFragment.OnI
     }
 
     private void initViews() {
-        ArrayList<Alumno> listaAlumno = new ArrayList<>();
-        listaAlumno.add(new Alumno("Alejandro Torres Gómez", 18, "Jimena", "La Loba", "http://lorempixel.com/1000/1000/sports/6/"));
-        listaAlumno.add(new Alumno("Manué", 18, "Algeciras", "Sevilla", "http://lorempixel.com/1000/1000/people/3/"));
-        listaAlumno.add(new Alumno("Estefan", 32, "Conil", "Cádiz", "http://lorempixel.com/1000/1000/people/2/"));
-        listaAlumno.add(new Alumno("Lucia", 22, "Castelló de la Plana", "Valencia", "http://lorempixel.com/1000/1000/people/9/"));
-        listaAlumno.add(new Alumno("Baldomero", 42, "Estepona", "Málaga", "http://lorempixel.com/1000/1000/people/8/"));
-        listaAlumno.add(new Alumno("Teresa", 25, "Sabinillas", "Málaga", "http://lorempixel.com/1000/1000/people/1/"));
-        listaAlumno.add(new Alumno("Ana", 12, "Granada", "Granada", "http://lorempixel.com/1000/1000/people/10/"));
-        listaAlumno.add(new Alumno("Pepe", 42, "Madrid", "Madrid", "http://lorempixel.com/1000/1000/people/7/"));
 
-        loadFragmentLista(R.id.flHuecoPrincipal, listaAlumno, "fgrListaVertical");
+        ListaFragment.listaAlumnos.add(new Alumno("Alejandro Torres Gómez", 18, "Jimena", "La Loba", "http://lorempixel.com/1000/1000/sports/6/", "+34956640548"));
+        ListaFragment.listaAlumnos.add(new Alumno("Manué", 18, "Algeciras", "Sevilla", "http://lorempixel.com/1000/1000/people/3/", "+34956640548"));
+        ListaFragment.listaAlumnos.add(new Alumno("Estefan", 32, "Conil", "Cádiz", "http://lorempixel.com/1000/1000/people/2/","+34956640548"));
+        ListaFragment.listaAlumnos.add(new Alumno("Lucia", 22, "Castelló de la Plana", "Valencia", "http://lorempixel.com/1000/1000/people/9/","+34956640548"));
+        ListaFragment.listaAlumnos.add(new Alumno("Baldomero", 42, "Estepona", "Málaga", "http://lorempixel.com/1000/1000/people/8/","+34956640548"));
+        ListaFragment.listaAlumnos.add(new Alumno("Teresa", 25, "Sabinillas", "Málaga", "http://lorempixel.com/1000/1000/people/1/","+34956640548"));
+        ListaFragment.listaAlumnos.add(new Alumno("Ana", 12, "Granada", "Granada", "http://lorempixel.com/1000/1000/people/10/","+34956640548"));
+        ListaFragment.listaAlumnos.add(new Alumno("Pepe", 42, "Madrid", "Madrid", "http://lorempixel.com/1000/1000/people/7/","+34956640548"));
 
-
+        loadFragmentLista(R.id.flHuecoPrincipal, "fgrListaVertical");
 
     }
 
-    private void loadFragmentLista(int idHueco, ArrayList<Alumno> listaAlumnos,String tag) {
+    private void loadFragmentLista(int idHueco,String tag) {
         FragmentTransaction transaction = mGestor.beginTransaction();
 
         //Solo se cargará el fragmento si no estaba cargado de antes.
         if (mGestor.findFragmentByTag(tag) == null) {
-            transaction.replace(idHueco, ListaFragment.newInstance(listaAlumnos), tag);
+            transaction.replace(idHueco, ListaFragment.newInstance(), tag);
             transaction.addToBackStack("a");
         }else
             transaction.replace(idHueco, mGestor.findFragmentByTag(tag));
@@ -92,7 +89,6 @@ public class MainActivity extends AppCompatActivity implements ListaFragment.OnI
             loadFragmentDetalles(R.id.flHuecoSecundario, alumno, alumno.getNombre());
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main,menu);
@@ -112,7 +108,8 @@ public class MainActivity extends AppCompatActivity implements ListaFragment.OnI
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.itemAdd:
-                AgregarContactoActivity.startForResult(this, 1);
+
+
                 break;
         }
         return super.onOptionsItemSelected(item);

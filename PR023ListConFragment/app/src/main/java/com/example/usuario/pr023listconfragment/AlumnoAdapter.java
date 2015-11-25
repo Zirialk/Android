@@ -71,8 +71,5 @@ public class AlumnoAdapter extends ArrayAdapter<Alumno>{
 
         return convertView;
     }
-    public ArrayList<Alumno> getmAlumnos() {
-        return mAlumnos;
-    }
 
 }

@@ -17,4 +17,5 @@
     <string name="lenghtPrefijo">3</string>
     <string name="lenghtPhone">11</string>
     <string name="hintEdad">Edad</string>
+    <string name="lblTelefono">Teléfono</string>
 </resources>

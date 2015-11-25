@@ -16,6 +16,8 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
+import org.w3c.dom.Text;
+
 
 public class DetallesFragment extends Fragment {
 
@@ -44,6 +46,7 @@ public class DetallesFragment extends Fragment {
         TextView lblLocalidad = (TextView) getView().findViewById(R.id.lblLocalidad);
         TextView lblCalle = (TextView) getView().findViewById(R.id.lblCalle);
         ImageView imgAvatar = (ImageView) getView().findViewById(R.id.imgAvatar);
+        TextView lblTlf = (TextView) getView().findViewById(R.id.lblTlf);
         //Se recupera el alumno
         alumno = getArguments().getParcelable(ARG_ALUMNO);
 
@@ -51,6 +54,8 @@ public class DetallesFragment extends Fragment {
         lblEdad.setText(alumno.getEdad() + " años");
         lblLocalidad.setText(alumno.getLocalidad());
         lblCalle.setText(alumno.getCalle());
+        lblTlf.setText(alumno.getTlf());
+
 
         if(imgAvatar !=null) // Pregunta si puede ser null porque en fragmen_detalles(Land) no existe imgAvatar.
             //Carga en el ImageView una imagen cargada por una URL.

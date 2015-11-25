@@ -12,14 +12,17 @@ public class Alumno implements Parcelable{
     private String localidad;
     private String calle;
     private String avatar;
+    private String tlf;
 
-    public Alumno(String nombre, int edad, String localidad,String calle, String rutaAvatar){
+
+
+    public Alumno(String nombre, int edad, String localidad,String calle, String rutaAvatar,String tlf){
         this.nombre=nombre;
         this.edad=edad;
         this.localidad=localidad;
         this.calle=calle;
         avatar= rutaAvatar;
-
+        this.tlf=tlf;
     }
 
     protected Alumno(Parcel in) {
@@ -32,6 +35,7 @@ public class Alumno implements Parcelable{
         localidad = in.readString();
         avatar = in.readString();
         calle = in.readString();
+        tlf = in.readString();
     }
 
     @Override
@@ -41,6 +45,7 @@ public class Alumno implements Parcelable{
         dest.writeString(localidad);
         dest.writeString(avatar);
         dest.writeString(calle);
+        dest.writeString(tlf);
     }
 
     public String getNombre() {
@@ -62,7 +67,8 @@ public class Alumno implements Parcelable{
     public String getCalle() {
         return calle;
     }
-
+    public String getTlf() {return tlf;}
+    public void setTlf(String tlf) {this.tlf = tlf;}
 
     @Override
     public int describeContents() {
