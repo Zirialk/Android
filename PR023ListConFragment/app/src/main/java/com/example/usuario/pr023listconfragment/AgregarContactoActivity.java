@@ -99,11 +99,7 @@ public class AgregarContactoActivity extends AppCompatActivity {
         });
     }
 
-    private void seleccionarImagen(){
-        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        intent.setType("image/*");
-        startActivityForResult(intent, RC_SELECCIONAR_FOTO);
-    }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -168,8 +164,9 @@ public class AgregarContactoActivity extends AppCompatActivity {
                 newAlumno.setCalle(txtCalle.getText().toString());
                 newAlumno.setTlf(prefijo + txtTlf.getText().toString());
                 if(mBitMapFoto!=null) {
-                    //Se guarda la imagen en un archivo con el nombre del alumno.
-                    archivoFoto = crearArchivo(newAlumno.getNombre());
+                    //Se guarda la imagen en un archivo con el hashCode del alumno
+                    //para que haya imagenes diferentes con el mismo nombre
+                    archivoFoto = crearArchivo(String.valueOf(newAlumno.hashCode()));
                     if (archivoFoto != null) {
                         guardarImgEnArchivo(mBitMapFoto, archivoFoto);
                         //Se guarda en el alumno la ruta de ese nuevo archivo.
@@ -186,6 +183,12 @@ public class AgregarContactoActivity extends AppCompatActivity {
     }
 
     //       PROCESAMIENTO DE FOTOGRAFÍA
+    private void seleccionarImagen(){
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        intent.setType("image/*");
+        startActivityForResult(intent, RC_SELECCIONAR_FOTO);
+    }
+
     private File crearArchivo(String nombreArchivo){
         //Se obtiene el directorio interno.
         File directorio = getFilesDir();
@@ -225,10 +228,11 @@ public class AgregarContactoActivity extends AppCompatActivity {
     }
     private Bitmap escalar(String realPathImage){
         // Se obtiene el tamaño de la vista de destino.
-        int anchoImageView = imgAvatar.getWidth();
-        int altoImageView = imgAvatar.getHeight();
-        anchoImageView=150;
-        altoImageView=150;
+        //int anchoImageView = imgAvatar.getWidth();
+        //int altoImageView = imgAvatar.getHeight();
+
+        int anchoImageView=150;
+        int altoImageView=150;
 
         // Se obtiene el tamaño de la imagen.
         BitmapFactory.Options opciones = new BitmapFactory.Options();
