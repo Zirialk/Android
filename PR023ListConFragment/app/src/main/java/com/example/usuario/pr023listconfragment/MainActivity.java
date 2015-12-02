@@ -1,6 +1,8 @@
 package com.example.usuario.pr023listconfragment;
 
+import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.BitmapFactory;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -8,12 +10,17 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
+
+import com.squareup.picasso.Picasso;
 
 
 public class MainActivity extends AppCompatActivity implements ListaFragment.OnItemSelected, FragmentManager.OnBackStackChangedListener{
 
 
     private static final String STATE_ALUMNO = "alumno";
+    private static final int ACTIVITY_CREAR = 123;
+    private static final String TAG_FRG_LISTA = "fgrLista";
     private FragmentManager mGestor;
     private Alumno mAlumnoSeleccionado;
     @Override
@@ -30,7 +37,7 @@ public class MainActivity extends AppCompatActivity implements ListaFragment.OnI
     }
 
     private void initViews() {
-        loadFragmentLista(R.id.flHuecoPrincipal, "fgrListaVertical");
+        loadFragmentLista(R.id.flHuecoPrincipal, TAG_FRG_LISTA);
     }
 
     private void loadFragmentLista(int idHueco,String tag) {
@@ -53,9 +60,7 @@ public class MainActivity extends AppCompatActivity implements ListaFragment.OnI
             transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
 
             transaction.commit();
-
         }
-
     }
 
     @Override
@@ -71,9 +76,7 @@ public class MainActivity extends AppCompatActivity implements ListaFragment.OnI
             //Se inicia otra actividad con los detalles del alumno pulsado.
             mAlumnoSeleccionado =alumno;
             DetallesActivity.start(this, alumno);
-        }
-
-        else
+        }else
             loadFragmentDetalles(R.id.flHuecoSecundario, alumno, alumno.getNombre());
     }
 
@@ -97,9 +100,9 @@ public class MainActivity extends AppCompatActivity implements ListaFragment.OnI
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.itemAdd:
-                AgregarContactoActivity.startForResult(this,1);
-
+                AgregarContactoActivity.startForResult(this, ACTIVITY_CREAR);
                 break;
+
         }
         return super.onOptionsItemSelected(item);
     }
@@ -117,12 +120,21 @@ public class MainActivity extends AppCompatActivity implements ListaFragment.OnI
         //anteriormente en DetallesActivity.
         if(getApplication().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
             mAlumnoSeleccionado =savedInstanceState.getParcelable(STATE_ALUMNO);
-            if(mAlumnoSeleccionado !=null){
+            if(mAlumnoSeleccionado !=null)
                 loadFragmentDetalles(R.id.flHuecoSecundario, mAlumnoSeleccionado, mAlumnoSeleccionado.getNombre());
-            }
-
 
         }
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(resultCode==RESULT_OK)
+            if(requestCode==ACTIVITY_CREAR && data.hasExtra(AgregarContactoActivity.ALUMNO_CREADO)){
+                Alumno newAlumno = data.getParcelableExtra(AgregarContactoActivity.ALUMNO_CREADO);
+                ListaFragment lstFragment = (ListaFragment) mGestor.findFragmentByTag(TAG_FRG_LISTA);
+                lstFragment.getAdaptador().add(newAlumno);
+            }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

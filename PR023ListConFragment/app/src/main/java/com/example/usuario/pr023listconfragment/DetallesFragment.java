@@ -1,6 +1,11 @@
 package com.example.usuario.pr023listconfragment;
 
+
+import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.BitmapFactory;
+import android.media.Image;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -16,7 +21,7 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
-import org.w3c.dom.Text;
+import java.io.File;
 
 
 public class DetallesFragment extends Fragment {
@@ -46,6 +51,7 @@ public class DetallesFragment extends Fragment {
         TextView lblLocalidad = (TextView) getView().findViewById(R.id.lblLocalidad);
         TextView lblCalle = (TextView) getView().findViewById(R.id.lblCalle);
         TextView lblTlf = (TextView) getView().findViewById(R.id.lblTlf);
+
         //Se recupera el alumno
         alumno = getArguments().getParcelable(ARG_ALUMNO);
 
@@ -54,6 +60,10 @@ public class DetallesFragment extends Fragment {
         lblLocalidad.setText(alumno.getLocalidad());
         lblCalle.setText(alumno.getCalle());
         lblTlf.setText(alumno.getTlf());
+        if(getActivity().getApplication().getResources().getConfiguration().orientation== Configuration.ORIENTATION_LANDSCAPE && alumno.getAvatar()!=null)
+            Picasso.with(getActivity()).load(new File(alumno.getAvatar())).into((ImageView) getView().findViewById(R.id.imgAvatar));
+
+
 
 
 
@@ -80,7 +90,9 @@ public class DetallesFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.itemLlamar:
-                Toast.makeText(getActivity(),"Llamando..",Toast.LENGTH_SHORT).show();
+                //Llama
+                Intent intent = new Intent(Intent.ACTION_CALL,Uri.parse("tel:"+alumno.getTlf()));
+                startActivity(intent);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

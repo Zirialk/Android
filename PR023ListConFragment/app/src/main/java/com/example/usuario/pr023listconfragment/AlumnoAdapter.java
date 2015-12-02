@@ -2,15 +2,18 @@ package com.example.usuario.pr023listconfragment;
 
 import android.content.Context;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -53,8 +56,11 @@ public class AlumnoAdapter extends ArrayAdapter<Alumno>{
             holder.lblEdad.setText(alumno.getEdad() + " años");
             holder.lblLocalidad.setText(alumno.getLocalidad());
         }
-        Picasso.with(getContext()).load(alumno.getAvatar()).into(holder.imgAvatar);
-
+        //Obtiene la imagen desde el archivo creado.
+        if(alumno.getAvatar()!=null)
+            Picasso.with(getContext()).load(new File(alumno.getAvatar())).into(holder.imgAvatar);
+        else
+            holder.imgAvatar.setImageDrawable(getContext().getResources().getDrawable(R.drawable.icon_user_default));
     }
 
     @Override
@@ -68,8 +74,8 @@ public class AlumnoAdapter extends ArrayAdapter<Alumno>{
             holder=(ViewHolder) convertView.getTag();
 
         onBindViewHolder(holder, position);
-
         return convertView;
     }
+
 
 }

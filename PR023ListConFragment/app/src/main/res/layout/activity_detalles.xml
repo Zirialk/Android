@@ -27,6 +27,7 @@
                 android:id="@+id/imgAvatar"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:src="@drawable/icon_user_default"
                 android:contentDescription="@string/imagen_cabecera"
                 android:fitsSystemWindows="@bool/fitsSystemWindows"
                 android:scaleType="centerCrop"

@@ -12,7 +12,8 @@
         <item android:id="@+id/itemLlamar"
             android:title="Llamar"
             android:icon="@drawable/ic_action_llamar"
-            app:showAsAction="ifRoom" />
+            app:showAsAction="ifRoom"
+            />
 
     </group>
 </menu>

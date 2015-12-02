@@ -63,6 +63,7 @@
                 android:layout_marginEnd="@dimen/marginRightMaterialDesign"
                 android:maxLines="@string/maxLinesAddContacto"
                 android:maxLength="2"
+                android:inputType="phone"
                 />
             <ImageView
                 android:layout_width="24dp"

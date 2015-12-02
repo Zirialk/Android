@@ -22,6 +22,7 @@ public class ListaFragment extends Fragment {
 
     private ListView lsvAlumnos;
     private OnItemSelected mListener;
+    private AlumnoAdapter adaptador;
 
     public static ListaFragment newInstance() {
         return new ListaFragment();
@@ -37,8 +38,9 @@ public class ListaFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
 
 
-        final AlumnoAdapter adaptador= new AlumnoAdapter(getActivity(),listaAlumnos);
+        adaptador= new AlumnoAdapter(getActivity(),listaAlumnos);
         lsvAlumnos = (ListView) getView().findViewById(R.id.lsvAlumnos);
+
         lsvAlumnos.setAdapter(adaptador);
         lsvAlumnos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -64,6 +66,7 @@ public class ListaFragment extends Fragment {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         try {
+
             mListener = (OnItemSelected) activity;
 
         } catch (ClassCastException e) {
@@ -79,4 +82,7 @@ public class ListaFragment extends Fragment {
     }
 
 
+    public AlumnoAdapter getAdaptador() {
+        return adaptador;
+    }
 }

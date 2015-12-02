@@ -6,28 +6,30 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
-
-import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 
 public class AgregarContactoActivity extends AppCompatActivity {
 
+    public static final String ALUMNO_CREADO = "Creado";
     private int RC_SELECCIONAR_FOTO=1;
     private EditText txtNombre;
     private EditText txtEdad;
@@ -37,8 +39,9 @@ public class AgregarContactoActivity extends AppCompatActivity {
     private EditText txtTlf;
     private ImageView imgAvatar;
     private Menu menu;
-    String imagePath;
     Alumno newAlumno= new Alumno();
+    String imgGaleriaPath;
+    Bitmap mBitMapFoto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,59 +111,35 @@ public class AgregarContactoActivity extends AppCompatActivity {
             switch (requestCode){
                 case 1:
                     Uri uriGaleria = data.getData();
-                    mostrarImagen(getRealPath(uriGaleria));
+                    //Se guarda el path de la foto de la galería para la posterior creación de un archivo con esa foto.
+                    imgGaleriaPath = getRealPath(uriGaleria);
+                    //Se escala la imagen y se guarda en una variable.
+                    mBitMapFoto = escalar(imgGaleriaPath);
+                    //Se va mostrando la preview de la imagen elegida.
+                    imgAvatar.setImageBitmap(mBitMapFoto);
                     break;
             }
         super.onActivityResult(requestCode, resultCode, data);
     }
-    private String getRealPath(Uri uriGaleria) {
 
-        // Se consulta en el content provider de la galería el path real del archivo de la foto.
-        String[] filePath = {MediaStore.Images.Media.DATA};
-        Cursor c = getContentResolver().query(uriGaleria, filePath, null, null, null);
-        c.moveToFirst();
-        int columnIndex = c.getColumnIndex(filePath[0]);
-        String path = c.getString(columnIndex);
-        c.close();
-        return path;
-    }
-    private void mostrarImagen(String realPathImage){
-        newAlumno.setAvatar(realPathImage);
-
-        new Escalador(realPathImage,imgAvatar).run();
-
-    }
-
-    private Bitmap escalarImagen(String realPathImage){
-        // Se obtiene el tamaño de la vista de destino.
-        int anchoImageView = imgAvatar.getWidth();
-        int altoImageView = imgAvatar.getHeight();
-
-        // Se obtiene el tamaño de la imagen.
-        BitmapFactory.Options opciones = new BitmapFactory.Options();
-        opciones.inJustDecodeBounds = true; // Solo para cálculo.
-        BitmapFactory.decodeFile(realPathImage, opciones);
-        int anchoFoto = opciones.outWidth;
-        int altoFoto = opciones.outHeight;
-        // Se obtiene el factor de escalado para la imagen.
-        int  factorEscalado = Math.min(anchoFoto/anchoImageView, altoFoto/altoImageView);
-
-        // Se escala la imagen con dicho factor de escalado.
-        opciones.inJustDecodeBounds = false; // Se escalará.
-        opciones.inSampleSize = factorEscalado;
-
-        return BitmapFactory.decodeFile(realPathImage, opciones);
-    }
     public static void startForResult(Activity activity, int requestCode){
         Intent intent = new Intent(activity,AgregarContactoActivity.class);
 
-        activity.startActivityForResult(intent,requestCode);
+        activity.startActivityForResult(intent, requestCode);
+    }
+
+    @Override
+    public void finish() {
+        Intent intent= new Intent();
+        intent.putExtra(ALUMNO_CREADO,newAlumno);
+        setResult(RESULT_OK,intent);
+        super.finish();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         this.menu=menu;
-        getMenuInflater().inflate(R.menu.menu_agregar_contacto,menu);
+        getMenuInflater().inflate(R.menu.menu_agregar_contacto, menu);
         //El item de menú Aceptar contacto aparecerá invisible por defecto.
         menu.findItem(R.id.itemNewContact).setVisible(false);
         return super.onCreateOptionsMenu(menu);
@@ -169,6 +148,7 @@ public class AgregarContactoActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int edad=0;
+        File archivoFoto;
         String prefijo = getString(R.string.hintPrefijo);
         switch (item.getItemId()){
             //Creación del alumno.
@@ -187,13 +167,86 @@ public class AgregarContactoActivity extends AppCompatActivity {
                 newAlumno.setLocalidad(txtLocalidad.getText().toString());
                 newAlumno.setCalle(txtCalle.getText().toString());
                 newAlumno.setTlf(prefijo + txtTlf.getText().toString());
-                ListaFragment.listaAlumnos.add(newAlumno);
+                if(mBitMapFoto!=null) {
+                    //Se guarda la imagen en un archivo con el nombre del alumno.
+                    archivoFoto = crearArchivo(newAlumno.getNombre());
+                    if (archivoFoto != null) {
+                        guardarImgEnArchivo(mBitMapFoto, archivoFoto);
+                        //Se guarda en el alumno la ruta de ese nuevo archivo.
+                        newAlumno.setAvatar(archivoFoto.getAbsolutePath());
+                    }
+                }
                 //Se sale del creador de alumnos.
-                onBackPressed();
+                finish();
             case R.id.itemCancelContact:
                 //Se sale del creador de alumnos sin añadir ningún alumno.
                 onBackPressed();
         }
         return super.onOptionsItemSelected(item);
     }
+
+    //       PROCESAMIENTO DE FOTOGRAFÍA
+    private File crearArchivo(String nombreArchivo){
+        //Se obtiene el directorio interno.
+        File directorio = getFilesDir();
+
+        //Si el directorio aun no existe, se crea.
+        if(!directorio.exists())
+            if (!directorio.mkdirs()) {
+                Log.d(getString(R.string.app_name), "error al crear el directorio");
+                return null;
+            }
+        //Se crea el archivo con el nombre pasado por parámetro
+        return new File(directorio.getPath() + File.separator + nombreArchivo);
+    }
+
+    private boolean guardarImgEnArchivo(Bitmap bitmapFoto, File file){
+        try {
+            FileOutputStream stream = new FileOutputStream(file);
+            bitmapFoto.compress(Bitmap.CompressFormat.JPEG,100,stream);
+            stream.flush();
+            stream.close();
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    private String getRealPath(Uri uriGaleria) {
+
+        // Se consulta en el content provider de la galería el path real del archivo de la foto.
+        String[] filePath = {MediaStore.Images.Media.DATA};
+        Cursor c = getContentResolver().query(uriGaleria, filePath, null, null, null);
+        c.moveToFirst();
+        int columnIndex = c.getColumnIndex(filePath[0]);
+        String path = c.getString(columnIndex);
+        c.close();
+        return path;
+    }
+    private Bitmap escalar(String realPathImage){
+        // Se obtiene el tamaño de la vista de destino.
+        int anchoImageView = imgAvatar.getWidth();
+        int altoImageView = imgAvatar.getHeight();
+        anchoImageView=150;
+        altoImageView=150;
+
+        // Se obtiene el tamaño de la imagen.
+        BitmapFactory.Options opciones = new BitmapFactory.Options();
+        opciones.inJustDecodeBounds = true; // Solo para cálculo.
+        BitmapFactory.decodeFile(realPathImage, opciones);
+        int anchoFoto = opciones.outWidth;
+        int altoFoto = opciones.outHeight;
+        // Se obtiene el factor de escalado para la imagen.
+        int  factorEscalado = Math.min(anchoFoto/anchoImageView, altoFoto/altoImageView);
+
+        // Se escala la imagen con dicho factor de escalado.
+        opciones.inJustDecodeBounds = false; // Se escalará.
+        opciones.inSampleSize = factorEscalado;
+        //Se guarda en la variable de la clase contenedora el BitMap
+
+        return BitmapFactory.decodeFile(realPathImage, opciones);
+    }
+
+
+
 }

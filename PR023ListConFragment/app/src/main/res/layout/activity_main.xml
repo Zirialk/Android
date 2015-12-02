@@ -12,7 +12,8 @@
         android:layout_height="match_parent"
         tools:context=".MainActivity"
         android:paddingTop="@dimen/paddingSeparadorLista"
-        android:paddingBottom="@dimen/paddingSeparadorLista"/>
+        android:paddingBottom="@dimen/paddingSeparadorLista"
+        />
 
 </LinearLayout>
 

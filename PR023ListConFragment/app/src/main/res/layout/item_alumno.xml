@@ -13,9 +13,8 @@
         android:id="@+id/imgAvatar"
         android:layout_width="62dp"
         android:layout_height="62dp"
+        android:src="@drawable/icon_user_default"
         android:layout_centerVertical="true"
-
-
         />
 
     <TextView
