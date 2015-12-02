@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">PR025Dialog</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string-array name="equipos">
+        <item>Real Madrid</item>
+        <item>Barcelona</item>
+        <item>Cádiz</item>
+    </string-array>
+</resources>
