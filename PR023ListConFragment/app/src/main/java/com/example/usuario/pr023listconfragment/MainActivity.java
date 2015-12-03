@@ -130,10 +130,9 @@ public class MainActivity extends AppCompatActivity implements ListaFragment.OnI
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(resultCode==RESULT_OK)
-            if(requestCode==ACTIVITY_CREAR && data.hasExtra(AgregarContactoActivity.ALUMNO_CREADO)){
-                Alumno newAlumno = data.getParcelableExtra(AgregarContactoActivity.ALUMNO_CREADO);
+            if(requestCode==ACTIVITY_CREAR){
                 ListaFragment lstFragment = (ListaFragment) mGestor.findFragmentByTag(TAG_FRG_LISTA);
-                lstFragment.getAdaptador().add(newAlumno);
+                lstFragment.getAdaptador().notifyDataSetChanged();
             }
         super.onActivityResult(requestCode, resultCode, data);
     }

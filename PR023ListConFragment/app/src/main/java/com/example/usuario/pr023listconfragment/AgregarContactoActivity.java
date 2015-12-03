@@ -6,7 +6,10 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.ColorFilter;
 import android.graphics.drawable.Drawable;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -53,6 +56,11 @@ public class AgregarContactoActivity extends AppCompatActivity {
     }
 
     private void initViews() {
+        final ImageView imgIconContacto = (ImageView) findViewById(R.id.imgIconContacto);
+        final ImageView imgIconTlf = (ImageView) findViewById(R.id.imgIconTlf);
+        final ImageView imgIconLocalidad = (ImageView) findViewById(R.id.imgIconLocalidad);
+        final ImageView imgIconCalle = (ImageView) findViewById(R.id.imgIconCalle);
+        final int COLOR_EN_FOCO = getResources().getColor(R.color.accent_oscuro);
         txtNombre = (EditText) findViewById(R.id.txtNombre);
         txtEdad = (EditText) findViewById(R.id.txtEdad);
         txtLocalidad = (EditText) findViewById(R.id.txtLocalidad);
@@ -60,6 +68,74 @@ public class AgregarContactoActivity extends AppCompatActivity {
         txtPrefijo = (EditText) findViewById(R.id.txtPrefijo);
         txtTlf = (EditText) findViewById(R.id.txtTlf);
         imgAvatar = (ImageView) findViewById(R.id.imgAvatar);
+
+        txtNombre.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus)
+                    //Resalta con otro color el icono correspondiente al txt.
+                    imgIconContacto.setColorFilter(COLOR_EN_FOCO);
+                else
+                    //Devuelve al color original el imageView cuando el txt pierde el foco.
+                    imgIconContacto.clearColorFilter();
+            }
+        });
+        txtEdad.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus)
+                    //Resalta con otro color el icono correspondiente al txt.
+                    imgIconContacto.setColorFilter(COLOR_EN_FOCO);
+                else
+                    //Devuelve al color original el imageView cuando el txt pierde el foco.
+                    imgIconContacto.clearColorFilter();
+            }
+        });
+        txtTlf.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus)
+                    //Resalta con otro color el icono correspondiente al txt.
+                    imgIconTlf.setColorFilter(COLOR_EN_FOCO);
+                else
+                    //Devuelve al color original el imageView cuando el txt pierde el foco.
+                    imgIconTlf.clearColorFilter();
+            }
+        });
+        txtPrefijo.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus)
+                    //Resalta con otro color el icono correspondiente al txt.
+                    imgIconTlf.setColorFilter(COLOR_EN_FOCO);
+                else
+                    //Devuelve al color original el imageView cuando el txt pierde el foco.
+                    imgIconTlf.clearColorFilter();
+            }
+        });
+        txtLocalidad.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus)
+                    //Resalta con otro color el icono correspondiente al txt.
+                    imgIconLocalidad.setColorFilter(COLOR_EN_FOCO);
+                else
+                    //Devuelve al color original el imageView cuando el txt pierde el foco.
+                    imgIconLocalidad.clearColorFilter();
+            }
+        });
+        txtCalle.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus)
+                    //Resalta con otro color el icono correspondiente al txt.
+                    imgIconCalle.setColorFilter(getResources().getColor(R.color.accent));
+                else
+                    //Devuelve al color original el imageView cuando el txt pierde el foco.
+                    imgIconCalle.clearColorFilter();
+            }
+        });
+
         imgAvatar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -126,9 +202,9 @@ public class AgregarContactoActivity extends AppCompatActivity {
 
     @Override
     public void finish() {
-        Intent intent= new Intent();
-        intent.putExtra(ALUMNO_CREADO,newAlumno);
-        setResult(RESULT_OK,intent);
+
+
+        setResult(RESULT_OK);
         super.finish();
     }
 
@@ -173,6 +249,7 @@ public class AgregarContactoActivity extends AppCompatActivity {
                         newAlumno.setAvatar(archivoFoto.getAbsolutePath());
                     }
                 }
+                ListaFragment.listaAlumnos.add(newAlumno);
                 //Se sale del creador de alumnos.
                 finish();
             case R.id.itemCancelContact:
