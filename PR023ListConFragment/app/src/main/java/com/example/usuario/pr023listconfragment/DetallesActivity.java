@@ -36,7 +36,6 @@ public class DetallesActivity extends AppCompatActivity {
         Alumno alumno = getIntent().getParcelableExtra(EXTRA_ALUMNO);
 
         loadFragmentDetalles(alumno, "detalles");
-
     }
 
     public static void start(Context contexto, Alumno alumno){

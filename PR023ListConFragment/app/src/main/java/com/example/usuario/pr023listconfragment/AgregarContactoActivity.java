@@ -6,13 +6,8 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.graphics.ColorFilter;
-import android.graphics.drawable.Drawable;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -129,7 +124,7 @@ public class AgregarContactoActivity extends AppCompatActivity {
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus)
                     //Resalta con otro color el icono correspondiente al txt.
-                    imgIconCalle.setColorFilter(getResources().getColor(R.color.accent));
+                    imgIconCalle.setColorFilter(COLOR_EN_FOCO);
                 else
                     //Devuelve al color original el imageView cuando el txt pierde el foco.
                     imgIconCalle.clearColorFilter();

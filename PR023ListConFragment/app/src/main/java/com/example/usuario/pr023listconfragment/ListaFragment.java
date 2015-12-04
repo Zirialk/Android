@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -23,6 +24,7 @@ public class ListaFragment extends Fragment {
     private ListView lsvAlumnos;
     private OnItemSelected mListener;
     private AlumnoAdapter adaptador;
+    private TextView lblNoHayAlumno;
 
     public static ListaFragment newInstance() {
         return new ListaFragment();
@@ -40,12 +42,19 @@ public class ListaFragment extends Fragment {
 
         adaptador= new AlumnoAdapter(getActivity(),listaAlumnos);
         lsvAlumnos = (ListView) getView().findViewById(R.id.lsvAlumnos);
+        lblNoHayAlumno = (TextView) getView().findViewById(R.id.lblNoHayAlumno);
 
         lsvAlumnos.setAdapter(adaptador);
+        lblNoHayAlumno.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mListener.IconAddContactoPulsado();
+            }
+        });
         lsvAlumnos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                mListener.pulsado((Alumno) parent.getItemAtPosition(position));
+                mListener.ListViewItemPulsado((Alumno) parent.getItemAtPosition(position));
             }
 
         });
@@ -55,11 +64,13 @@ public class ListaFragment extends Fragment {
 
     private void configurarLista() {
         lsvAlumnos.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
-
+        //Selecciona el layout que tiene que  aparecer cuando no hay ningún item en la lista.
+        lsvAlumnos.setEmptyView(lblNoHayAlumno);
     }
 
     public interface OnItemSelected {
-        public void pulsado(Alumno alumno);
+        void ListViewItemPulsado(Alumno alumno);
+        void IconAddContactoPulsado();
     }
 
     @Override

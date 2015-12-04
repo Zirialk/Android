@@ -12,8 +12,8 @@
     <dimen name="sizeDetallesSecundario">22sp</dimen>
     <dimen name="separacionDetalles">30dp</dimen>
     <dimen name="marginTopLblNombre">30dp</dimen>
-    <dimen name="marginLeftLblNombre">20dp</dimen>
-    <dimen name="marginRightLblNombre">10dp</dimen>
+    <dimen name="marginLeftLblNombre">72dp</dimen>
+    <dimen name="marginRightLblNombre">16dp</dimen>
     <dimen name="tamAvatar">120dp</dimen>
     <dimen name="marginTopAvatar">20dp</dimen>
     <dimen name="marginRightAvatar">16dp</dimen>
@@ -27,4 +27,8 @@
     <dimen name="marginLeftIconMaterialDesign">16dp</dimen>
     <dimen name="marginTopIconMaterialDesign">24dp</dimen>
     <dimen name="widthPrefijo">50dp</dimen>
+    <dimen name="heightImgAvatarCrearAlumno">225dp</dimen>
+    <dimen name="boundsIcon">32dp</dimen>
+    <dimen name="marginLeftLblNombreApaisado">32dp</dimen>
+    <dimen name="marginTopIconVertical">24dp</dimen>
 </resources>

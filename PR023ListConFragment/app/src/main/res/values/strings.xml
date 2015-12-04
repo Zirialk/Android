@@ -18,4 +18,5 @@
     <string name="lenghtPhone">11</string>
     <string name="hintEdad">Edad</string>
     <string name="lblTelefono">Teléfono</string>
+    <string name="lblNoHayAlumnoText">No hay alumnos</string>
 </resources>

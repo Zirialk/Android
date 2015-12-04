@@ -4,7 +4,15 @@
     android:layout_height="match_parent">
 
 
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/marginLeftIconMaterialDesign"
+            android:layout_marginStart="@dimen/marginLeftIconMaterialDesign"
+            android:layout_alignTop="@+id/lblNombre"
 
+            android:src="@drawable/ic_action_person"
+           />
         <TextView
             android:id="@+id/lblNombre"
             android:layout_width="match_parent"
@@ -16,6 +24,7 @@
             android:layout_marginTop="@dimen/marginTopLblNombre"
             android:textSize="24sp"
             android:textStyle="bold" />
+
 
         <TextView
             android:id="@+id/lblTituloEdad"
@@ -37,14 +46,52 @@
             android:layout_alignStart="@id/lblNombre"
             android:layout_below="@id/lblTituloEdad"
             android:textSize="@dimen/sizeDetallesSecundario" />
+        <ImageView
+            android:id="@+id/iconTlf"
+            android:layout_width="@dimen/boundsIcon"
+            android:layout_height="@dimen/boundsIcon"
+            android:layout_below="@+id/lblEdad"
+            android:layout_alignBottom="@+id/lblTlf"
+            android:layout_marginTop="@dimen/marginTopIconVertical"
+            android:layout_marginLeft="@dimen/marginLeftIconMaterialDesign"
+            android:layout_marginStart="@dimen/marginLeftIconMaterialDesign"
+            android:src="@drawable/ic_action_call"
+            />
+        <TextView
+            android:id="@+id/lblTituloTlf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/lblEdad"
+            android:layout_alignStart="@id/lblEdad"
+            android:layout_below="@+id/lblEdad"
+            android:layout_marginTop="@dimen/separacionDetalles"
+            android:text="@string/lblTelefono" />
 
+        <TextView
+            android:id="@+id/lblTlf"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/lblEdad"
+            android:layout_alignStart="@id/lblEdad"
+            android:layout_below="@id/lblTituloTlf"
+            android:textSize="@dimen/sizeDetallesSecundario" />
+        <ImageView
+            android:id="@+id/iconCalle"
+            android:layout_width="@dimen/boundsIcon"
+            android:layout_height="@dimen/boundsIcon"
+            android:layout_below="@id/iconTlf"
+            android:layout_marginTop="@dimen/marginTopIconVertical"
+            android:layout_alignBottom="@+id/lblCalle"
+            android:layout_marginLeft="@dimen/marginLeftIconMaterialDesign"
+            android:layout_marginStart="@dimen/marginLeftIconMaterialDesign"
+            android:src="@drawable/ic_action_place"/>
         <TextView
             android:id="@+id/lblTituloCalle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/lblEdad"
             android:layout_alignStart="@+id/lblEdad"
-            android:layout_below="@id/lblEdad"
+            android:layout_below="@id/lblTlf"
             android:layout_marginTop="@dimen/separacionDetalles"
             android:text="@string/calle" />
 
@@ -57,6 +104,16 @@
             android:layout_below="@id/lblTituloCalle"
             android:textSize="@dimen/sizeDetallesSecundario" />
 
+        <ImageView
+            android:id="@+id/iconLocalidad"
+            android:layout_width="@dimen/boundsIcon"
+            android:layout_height="@dimen/boundsIcon"
+            android:layout_below="@id/iconCalle"
+            android:layout_marginTop="@dimen/marginTopIconVertical"
+            android:layout_alignBottom="@+id/lblLocalidad"
+            android:layout_marginLeft="@dimen/marginLeftIconMaterialDesign"
+            android:layout_marginStart="@dimen/marginLeftIconMaterialDesign"
+            android:src="@drawable/ic_action_place"/>
         <TextView
             android:id="@+id/lblTituloLocalidad"
             android:layout_width="wrap_content"
@@ -76,23 +133,6 @@
             android:layout_below="@id/lblTituloLocalidad"
             android:textSize="@dimen/sizeDetallesSecundario" />
 
-        <TextView
-            android:id="@+id/lblTituloTlf"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@id/lblEdad"
-            android:layout_alignStart="@id/lblEdad"
-            android:layout_below="@+id/lblLocalidad"
-            android:layout_marginTop="@dimen/separacionDetalles"
-            android:text="@string/lblTelefono" />
 
-        <TextView
-            android:id="@+id/lblTlf"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@id/lblEdad"
-            android:layout_alignStart="@id/lblEdad"
-            android:layout_below="@id/lblTituloTlf"
-            android:textSize="@dimen/sizeDetallesSecundario" />
 
 </RelativeLayout>

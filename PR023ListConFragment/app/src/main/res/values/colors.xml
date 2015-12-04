@@ -3,5 +3,6 @@
     <color name="primary_dark">#0288D1</color>
     <color name="primary">#03A9F4</color>
     <color name="accent">#536DFE</color>
+    <color name="accent_oscuro">#00199b</color>
 
 </resources>

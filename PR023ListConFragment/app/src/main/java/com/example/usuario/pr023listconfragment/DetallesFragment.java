@@ -63,10 +63,6 @@ public class DetallesFragment extends Fragment {
         if(getActivity().getApplication().getResources().getConfiguration().orientation== Configuration.ORIENTATION_LANDSCAPE && alumno.getAvatar()!=null)
             Picasso.with(getActivity()).load(new File(alumno.getAvatar())).into((ImageView) getView().findViewById(R.id.imgAvatar));
 
-
-
-
-
         setHasOptionsMenu(true);
         super.onActivityCreated(savedInstanceState);
     }

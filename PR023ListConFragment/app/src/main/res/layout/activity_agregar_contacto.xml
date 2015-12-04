@@ -9,10 +9,10 @@
     <ImageView
         android:id="@+id/imgAvatar"
         android:layout_width="match_parent"
-        android:layout_height="225dp"
+        android:layout_height="@dimen/heightImgAvatarCrearAlumno"
         android:contentDescription="Imagen Contacto"
         android:src="@drawable/icon_user_default"
-        android:scaleType="fitXY"
+        android:scaleType="centerCrop"
         android:layout_below="@+id/toolbar"
         />
     <ScrollView
@@ -23,8 +23,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:id="@+id/imgIconContacto"
+                android:layout_width="@dimen/boundsIcon"
+                android:layout_height="@dimen/boundsIcon"
                 android:src="@drawable/ic_action_person"
                 android:layout_marginLeft="@dimen/marginLeftIconMaterialDesign"
                 android:layout_marginStart="@dimen/marginLeftIconMaterialDesign"
@@ -45,7 +46,6 @@
                 android:layout_marginEnd="@dimen/marginRightMaterialDesign"
                 android:maxLines="@string/maxLinesAddContacto"
                 android:maxLength="@string/lenghtTxtAddContacto"
-
                 />
             <EditText
                 android:id="@+id/txtEdad"
@@ -63,11 +63,12 @@
                 android:layout_marginEnd="@dimen/marginRightMaterialDesign"
                 android:maxLines="@string/maxLinesAddContacto"
                 android:maxLength="2"
-                android:inputType="phone"
+                android:inputType="number"
                 />
             <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:id="@+id/imgIconTlf"
+                android:layout_width="@dimen/boundsIcon"
+                android:layout_height="@dimen/boundsIcon"
                 android:layout_below="@id/txtEdad"
                 android:src="@drawable/ic_action_call"
                 android:layout_marginLeft="@dimen/marginLeftIconMaterialDesign"
@@ -112,8 +113,9 @@
                 />
 
             <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:id="@+id/imgIconLocalidad"
+                android:layout_width="@dimen/boundsIcon"
+                android:layout_height="@dimen/boundsIcon"
                 android:layout_below="@id/txtTlf"
                 android:src="@drawable/ic_action_place"
                 android:layout_marginLeft="@dimen/marginLeftIconMaterialDesign"
@@ -139,8 +141,9 @@
                 />
 
             <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:id="@+id/imgIconCalle"
+                android:layout_width="@dimen/boundsIcon"
+                android:layout_height="@dimen/boundsIcon"
                 android:layout_below="@id/txtLocalidad"
                 android:src="@drawable/ic_action_place"
                 android:layout_marginLeft="@dimen/marginLeftIconMaterialDesign"

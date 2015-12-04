@@ -17,14 +17,15 @@
             android:layout_marginEnd="@dimen/marginRightAvatar"
             android:layout_marginRight="@dimen/marginRightAvatar"
             android:layout_marginTop="@dimen/marginTopAvatar"
-            android:contentDescription="@string/imagenAvatar" />
+            android:contentDescription="@string/imagenAvatar"
+            android:scaleType="centerCrop"/>
 
         <TextView
             android:id="@+id/lblNombre"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/marginRightLblNombre"
-            android:layout_marginLeft="@dimen/marginLeftLblNombre"
+            android:layout_marginLeft="@dimen/marginLeftLblNombreApaisado"
             android:layout_marginRight="@dimen/marginRightLblNombre"
             android:layout_marginStart="@dimen/marginLeftLblNombre"
             android:layout_marginTop="@dimen/marginTopLblNombre"

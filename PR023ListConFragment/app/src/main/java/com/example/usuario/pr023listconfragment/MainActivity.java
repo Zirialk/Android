@@ -2,17 +2,14 @@ package com.example.usuario.pr023listconfragment;
 
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.graphics.BitmapFactory;
+import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ImageView;
-
-import com.squareup.picasso.Picasso;
+import android.widget.Toast;
 
 
 public class MainActivity extends AppCompatActivity implements ListaFragment.OnItemSelected, FragmentManager.OnBackStackChangedListener{
@@ -23,6 +20,7 @@ public class MainActivity extends AppCompatActivity implements ListaFragment.OnI
     private static final String TAG_FRG_LISTA = "fgrLista";
     private FragmentManager mGestor;
     private Alumno mAlumnoSeleccionado;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,14 +68,19 @@ public class MainActivity extends AppCompatActivity implements ListaFragment.OnI
             onBackPressed();
     }
     @Override
-    public void pulsado(Alumno alumno) {
-
+    public void ListViewItemPulsado(Alumno alumno) {
+        mAlumnoSeleccionado = alumno;
         if(findViewById(R.id.flHuecoSecundario)==null) { //Modo Vertical
-            //Se inicia otra actividad con los detalles del alumno pulsado.
-            mAlumnoSeleccionado =alumno;
+            //Se inicia otra actividad con los detalles del alumno ListViewItemPulsado.
             DetallesActivity.start(this, alumno);
         }else
             loadFragmentDetalles(R.id.flHuecoSecundario, alumno, alumno.getNombre());
+    }
+
+    @Override
+    public void IconAddContactoPulsado() {
+        //Abre la actividad de crearAlumnos cuando hace click en lblNoHayAlumnos del emptyView de la ListView.
+        AgregarContactoActivity.startForResult(this,ACTIVITY_CREAR);
     }
 
     @Override
@@ -88,9 +91,9 @@ public class MainActivity extends AppCompatActivity implements ListaFragment.OnI
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        //Elimina el item de menú cuando esta en postrait
-        if (getApplication().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)
-             menu.removeItem(R.id.itemLlamar);
+        //Elimina el item de menú cuando esta en postrait o no ha seleccionado ningún alumno.
+        if (getApplication().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT || mAlumnoSeleccionado==null)
+             menu.findItem(R.id.itemLlamar).setVisible(false);
 
         return super.onPrepareOptionsMenu(menu);
     }
@@ -116,13 +119,13 @@ public class MainActivity extends AppCompatActivity implements ListaFragment.OnI
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
+        mAlumnoSeleccionado = savedInstanceState.getParcelable(STATE_ALUMNO);
         //Cuando vuelve de DetallesActivity y la pantalla se encuentra apaisada, marcará el item de la lista que estaba observandose
         //anteriormente en DetallesActivity.
         if(getApplication().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
-            mAlumnoSeleccionado =savedInstanceState.getParcelable(STATE_ALUMNO);
+
             if(mAlumnoSeleccionado !=null)
                 loadFragmentDetalles(R.id.flHuecoSecundario, mAlumnoSeleccionado, mAlumnoSeleccionado.getNombre());
-
         }
 
     }
@@ -136,4 +139,5 @@ public class MainActivity extends AppCompatActivity implements ListaFragment.OnI
             }
         super.onActivityResult(requestCode, resultCode, data);
     }
+
 }
