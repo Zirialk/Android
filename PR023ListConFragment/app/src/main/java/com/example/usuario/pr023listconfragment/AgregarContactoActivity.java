@@ -21,35 +21,68 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.squareup.picasso.Picasso;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Random;
 
 public class AgregarContactoActivity extends AppCompatActivity {
 
-    public static final String ALUMNO_CREADO = "Creado";
-    private int RC_SELECCIONAR_FOTO=1;
+    public static final int MODO_CREAR = 123;
+    public static final int MODO_EDITAR = 888;
+    private static final String INTENT_EDITAR = "Editando";
+    private final int RC_SELECCIONAR_FOTO=1;
     private EditText txtNombre;
     private EditText txtEdad;
     private EditText txtLocalidad;
     private EditText txtCalle;
     private EditText txtPrefijo;
     private EditText txtTlf;
-    private ImageView imgAvatar;
-    private Menu menu;
-    Alumno newAlumno= new Alumno();
-    String imgGaleriaPath;
-    Bitmap mBitMapFoto;
+    private ImageView mImgAvatar;
+    private Menu mMenu;
+    private Alumno newAlumno;
+    private String mImgGaleriaPath;
+    private Bitmap mBitMapFoto;
+    private int modoActual;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_agregar_contacto);
-
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
         initViews();
+        //Cuando vengo desde el botón de menú: itemEditar
+        //Si devuelve un indice de la lista de alumnos que no sea -1
+        if(getIntent().getIntExtra(INTENT_EDITAR,-1)!=-1){
+            //newAlumno pasa a ser el alumno a editar, en vez de uno nuevo
+            newAlumno= ListaFragment.listaAlumnos.get(getIntent().getIntExtra(INTENT_EDITAR,-1));
+            modoActual=MODO_EDITAR;
+        }else{
+            newAlumno = new Alumno();
+            modoActual=MODO_CREAR;
+        }
     }
 
+
+    public static void startForResult(Activity activity, int indiceContacto){
+        //Crea un intent, que contendrá el índice del alumno a editar de la lista de Alumnos,
+        Intent intent = new Intent(activity,AgregarContactoActivity.class);
+        intent.putExtra(INTENT_EDITAR, indiceContacto);
+        activity.startActivityForResult(intent, MODO_EDITAR);
+    }
+    //Dota a los EditText con los datos del alumno que se quiere editar.
+    private void recuperarContactoExistente(){
+
+        txtNombre.setText(newAlumno.getNombre());
+        txtEdad.setText(String.valueOf(newAlumno.getEdad()));
+        txtLocalidad.setText(newAlumno.getLocalidad());
+        txtCalle.setText(newAlumno.getCalle());
+        txtTlf.setText(newAlumno.getTlf().substring(3));
+        txtPrefijo.setText(newAlumno.getTlf().substring(0, 3));
+        Picasso.with(this).load(new File(newAlumno.getAvatar())).into(mImgAvatar);
+    }
     private void initViews() {
         final ImageView imgIconContacto = (ImageView) findViewById(R.id.imgIconContacto);
         final ImageView imgIconTlf = (ImageView) findViewById(R.id.imgIconTlf);
@@ -62,7 +95,7 @@ public class AgregarContactoActivity extends AppCompatActivity {
         txtCalle = (EditText) findViewById(R.id.txtCalle);
         txtPrefijo = (EditText) findViewById(R.id.txtPrefijo);
         txtTlf = (EditText) findViewById(R.id.txtTlf);
-        imgAvatar = (ImageView) findViewById(R.id.imgAvatar);
+        mImgAvatar = (ImageView) findViewById(R.id.imgAvatar);
 
         txtNombre.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -131,7 +164,7 @@ public class AgregarContactoActivity extends AppCompatActivity {
             }
         });
 
-        imgAvatar.setOnClickListener(new View.OnClickListener() {
+        mImgAvatar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 seleccionarImagen();
@@ -148,9 +181,9 @@ public class AgregarContactoActivity extends AppCompatActivity {
             public void afterTextChanged(Editable s) {
                 //Solo se podrá guardar un alumno cuando tengan mínimo un nombre y un teléfono.
                 if (TextUtils.isEmpty(s) || TextUtils.isEmpty(txtTlf.getText()))
-                    menu.findItem(R.id.itemNewContact).setVisible(false);
+                    mMenu.findItem(R.id.itemNewContact).setVisible(false);
                 else
-                    menu.findItem(R.id.itemNewContact).setVisible(true);
+                    mMenu.findItem(R.id.itemNewContact).setVisible(true);
             }
         });
         txtTlf.addTextChangedListener(new TextWatcher() {
@@ -163,88 +196,51 @@ public class AgregarContactoActivity extends AppCompatActivity {
             public void afterTextChanged(Editable s) {
                 //Solo se podrá guardar un alumno cuando tengan mínimo un nombre y un teléfono.
                 if (TextUtils.isEmpty(s) || TextUtils.isEmpty(txtNombre.getText()))
-                    menu.findItem(R.id.itemNewContact).setVisible(false);
+                    mMenu.findItem(R.id.itemNewContact).setVisible(false);
                 else
-                    menu.findItem(R.id.itemNewContact).setVisible(true);
+                    mMenu.findItem(R.id.itemNewContact).setVisible(true);
             }
         });
     }
 
 
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(resultCode == RESULT_OK)
-            switch (requestCode){
-                case 1:
-                    Uri uriGaleria = data.getData();
-                    //Se guarda el path de la foto de la galería para la posterior creación de un archivo con esa foto.
-                    imgGaleriaPath = getRealPath(uriGaleria);
-                    //Se escala la imagen y se guarda en una variable.
-                    mBitMapFoto = escalar(imgGaleriaPath);
-                    //Se va mostrando la preview de la imagen elegida.
-                    imgAvatar.setImageBitmap(mBitMapFoto);
-                    break;
-            }
-        super.onActivityResult(requestCode, resultCode, data);
-    }
 
-    public static void startForResult(Activity activity, int requestCode){
-        Intent intent = new Intent(activity,AgregarContactoActivity.class);
 
-        activity.startActivityForResult(intent, requestCode);
-    }
+
 
     @Override
     public void finish() {
-
-
         setResult(RESULT_OK);
         super.finish();
     }
-
+//                           -- MENÚ --
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        this.menu=menu;
+        this.mMenu =menu;
         getMenuInflater().inflate(R.menu.menu_agregar_contacto, menu);
         //El item de menú Aceptar contacto aparecerá invisible por defecto.
         menu.findItem(R.id.itemNewContact).setVisible(false);
-        return super.onCreateOptionsMenu(menu);
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        //Obligatoriamente tiene que hacerse tras haberse creado el menú, sino
+        //al restablecer los datos del alumno, saltará el evento de textChanged
+        //y accedera al menú, que hubiera lanzado una excepción.
+        if(modoActual==MODO_EDITAR)
+            recuperarContactoExistente();
+        return super.onPrepareOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int edad=0;
-        File archivoFoto;
-        String prefijo = getString(R.string.hintPrefijo);
-        switch (item.getItemId()){
-            //Creación del alumno.
-            case R.id.itemNewContact:
-                //Si no ha introducido ninguna edad el alumno tendrá 0 años.
-                if(!TextUtils.isEmpty(txtEdad.getText()))
-                    edad=Integer.parseInt(txtEdad.getText().toString());
-                //Si ha introducido prefijo se usará el introducido, mientras que si no se ha introducido se usará el de por defecto,
-                //marcado en el hint del txtPrefijo.
-                if(!TextUtils.isEmpty(txtPrefijo.getText()))
-                    prefijo=txtPrefijo.getText().toString();
 
-                //Se configura el nuevo alumno y se envia.
-                newAlumno.setNombre(txtNombre.getText().toString());
-                newAlumno.setEdad(edad);
-                newAlumno.setLocalidad(txtLocalidad.getText().toString());
-                newAlumno.setCalle(txtCalle.getText().toString());
-                newAlumno.setTlf(prefijo + txtTlf.getText().toString());
-                if(mBitMapFoto!=null) {
-                    //Se guarda la imagen en un archivo con el hashCode del alumno
-                    //para que haya imagenes diferentes con el mismo nombre
-                    archivoFoto = crearArchivo(String.valueOf(newAlumno.hashCode()));
-                    if (archivoFoto != null) {
-                        guardarImgEnArchivo(mBitMapFoto, archivoFoto);
-                        //Se guarda en el alumno la ruta de ese nuevo archivo.
-                        newAlumno.setAvatar(archivoFoto.getAbsolutePath());
-                    }
-                }
-                ListaFragment.listaAlumnos.add(newAlumno);
+        switch (item.getItemId()){
+
+            case R.id.itemNewContact:
+                crearAlumno();
                 //Se sale del creador de alumnos.
                 finish();
             case R.id.itemCancelContact:
@@ -254,14 +250,69 @@ public class AgregarContactoActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    //       PROCESAMIENTO DE FOTOGRAFÍA
+    private void crearAlumno(){
+        int edad=0;
+        File archivoFoto;
+        String prefijo = getString(R.string.hintPrefijo);
+
+        //Si no ha introducido ninguna edad el alumno tendrá 0 años.
+        if(!TextUtils.isEmpty(txtEdad.getText()))
+            edad=Integer.parseInt(txtEdad.getText().toString());
+        //Si ha introducido prefijo se usará el introducido, mientras que si no se ha introducido se usará el de por defecto,
+        //marcado en el hint del txtPrefijo.
+        if(!TextUtils.isEmpty(txtPrefijo.getText()))
+            prefijo=txtPrefijo.getText().toString();
+
+        //Se configura el nuevo alumno y se envia.
+        newAlumno.setNombre(txtNombre.getText().toString());
+        newAlumno.setEdad(edad);
+        newAlumno.setLocalidad(txtLocalidad.getText().toString());
+        newAlumno.setCalle(txtCalle.getText().toString());
+        newAlumno.setTlf(prefijo + txtTlf.getText().toString());
+        if(mBitMapFoto!=null) {
+            //Se guarda la imagen en un archivo con el hashCode del alumno
+            //para que haya imagenes diferentes con el mismo nombre
+            archivoFoto = crearArchivo(String.valueOf(newAlumno.hashCode()));
+            if (archivoFoto != null) {
+                guardarImgEnArchivo(mBitMapFoto, archivoFoto);
+                //Se guarda en el alumno la ruta de ese nuevo archivo.
+                newAlumno.setAvatar(archivoFoto.getAbsolutePath());
+            }
+
+        }
+        //Solo guardará en el array cuando es un alumno nuevo.
+        if(modoActual==MODO_CREAR)
+            ListaFragment.listaAlumnos.add(newAlumno);
+
+    }
+
+    //    -----   PROCESAMIENTO DE FOTOGRAFÍA  -----
     private void seleccionarImagen(){
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         intent.setType("image/*");
         startActivityForResult(intent, RC_SELECCIONAR_FOTO);
     }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(resultCode == RESULT_OK)
+            switch (requestCode){
+                case RC_SELECCIONAR_FOTO:
+                    Uri uriGaleria = data.getData();
+                    //Se guarda el path de la foto de la galería para la posterior creación de un archivo con esa foto.
+                    mImgGaleriaPath = getRealPath(uriGaleria);
+                    //Se escala la imagen y se guarda en una variable.
+                    mBitMapFoto = escalar(mImgGaleriaPath);
+                    //Se va mostrando la preview de la imagen elegida.
+                    mImgAvatar.setImageBitmap(mBitMapFoto);
+                    break;
 
+            }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
     private File crearArchivo(String nombreArchivo){
+        Random rnd = new Random();
+        //Se renombra el archivo ya que no se puede sobreescribir.
+        nombreArchivo+=rnd.nextInt(500);
         //Se obtiene el directorio interno.
         File directorio = getFilesDir();
 
@@ -271,8 +322,10 @@ public class AgregarContactoActivity extends AppCompatActivity {
                 Log.d(getString(R.string.app_name), "error al crear el directorio");
                 return null;
             }
+
+
         //Se crea el archivo con el nombre pasado por parámetro
-        return new File(directorio.getPath() + File.separator + nombreArchivo);
+        return new File(directorio.getPath() + File.separator + nombreArchivo+".jpg");
     }
 
     private boolean guardarImgEnArchivo(Bitmap bitmapFoto, File file){
@@ -300,8 +353,8 @@ public class AgregarContactoActivity extends AppCompatActivity {
     }
     private Bitmap escalar(String realPathImage){
         // Se obtiene el tamaño de la vista de destino.
-        //int anchoImageView = imgAvatar.getWidth();
-        //int altoImageView = imgAvatar.getHeight();
+        //int anchoImageView = mImgAvatar.getWidth();
+        //int altoImageView = mImgAvatar.getHeight();
 
         int anchoImageView=150;
         int altoImageView=150;

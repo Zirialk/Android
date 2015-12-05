@@ -9,6 +9,17 @@
             android:icon="@drawable/ic_action_new"
             app:showAsAction="ifRoom"
             />
+        <item android:id="@+id/itemBorrar"
+            android:title="Borrar"
+            android:icon="@drawable/ic_action_discard"
+            app:showAsAction="ifRoom"
+            />
+        <item
+            android:id="@+id/itemEditar"
+            android:title="Editar"
+            android:icon="@drawable/ic_action_edit"
+            app:showAsAction="ifRoom"
+            />
         <item android:id="@+id/itemLlamar"
             android:title="Llamar"
             android:icon="@drawable/ic_action_llamar"

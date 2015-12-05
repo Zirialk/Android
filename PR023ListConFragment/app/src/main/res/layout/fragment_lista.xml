@@ -17,6 +17,7 @@
         android:text="@string/lblNoHayAlumnoText"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:drawableTop="@drawable/ic_no_hay_alumnos"
+
         />
 
 </FrameLayout>

@@ -93,7 +93,8 @@ public class ListaFragment extends Fragment {
     }
 
 
-    public AlumnoAdapter getAdaptador() {
-        return adaptador;
+
+    public void refrescarListView(){
+        adaptador.notifyDataSetChanged();
     }
 }

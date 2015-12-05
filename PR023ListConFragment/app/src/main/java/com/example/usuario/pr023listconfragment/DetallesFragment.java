@@ -1,10 +1,9 @@
 package com.example.usuario.pr023listconfragment;
 
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.graphics.BitmapFactory;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -17,7 +16,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -28,13 +26,19 @@ public class DetallesFragment extends Fragment {
 
     private static final String ARG_ALUMNO = "AlumnoDetalles";
     private Alumno alumno;
-    private final int NUM_ITEMS_MENU=2;
+    private final int NUM_ITEMS_MENU=3;
+    private TextView lblNombre;
+    private TextView lblEdad;
+    private TextView lblLocalidad;
+    private TextView lblTlf;
+    private TextView lblCalle;
+    private CambiarImg mListener;
 
-    public static DetallesFragment newInstance(Alumno alumno) {
+    public static DetallesFragment newInstance(int indiceAlumno) {
 
         DetallesFragment fragment = new DetallesFragment();
         Bundle args = new Bundle();
-        args.putParcelable(ARG_ALUMNO,alumno);
+        args.putInt(ARG_ALUMNO, indiceAlumno);
         fragment.setArguments(args);
         return fragment;
     }
@@ -46,35 +50,48 @@ public class DetallesFragment extends Fragment {
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        TextView lblNombre = (TextView) getView().findViewById(R.id.lblNombre);
-        TextView lblEdad = (TextView) getView().findViewById(R.id.lblEdad);
-        TextView lblLocalidad = (TextView) getView().findViewById(R.id.lblLocalidad);
-        TextView lblCalle = (TextView) getView().findViewById(R.id.lblCalle);
-        TextView lblTlf = (TextView) getView().findViewById(R.id.lblTlf);
+        setHasOptionsMenu(true);
+        lblNombre = (TextView) getView().findViewById(R.id.lblNombre);
+        lblEdad = (TextView) getView().findViewById(R.id.lblEdad);
+        lblLocalidad = (TextView) getView().findViewById(R.id.lblLocalidad);
+        lblTlf = (TextView) getView().findViewById(R.id.lblTlf);
+        lblCalle = (TextView) getView().findViewById(R.id.lblCalle);
+        //Se recupera el alumno de la lista, con el indice recuperado.
+        alumno = ListaFragment.listaAlumnos.get(getArguments().getInt(ARG_ALUMNO));
+        refrescarDetalles();
 
-        //Se recupera el alumno
-        alumno = getArguments().getParcelable(ARG_ALUMNO);
+        super.onActivityCreated(savedInstanceState);
+    }
+    private void refrescarDetalles(){
+
 
         lblNombre.setText(alumno.getNombre());
         lblEdad.setText(alumno.getEdad() + " años");
         lblLocalidad.setText(alumno.getLocalidad());
         lblCalle.setText(alumno.getCalle());
         lblTlf.setText(alumno.getTlf());
-        if(getActivity().getApplication().getResources().getConfiguration().orientation== Configuration.ORIENTATION_LANDSCAPE && alumno.getAvatar()!=null)
-            Picasso.with(getActivity()).load(new File(alumno.getAvatar())).into((ImageView) getView().findViewById(R.id.imgAvatar));
-
-        setHasOptionsMenu(true);
-        super.onActivityCreated(savedInstanceState);
+        if(alumno.getAvatar()!=null){
+            if(getActivity().getApplication().getResources().getConfiguration().orientation== Configuration.ORIENTATION_LANDSCAPE )
+                Picasso.with(getActivity()).load(new File(alumno.getAvatar())).into((ImageView) getView().findViewById(R.id.imgAvatar));
+            else
+                mListener.cambiarImgAvatar(alumno.getAvatar());
+        }
     }
-
+    public interface CambiarImg {
+        void cambiarImgAvatar(String path);
+    }
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         // Se infla el menú a partir del XML
         inflater.inflate(R.menu.menu_main, menu);
         menu.removeItem(R.id.itemAdd);
-        //Evita que salgan en MainActivity (Land) 2 simbolos de llamar iguales.
-        if(menu.size()>=NUM_ITEMS_MENU)
+        //Evita que salgan en MainActivity  2 simbolos de llamar y editar iguales.
+        if(menu.size()>=NUM_ITEMS_MENU && getActivity().getResources().getConfiguration().orientation== Configuration.ORIENTATION_LANDSCAPE){
             menu.removeItem(R.id.itemLlamar);
+            menu.removeItem(R.id.itemEditar);
+
+        }
+
 
 
         super.onCreateOptionsMenu(menu, inflater);
@@ -90,10 +107,42 @@ public class DetallesFragment extends Fragment {
                 Intent intent = new Intent(Intent.ACTION_CALL,Uri.parse("tel:"+alumno.getTlf()));
                 startActivity(intent);
                 return true;
+            case R.id.itemEditar:
+                //Le paso el índice del alumno en el array, ya que pasarle un Parcelable no modificaría el original.
+                AgregarContactoActivity.startForResult(getActivity(), ListaFragment.listaAlumnos.indexOf(alumno));
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
 
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        refrescarDetalles();
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void onResume() {
+        //Cuando vuelve del editor de Alumnos, actualiza los datos por si ha editado algún dato.
+        refrescarDetalles();
+        super.onResume();
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        try {
+            mListener= (CambiarImg) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException("Debe implementar la interfaz CambiarImg");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener=null;
+    }
 }

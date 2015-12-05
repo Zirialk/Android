@@ -9,14 +9,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
+
+import java.util.ArrayList;
 
 
-public class MainActivity extends AppCompatActivity implements ListaFragment.OnItemSelected, FragmentManager.OnBackStackChangedListener{
+public class MainActivity extends AppCompatActivity implements ListaFragment.OnItemSelected, FragmentManager.OnBackStackChangedListener, DetallesFragment.CambiarImg{
 
 
     private static final String STATE_ALUMNO = "alumno";
-    private static final int ACTIVITY_CREAR = 123;
     private static final String TAG_FRG_LISTA = "fgrLista";
     private FragmentManager mGestor;
     private Alumno mAlumnoSeleccionado;
@@ -25,7 +25,6 @@ public class MainActivity extends AppCompatActivity implements ListaFragment.OnI
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         mGestor = getSupportFragmentManager();
@@ -54,7 +53,7 @@ public class MainActivity extends AppCompatActivity implements ListaFragment.OnI
         FragmentTransaction transaction = mGestor.beginTransaction();
         //Solo se cargará el fragmento si no estaba cargado de antes.
         if(mGestor.findFragmentByTag(tag)== null) {
-            transaction.replace(idHueco, DetallesFragment.newInstance(alumno), tag);
+            transaction.replace(idHueco, DetallesFragment.newInstance(ListaFragment.listaAlumnos.indexOf(alumno)), tag);
             transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
 
             transaction.commit();
@@ -72,7 +71,7 @@ public class MainActivity extends AppCompatActivity implements ListaFragment.OnI
         mAlumnoSeleccionado = alumno;
         if(findViewById(R.id.flHuecoSecundario)==null) { //Modo Vertical
             //Se inicia otra actividad con los detalles del alumno ListViewItemPulsado.
-            DetallesActivity.start(this, alumno);
+            DetallesActivity.start(this, ListaFragment.listaAlumnos.indexOf(alumno));
         }else
             loadFragmentDetalles(R.id.flHuecoSecundario, alumno, alumno.getNombre());
     }
@@ -80,20 +79,24 @@ public class MainActivity extends AppCompatActivity implements ListaFragment.OnI
     @Override
     public void IconAddContactoPulsado() {
         //Abre la actividad de crearAlumnos cuando hace click en lblNoHayAlumnos del emptyView de la ListView.
-        AgregarContactoActivity.startForResult(this,ACTIVITY_CREAR);
+        AgregarContactoActivity.startForResult(this, -1);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main,menu);
+        getMenuInflater().inflate(R.menu.menu_main, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        //Elimina el item de menú cuando esta en postrait o no ha seleccionado ningún alumno.
-        if (getApplication().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT || mAlumnoSeleccionado==null)
-             menu.findItem(R.id.itemLlamar).setVisible(false);
+        //Elimina los items de menú sobrantes cuando esta en postrait o no hay seleccionado ningún alumno.
+        if (getApplication().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT || mAlumnoSeleccionado==null){
+            menu.removeItem(R.id.itemLlamar);
+            menu.removeItem(R.id.itemLlamar);
+            menu.removeItem(R.id.itemEditar);
+            menu.removeItem(R.id.itemEditar);
+        }
 
         return super.onPrepareOptionsMenu(menu);
     }
@@ -103,15 +106,15 @@ public class MainActivity extends AppCompatActivity implements ListaFragment.OnI
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.itemAdd:
-                AgregarContactoActivity.startForResult(this, ACTIVITY_CREAR);
+                AgregarContactoActivity.startForResult(this, -1);
                 break;
-
         }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
+        outState.putInt(STATE_ALUMNO, ListaFragment.listaAlumnos.indexOf(mAlumnoSeleccionado));
         outState.putParcelable(STATE_ALUMNO, mAlumnoSeleccionado);
         super.onSaveInstanceState(outState);
     }
@@ -119,25 +122,43 @@ public class MainActivity extends AppCompatActivity implements ListaFragment.OnI
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        mAlumnoSeleccionado = savedInstanceState.getParcelable(STATE_ALUMNO);
-        //Cuando vuelve de DetallesActivity y la pantalla se encuentra apaisada, marcará el item de la lista que estaba observandose
-        //anteriormente en DetallesActivity.
-        if(getApplication().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
 
-            if(mAlumnoSeleccionado !=null)
-                loadFragmentDetalles(R.id.flHuecoSecundario, mAlumnoSeleccionado, mAlumnoSeleccionado.getNombre());
+        if(ListaFragment.listaAlumnos.size()>0) {
+            mAlumnoSeleccionado = ListaFragment.listaAlumnos.get(savedInstanceState.getInt(STATE_ALUMNO));
+            //Cuando vuelve de DetallesActivity y la pantalla se encuentra apaisada, marcará el item de la lista que estaba observandose
+            //anteriormente en DetallesActivity.
+            if (getApplication().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                if (mAlumnoSeleccionado != null)
+                    loadFragmentDetalles(R.id.flHuecoSecundario, mAlumnoSeleccionado, mAlumnoSeleccionado.getNombre());
+            }
         }
 
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        //Si se ha creado un alumno correctamente.
         if(resultCode==RESULT_OK)
-            if(requestCode==ACTIVITY_CREAR){
-                ListaFragment lstFragment = (ListaFragment) mGestor.findFragmentByTag(TAG_FRG_LISTA);
-                lstFragment.getAdaptador().notifyDataSetChanged();
-            }
+            if(requestCode==AgregarContactoActivity.MODO_CREAR)
+               refrescarLista();
+
         super.onActivityResult(requestCode, resultCode, data);
     }
+    private void refrescarLista(){
+        //Se busca el fragmento ya creado.
+        ListaFragment lstFragment = (ListaFragment) mGestor.findFragmentByTag(TAG_FRG_LISTA);
+        //Se le notifica que tiene que actualizarse, ya que contiene datos nuevos sobre el alumno creado.
+        lstFragment.refrescarListView();
+    }
 
+    @Override
+    protected void onResume() {
+        //Si ha editado algun contacto, esto hará que cuando vuelva, esté la lista actualizada con los nuevos datos.
+        refrescarLista();
+        super.onResume();
+    }
+
+    @Override
+    public void cambiarImgAvatar(String path) {
+    }
 }
