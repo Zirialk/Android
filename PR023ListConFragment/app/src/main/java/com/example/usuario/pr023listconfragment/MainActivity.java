@@ -9,7 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 
-public class MainActivity extends AppCompatActivity implements ListaFragment.OnItemSelected, FragmentManager.OnBackStackChangedListener{
+public class MainActivity extends AppCompatActivity implements ListaFragment.OnItemSelected, FragmentManager.OnBackStackChangedListener, DetallesFragment.CambiarImg{
 
 
     private static final String STATE_ALUMNO = "alumno";
@@ -151,4 +151,8 @@ public class MainActivity extends AppCompatActivity implements ListaFragment.OnI
     }
 
 
+    @Override
+    public void cambiarImgAvatarExterna(String path) {
+
+    }
 }
