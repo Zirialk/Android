@@ -19,4 +19,7 @@
     <string name="hintEdad">Edad</string>
     <string name="lblTelefono">Teléfono</string>
     <string name="lblNoHayAlumnoText">No hay alumnos</string>
+    <string name="titleItemAgregar">Agregar</string>
+    <string name="titleItemBorrar">Borrar</string>
+    <string name="titleAgregarContactoActivityEditando">Editar Contacto</string>
 </resources>

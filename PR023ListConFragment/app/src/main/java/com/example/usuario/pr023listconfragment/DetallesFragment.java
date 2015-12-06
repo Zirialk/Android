@@ -83,16 +83,7 @@ public class DetallesFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         // Se infla el menú a partir del XML
-        inflater.inflate(R.menu.menu_main, menu);
-        menu.removeItem(R.id.itemAdd);
-        //Evita que salgan en MainActivity  2 simbolos de llamar y editar iguales.
-        if(menu.size()>=NUM_ITEMS_MENU && getActivity().getResources().getConfiguration().orientation== Configuration.ORIENTATION_LANDSCAPE){
-            menu.removeItem(R.id.itemLlamar);
-            menu.removeItem(R.id.itemEditar);
-
-        }
-
-
+        inflater.inflate(R.menu.menu_detalles, menu);
 
         super.onCreateOptionsMenu(menu, inflater);
     }
@@ -109,7 +100,7 @@ public class DetallesFragment extends Fragment {
                 return true;
             case R.id.itemEditar:
                 //Le paso el índice del alumno en el array, ya que pasarle un Parcelable no modificaría el original.
-                AgregarContactoActivity.startForResult(getActivity(), ListaFragment.listaAlumnos.indexOf(alumno));
+                AgregarContactoActivity.startForResultEditando(getActivity(), ListaFragment.listaAlumnos.indexOf(alumno));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -117,11 +108,6 @@ public class DetallesFragment extends Fragment {
 
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        refrescarDetalles();
-        super.onActivityResult(requestCode, resultCode, data);
-    }
 
     @Override
     public void onResume() {

@@ -30,9 +30,10 @@ import java.util.Random;
 
 public class AgregarContactoActivity extends AppCompatActivity {
 
-    public static final int MODO_CREAR = 123;
+    public static final int MODO_CREAR = -1;
     public static final int MODO_EDITAR = 888;
-    private static final String INTENT_EDITAR = "Editando";
+    public static final String ALUMNO_TERMINADO = "Terminado";
+    private static final String INTENT_START_FOR_RESULT = "startForResult";
     private final int RC_SELECCIONAR_FOTO=1;
     private EditText txtNombre;
     private EditText txtEdad;
@@ -40,7 +41,7 @@ public class AgregarContactoActivity extends AppCompatActivity {
     private EditText txtCalle;
     private EditText txtPrefijo;
     private EditText txtTlf;
-    private ImageView mImgAvatar;
+    private ImageView imgAvatar;
     private Menu mMenu;
     private Alumno newAlumno;
     private String mImgGaleriaPath;
@@ -55,21 +56,27 @@ public class AgregarContactoActivity extends AppCompatActivity {
         initViews();
         //Cuando vengo desde el botón de menú: itemEditar
         //Si devuelve un indice de la lista de alumnos que no sea -1
-        if(getIntent().getIntExtra(INTENT_EDITAR,-1)!=-1){
-            //newAlumno pasa a ser el alumno a editar, en vez de uno nuevo
-            newAlumno= ListaFragment.listaAlumnos.get(getIntent().getIntExtra(INTENT_EDITAR,-1));
+        if(getIntent().getIntExtra(INTENT_START_FOR_RESULT,-1)!=-1){
+            setTitle(getResources().getString(R.string.titleAgregarContactoActivityEditando));
             modoActual=MODO_EDITAR;
+            //newAlumno pasa a ser el alumno a editar, en vez de uno nuevo
+            newAlumno= ListaFragment.listaAlumnos.get(getIntent().getIntExtra(INTENT_START_FOR_RESULT,-1));
         }else{
-            newAlumno = new Alumno();
             modoActual=MODO_CREAR;
+            newAlumno = new Alumno();
         }
     }
-
-
-    public static void startForResult(Activity activity, int indiceContacto){
-        //Crea un intent, que contendrá el índice del alumno a editar de la lista de Alumnos,
+    public static void startForResultCreando(Activity activity){
         Intent intent = new Intent(activity,AgregarContactoActivity.class);
-        intent.putExtra(INTENT_EDITAR, indiceContacto);
+        //Se le pasa -1 para que entre a crear.
+        intent.putExtra(INTENT_START_FOR_RESULT,-1);
+        activity.startActivityForResult(intent, MODO_CREAR);
+    }
+
+    public static void startForResultEditando(Activity activity, int indiceContacto){
+        Intent intent = new Intent(activity,AgregarContactoActivity.class);
+        //Se le pasa el indice del alumno en la lista , que se desea editar.
+        intent.putExtra(INTENT_START_FOR_RESULT, indiceContacto);
         activity.startActivityForResult(intent, MODO_EDITAR);
     }
     //Dota a los EditText con los datos del alumno que se quiere editar.
@@ -81,7 +88,10 @@ public class AgregarContactoActivity extends AppCompatActivity {
         txtCalle.setText(newAlumno.getCalle());
         txtTlf.setText(newAlumno.getTlf().substring(3));
         txtPrefijo.setText(newAlumno.getTlf().substring(0, 3));
-        Picasso.with(this).load(new File(newAlumno.getAvatar())).into(mImgAvatar);
+        if(newAlumno.getAvatar()!=null)
+            Picasso.with(this).load(new File(newAlumno.getAvatar())).into(imgAvatar);
+        else
+            imgAvatar.setImageResource(R.drawable.icon_user_default);
     }
     private void initViews() {
         final ImageView imgIconContacto = (ImageView) findViewById(R.id.imgIconContacto);
@@ -95,7 +105,7 @@ public class AgregarContactoActivity extends AppCompatActivity {
         txtCalle = (EditText) findViewById(R.id.txtCalle);
         txtPrefijo = (EditText) findViewById(R.id.txtPrefijo);
         txtTlf = (EditText) findViewById(R.id.txtTlf);
-        mImgAvatar = (ImageView) findViewById(R.id.imgAvatar);
+        imgAvatar = (ImageView) findViewById(R.id.imgAvatar);
 
         txtNombre.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -164,7 +174,7 @@ public class AgregarContactoActivity extends AppCompatActivity {
             }
         });
 
-        mImgAvatar.setOnClickListener(new View.OnClickListener() {
+        imgAvatar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 seleccionarImagen();
@@ -203,15 +213,9 @@ public class AgregarContactoActivity extends AppCompatActivity {
         });
     }
 
-
-
-
-
-
-
     @Override
     public void finish() {
-        setResult(RESULT_OK);
+        setResult(RESULT_OK, new Intent().putExtra(ALUMNO_TERMINADO,ListaFragment.listaAlumnos.indexOf(newAlumno)));
         super.finish();
     }
 //                           -- MENÚ --
@@ -272,7 +276,7 @@ public class AgregarContactoActivity extends AppCompatActivity {
         if(mBitMapFoto!=null) {
             //Se guarda la imagen en un archivo con el hashCode del alumno
             //para que haya imagenes diferentes con el mismo nombre
-            archivoFoto = crearArchivo(String.valueOf(newAlumno.hashCode()));
+            archivoFoto = crearArchivo(String.valueOf(newAlumno.getNombre()));
             if (archivoFoto != null) {
                 guardarImgEnArchivo(mBitMapFoto, archivoFoto);
                 //Se guarda en el alumno la ruta de ese nuevo archivo.
@@ -303,7 +307,7 @@ public class AgregarContactoActivity extends AppCompatActivity {
                     //Se escala la imagen y se guarda en una variable.
                     mBitMapFoto = escalar(mImgGaleriaPath);
                     //Se va mostrando la preview de la imagen elegida.
-                    mImgAvatar.setImageBitmap(mBitMapFoto);
+                    imgAvatar.setImageBitmap(mBitMapFoto);
                     break;
 
             }
@@ -353,8 +357,8 @@ public class AgregarContactoActivity extends AppCompatActivity {
     }
     private Bitmap escalar(String realPathImage){
         // Se obtiene el tamaño de la vista de destino.
-        //int anchoImageView = mImgAvatar.getWidth();
-        //int altoImageView = mImgAvatar.getHeight();
+        //int anchoImageView = imgAvatar.getWidth();
+        //int altoImageView = imgAvatar.getHeight();
 
         int anchoImageView=150;
         int altoImageView=150;
