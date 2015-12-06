@@ -5,12 +5,12 @@
     <group android:id="@+id/group">
         <item
             android:id="@+id/itemNewContact"
-            android:title="Agregar"
+            android:title="@string/titleItemNewContact"
             android:icon="@drawable/ic_action_accept"
             app:showAsAction="ifRoom"
             />
         <item android:id="@+id/itemCancelContact"
-            android:title="Cancerlar"
+            android:title="@string/titleItemCancelContact"
             android:icon="@drawable/ic_action_cancel"
             app:showAsAction="ifRoom" />
 

@@ -15,11 +15,16 @@
     <string name="hintTelefono">Teléfono</string>
     <string name="hintPrefijo">+34</string>
     <string name="lenghtPrefijo">3</string>
-    <string name="lenghtPhone">11</string>
+    <string name="lenghtPhone">9</string>
     <string name="hintEdad">Edad</string>
     <string name="lblTelefono">Teléfono</string>
     <string name="lblNoHayAlumnoText">No hay alumnos</string>
     <string name="titleItemAgregar">Agregar</string>
     <string name="titleItemBorrar">Borrar</string>
     <string name="titleAgregarContactoActivityEditando">Editar Contacto</string>
+    <string name="contentImgAvatar">imgAvatar</string>
+    <string name="titleItemNewContact">Agregar</string>
+    <string name="titleItemCancelContact">Cancerlar</string>
+    <string name="titleItemEditar">Editar</string>
+    <string name="titleItemLlamar">Llamar</string>
 </resources>

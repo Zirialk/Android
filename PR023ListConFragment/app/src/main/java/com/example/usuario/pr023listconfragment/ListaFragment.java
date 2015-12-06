@@ -25,8 +25,6 @@ import java.util.ArrayList;
 
 public class ListaFragment extends Fragment {
 
-    public static ArrayList<Alumno> listaAlumnos = new ArrayList<>();
-
 
     private ListView lsvAlumnos;
     private OnItemSelected mListener;
@@ -48,7 +46,7 @@ public class ListaFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         setHasOptionsMenu(true);
 
-        adaptador= new AlumnoAdapter(getActivity(),listaAlumnos);
+        adaptador= new AlumnoAdapter(getActivity(),BddAlumnos.listaAlumnos);
         lsvAlumnos = (ListView) getView().findViewById(R.id.lsvAlumnos);
         lblNoHayAlumno = (TextView) getView().findViewById(R.id.lblNoHayAlumno);
 
@@ -137,7 +135,7 @@ public class ListaFragment extends Fragment {
         ArrayList<Integer> indicesEliminados = new ArrayList<>();
         //Elimina de la lista los elementos seleccionados.
             for(Alumno al : alumnos){
-                indicesEliminados.add(listaAlumnos.indexOf(al));
+                indicesEliminados.add(BddAlumnos.listaAlumnos.indexOf(al));
                 adaptador.remove(al);
             }
             //Notifica al adaptador del cambio.
@@ -155,6 +153,7 @@ public class ListaFragment extends Fragment {
     public void seleccionarItemChecked(int postListView){
         lsvAlumnos.setItemChecked(postListView, true);
     }
+
     public void deseleccionarItemsChecked(){
         for (int i = 0; i < lsvAlumnos.getCount(); i++)
             lsvAlumnos.setItemChecked(i,false);
@@ -179,7 +178,8 @@ public class ListaFragment extends Fragment {
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
-        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT || listaAlumnos.size()==0)
+        //Si no hay ningún alumno en la lista, se ocultara el icono de borrar.
+        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT || BddAlumnos.listaAlumnos.size()==0)
             menu.findItem(R.id.itemBorrar).setVisible(false);
     }
 
@@ -192,16 +192,16 @@ public class ListaFragment extends Fragment {
             case R.id.itemBorrar: //Este item solo aparece en horizontal.
                 int eliminado=eliminarAlumnosSeleccionados(getAlumnosSeleccionados()).get(0);
                 //Si quedan alumnos, selecciona otro de al lado.
-                if(listaAlumnos.size()>0) {
-                    if(eliminado==listaAlumnos.size()){
+                if(BddAlumnos.listaAlumnos.size()>0) {
+                    if(eliminado==BddAlumnos.listaAlumnos.size()){
                         seleccionarItemChecked(eliminado-1);
                         //Actualiza el fragmento detalles, con los datos del nuevo seleccionado tras el borrado.
-                        mListener.listViewItemPulsado(listaAlumnos.get(eliminado-1));
+                        mListener.listViewItemPulsado(BddAlumnos.listaAlumnos.get(eliminado-1));
                     }
                     else{
                         seleccionarItemChecked(eliminado);
                         //Actualiza el fragmento detalles, con los datos del nuevo seleccionado tras el borrado.
-                        mListener.listViewItemPulsado(listaAlumnos.get(eliminado));
+                        mListener.listViewItemPulsado(BddAlumnos.listaAlumnos.get(eliminado));
                     }
                 }
                 //Si no quedan alumnos se notifica al listener.

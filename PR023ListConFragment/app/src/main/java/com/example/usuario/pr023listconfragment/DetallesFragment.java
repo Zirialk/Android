@@ -57,7 +57,7 @@ public class DetallesFragment extends Fragment {
         lblTlf = (TextView) getView().findViewById(R.id.lblTlf);
         lblCalle = (TextView) getView().findViewById(R.id.lblCalle);
         //Se recupera el alumno de la lista, con el indice recuperado.
-        alumno = ListaFragment.listaAlumnos.get(getArguments().getInt(ARG_ALUMNO));
+        alumno = BddAlumnos.listaAlumnos.get(getArguments().getInt(ARG_ALUMNO));
         refrescarDetalles();
 
         super.onActivityCreated(savedInstanceState);
@@ -74,11 +74,11 @@ public class DetallesFragment extends Fragment {
             if(getActivity().getApplication().getResources().getConfiguration().orientation== Configuration.ORIENTATION_LANDSCAPE )
                 Picasso.with(getActivity()).load(new File(alumno.getAvatar())).into((ImageView) getView().findViewById(R.id.imgAvatar));
             else
-                mListener.cambiarImgAvatar(alumno.getAvatar());
+                mListener.cambiarImgAvatarExterna(alumno.getAvatar());
         }
     }
     public interface CambiarImg {
-        void cambiarImgAvatar(String path);
+        void cambiarImgAvatarExterna(String path);
     }
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -100,14 +100,13 @@ public class DetallesFragment extends Fragment {
                 return true;
             case R.id.itemEditar:
                 //Le paso el índice del alumno en el array, ya que pasarle un Parcelable no modificaría el original.
-                AgregarContactoActivity.startForResultEditando(getActivity(), ListaFragment.listaAlumnos.indexOf(alumno));
+                AgregarContactoActivity.startForResultEditando(getActivity(), BddAlumnos.listaAlumnos.indexOf(alumno));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
 
     }
-
 
     @Override
     public void onResume() {

@@ -9,7 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 
-public class MainActivity extends AppCompatActivity implements ListaFragment.OnItemSelected, FragmentManager.OnBackStackChangedListener, DetallesFragment.CambiarImg{
+public class MainActivity extends AppCompatActivity implements ListaFragment.OnItemSelected, FragmentManager.OnBackStackChangedListener{
 
 
     private static final String STATE_ALUMNO = "alumno";
@@ -31,10 +31,11 @@ public class MainActivity extends AppCompatActivity implements ListaFragment.OnI
         if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT )
             desvincularFragmento(TAG_DETALLES);
     }
-
+    //Siempre cargará el fragmento de la lista de alumnos.
     private void initViews() {
         loadFragmentLista(R.id.flHuecoPrincipal, TAG_FRG_LISTA);
     }
+
     private void loadFragmentLista(int idHueco,String tag) {
         FragmentTransaction transaction = mGestor.beginTransaction();
 
@@ -50,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements ListaFragment.OnI
     private void loadFragmentDetalles(int idHueco, Alumno alumno, String tag){
         FragmentTransaction transaction = mGestor.beginTransaction();
 
-        transaction.replace(idHueco, DetallesFragment.newInstance(ListaFragment.listaAlumnos.indexOf(alumno)), tag);
+        transaction.replace(idHueco, DetallesFragment.newInstance(BddAlumnos.listaAlumnos.indexOf(alumno)), tag);
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
 
         transaction.commit();
@@ -69,13 +70,14 @@ public class MainActivity extends AppCompatActivity implements ListaFragment.OnI
         if(mGestor.getBackStackEntryCount()==0)
             onBackPressed();
     }
+    //       --------   Métodos de la INTERFAZ de ListaFragment   --------
     @Override
     public void listViewItemPulsado(Alumno alumno) {
         mAlumnoSeleccionado = alumno;
         //Marca como seleccionado el item de la lista que corresponde con el alumno.
         if(findViewById(R.id.flHuecoSecundario)==null) { //Modo Vertical
             //Se inicia otra actividad con los detalles del alumno listViewItemPulsado.
-            DetallesActivity.start(this, ListaFragment.listaAlumnos.indexOf(alumno));
+            DetallesActivity.start(this, BddAlumnos.listaAlumnos.indexOf(alumno));
         }else
             loadFragmentDetalles(R.id.flHuecoSecundario, alumno, TAG_DETALLES);
     }
@@ -96,7 +98,7 @@ public class MainActivity extends AppCompatActivity implements ListaFragment.OnI
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        outState.putInt(STATE_ALUMNO, ListaFragment.listaAlumnos.indexOf(mAlumnoSeleccionado));
+        outState.putInt(STATE_ALUMNO, BddAlumnos.listaAlumnos.indexOf(mAlumnoSeleccionado));
         super.onSaveInstanceState(outState);
     }
 
@@ -106,13 +108,13 @@ public class MainActivity extends AppCompatActivity implements ListaFragment.OnI
         super.onRestoreInstanceState(savedInstanceState);
 
         if(savedInstanceState.getInt(STATE_ALUMNO)!=-1) {  //Si ha pulsado en algún alumno.
-            mAlumnoSeleccionado = ListaFragment.listaAlumnos.get(savedInstanceState.getInt(STATE_ALUMNO));
+            mAlumnoSeleccionado = BddAlumnos.listaAlumnos.get(savedInstanceState.getInt(STATE_ALUMNO));
             //Cuando vuelve de DetallesActivity y la pantalla se encuentra apaisada, marcará el item de la lista que estaba observandose
             //anteriormente en DetallesActivity.
             if (getApplication().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
                 if (mAlumnoSeleccionado != null){
                     //Marca como seleccionado el item de la lista del último alumno seleccionado.
-                    fgr.seleccionarItemChecked(ListaFragment.listaAlumnos.indexOf(mAlumnoSeleccionado));
+                    fgr.seleccionarItemChecked(BddAlumnos.listaAlumnos.indexOf(mAlumnoSeleccionado));
                     loadFragmentDetalles(R.id.flHuecoSecundario, mAlumnoSeleccionado, TAG_DETALLES);
                 }
             }else
@@ -148,7 +150,5 @@ public class MainActivity extends AppCompatActivity implements ListaFragment.OnI
         super.onResume();
     }
 
-    @Override
-    public void cambiarImgAvatar(String path) {
-    }
+
 }

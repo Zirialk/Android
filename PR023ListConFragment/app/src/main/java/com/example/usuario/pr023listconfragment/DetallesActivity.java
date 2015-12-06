@@ -18,7 +18,6 @@ import java.util.ArrayList;
 public class DetallesActivity extends AppCompatActivity implements DetallesFragment.CambiarImg {
 
     private static final String EXTRA_ALUMNO = "alumnoo";
-    FragmentManager mGestor= getSupportFragmentManager();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,12 +25,11 @@ public class DetallesActivity extends AppCompatActivity implements DetallesFragm
         setContentView(R.layout.activity_detalles);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        ArrayList<Alumno> alumnos = ListaFragment.listaAlumnos;
         //Cuando giras la pantalla en esta actividad, vuelve al MainActivity doblado.
         if(getApplication().getResources().getConfiguration().orientation== Configuration.ORIENTATION_LANDSCAPE)
             onBackPressed();
 
-        Alumno alumno = ListaFragment.listaAlumnos.get( getIntent().getIntExtra(EXTRA_ALUMNO,-1));
+        Alumno alumno = BddAlumnos.listaAlumnos.get( getIntent().getIntExtra(EXTRA_ALUMNO,-1));
 
         loadFragmentDetalles(alumno, "detalles");
     }
@@ -43,13 +41,12 @@ public class DetallesActivity extends AppCompatActivity implements DetallesFragm
         contexto.startActivity(intent);
     }
     private void loadFragmentDetalles(Alumno alumno,String tag){
-        FragmentTransaction transaction = mGestor.beginTransaction();
-        transaction.replace(R.id.flHuecoPrincipal, DetallesFragment.newInstance(ListaFragment.listaAlumnos.indexOf(alumno)), tag).commit();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.flHuecoPrincipal, DetallesFragment.newInstance(BddAlumnos.listaAlumnos.indexOf(alumno)), tag).commit();
     }
 
-
     @Override
-    public void cambiarImgAvatar(String path) {
+    public void cambiarImgAvatarExterna(String path) {
         //Carga la imagen en la CollapsedToolbar
         Picasso.with(this).load(new File(path)).into((ImageView) findViewById(R.id.imgAvatar));
 

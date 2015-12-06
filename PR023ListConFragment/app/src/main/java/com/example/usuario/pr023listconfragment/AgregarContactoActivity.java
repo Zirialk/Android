@@ -60,7 +60,7 @@ public class AgregarContactoActivity extends AppCompatActivity {
             setTitle(getResources().getString(R.string.titleAgregarContactoActivityEditando));
             modoActual=MODO_EDITAR;
             //newAlumno pasa a ser el alumno a editar, en vez de uno nuevo
-            newAlumno= ListaFragment.listaAlumnos.get(getIntent().getIntExtra(INTENT_START_FOR_RESULT,-1));
+            newAlumno = BddAlumnos.listaAlumnos.get(getIntent().getIntExtra(INTENT_START_FOR_RESULT,-1));
         }else{
             modoActual=MODO_CREAR;
             newAlumno = new Alumno();
@@ -107,6 +107,7 @@ public class AgregarContactoActivity extends AppCompatActivity {
         txtTlf = (EditText) findViewById(R.id.txtTlf);
         imgAvatar = (ImageView) findViewById(R.id.imgAvatar);
 
+        //             FOCUS CHANGE
         txtNombre.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -181,6 +182,7 @@ public class AgregarContactoActivity extends AppCompatActivity {
             }
         });
 
+        //                TEXT CHANGED
         txtNombre.addTextChangedListener(new TextWatcher() {
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
@@ -215,7 +217,7 @@ public class AgregarContactoActivity extends AppCompatActivity {
 
     @Override
     public void finish() {
-        setResult(RESULT_OK, new Intent().putExtra(ALUMNO_TERMINADO,ListaFragment.listaAlumnos.indexOf(newAlumno)));
+        setResult(RESULT_OK, new Intent().putExtra(ALUMNO_TERMINADO, BddAlumnos.listaAlumnos.indexOf(newAlumno)));
         super.finish();
     }
 //                           -- MENÚ --
@@ -286,7 +288,7 @@ public class AgregarContactoActivity extends AppCompatActivity {
         }
         //Solo guardará en el array cuando es un alumno nuevo.
         if(modoActual==MODO_CREAR)
-            ListaFragment.listaAlumnos.add(newAlumno);
+            BddAlumnos.listaAlumnos.add(newAlumno);
 
     }
 
