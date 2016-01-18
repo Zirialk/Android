@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    card_view:cardCornerRadius="2dp"
+    card_view:cardElevation="5dp"
+
+    >
+    <RelativeLayout
+        android:orientation="vertical" android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/imgFoto"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:contentDescription="@string/contentFoto"
+            android:scaleType="centerCrop"
+            android:paddingRight="10dp"
+            />
+        <TextView
+            android:id="@+id/lblNombre"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:layout_toRightOf="@id/imgFoto"
+            android:layout_toEndOf="@id/imgFoto"
+
+            />
+        <TextView
+            android:id="@+id/lblEdad"
+            android:layout_below="@id/lblNombre"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/lblNombre"
+            android:layout_alignStart="@id/lblNombre"
+            android:textSize="15sp"
+            />
+        <Button
+            android:id="@+id/btnLlamar"
+            android:layout_width="@dimen/buttonWidthMaterial"
+            android:layout_height="@dimen/buttonHeightMaterial"
+            android:layout_alignParentBottom="true"
+            android:layout_toLeftOf="@+id/btnBorrar"
+            android:layout_toStartOf="@+id/btnBorrar"
+
+
+            android:text="@string/btnLlamar"
+            android:textColor="@android:color/holo_blue_light"
+            android:background="@android:color/transparent"
+            />
+        <Button
+            android:id="@+id/btnBorrar"
+            android:layout_width="@dimen/buttonWidthMaterial"
+            android:layout_height="@dimen/buttonHeightMaterial"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+
+
+            android:text="@string/btnBorrar"
+            android:textColor="@android:color/holo_blue_light"
+            android:background="@android:color/transparent"
+            />
+
+    </RelativeLayout>
+</android.support.v7.widget.CardView>
