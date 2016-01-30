@@ -108,21 +108,35 @@ public class AlumnoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 public void onClick(View v) {
                     Intent intent = new Intent(Intent.ACTION_CALL,Uri.parse("tel:"+alumno.getTelefono()));
                     v.getContext().startActivity(intent);
+<<<<<<< HEAD
+=======
+
+>>>>>>> 85d7db1fae8ee8ab9be4b2769a6d72a685bcfd36
                 }
             });
         }
     }
 
     public void addItem(Alumno alumno) {
+<<<<<<< HEAD
         mDatos.add(alumno);
         notifyItemInserted(mDatos.size()-1);
+=======
+        notifyItemInserted(mDatos.size()-1);
+        mDatos.add(alumno);
+>>>>>>> 85d7db1fae8ee8ab9be4b2769a6d72a685bcfd36
         checkIfEmpty();
     }
 
 
     public void removeItem(int position){
+<<<<<<< HEAD
         mDatos.remove(position);
         notifyItemRemoved(position);
+=======
+        notifyItemRemoved(position);
+        mDatos.remove(position);
+>>>>>>> 85d7db1fae8ee8ab9be4b2769a6d72a685bcfd36
         // Si la lista ha quedado vacía se muestra la empty view.
         checkIfEmpty();
     }

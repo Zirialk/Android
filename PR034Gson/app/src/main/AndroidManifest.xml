@@ -5,6 +5,10 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
+<<<<<<< HEAD
+=======
+    <uses-permission android:name="android.permission.CALL_PRIVILEGED" />
+>>>>>>> 85d7db1fae8ee8ab9be4b2769a6d72a685bcfd36
 
     <application
         android:allowBackup="true"
