@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <CheckBoxPreference
+        android:key="prefSincronizar"
+        android:title="@string/sincronizar"
+        android:defaultValue="true" />
+    <ListPreference
+        android:dependency="prefSincronizar"
+        android:key="prefTipoConexion"
+        android:title="@string/tipo_conexion"
+        android:dialogTitle="@string/tipo_conexion"
+        android:entries="@array/tipo_conexion_entries"
+        android:entryValues="@array/tipo_conexion_values"
+        android:defaultValue="@string/tipo_conexion_default" />
+    <EditTextPreference
+        android:key="prefLema"
+        android:title="@string/lema"
+        android:summary="@string/lema_detalle"
+        android:dialogTitle="@string/lema" />
+</PreferenceScreen>
