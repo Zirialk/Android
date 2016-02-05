@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">PR041ProyectoRetrofit</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="contentFoto">Avatar</string>
+    <string name="itemSearch">Search</string>
+    <string name="btnLlamar">Llamar</string>
+    <string name="btnBorrar">Borrar</string>
+    <string name="stringNombre">Nombre</string>
+    <string name="stringEdad">Edad</string>
+    <string name="errorEliminando">No se ha podido eliminar el contacto</string>
+    <string name="labelCreador">Creador</string>
+    <string name="stringCurso">Curso</string>
+    <string name="si">Sí</string>
+    <string name="stringNo">No</string>
+    <string name="stringDireccion">Dirección</string>
+    <string name="stringRepetidor">¿Repetidor?</string>
+    <string-array name="arrayCursos">
+        <item>1º CFGM</item>
+        <item>2º CFGM</item>
+        <item>1º CFGS</item>
+        <item>2º CFGS</item>
+    </string-array>
+</resources>

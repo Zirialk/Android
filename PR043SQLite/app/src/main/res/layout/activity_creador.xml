@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <include layout="@layout/toolbar"
+        android:id="@+id/toolbar"
+
+        />
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/tilNombre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolbar"
+        android:layout_marginTop="24dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginStart="50dp"
+
+        >
+
+        <EditText
+            android:id="@+id/txtNombre"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/stringNombre" />
+
+    </android.support.design.widget.TextInputLayout>
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/tilEdad"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tilNombre"
+        android:layout_marginTop="8dp"
+        android:layout_alignLeft="@+id/tilNombre"
+        android:layout_alignStart="@+id/tilNombre"
+
+        >
+
+        <EditText
+            android:id="@+id/txtEdad"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="4"
+            android:hint="@string/stringEdad"
+            android:inputType="number"/>
+
+    </android.support.design.widget.TextInputLayout>
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/tilTlf"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tilNombre"
+        android:layout_toRightOf="@id/tilEdad"
+        android:layout_toEndOf="@id/tilEdad"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginStart="15dp"
+
+        >
+
+        <EditText
+            android:id="@+id/txtTlf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="6"
+            android:hint="Teléfono"
+            android:inputType="phone"/>
+
+    </android.support.design.widget.TextInputLayout>
+    <TextView
+        android:id="@+id/lblCurso"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tilEdad"
+        android:text="@string/stringCurso"
+        android:layout_alignLeft="@id/tilNombre"
+        android:layout_alignStart="@id/tilNombre"
+        android:layout_marginTop="8dp"
+        />
+    <Spinner
+        android:id="@+id/spCurso"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/lblCurso"
+
+        android:layout_alignLeft="@id/tilNombre"
+        android:layout_alignStart="@id/tilNombre"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/stringRepetidor"
+        android:layout_below="@id/tilEdad"
+        android:layout_toRightOf="@id/lblCurso"
+        android:layout_toEndOf="@id/lblCurso"
+        android:layout_marginTop="8dp"
+        android:layout_alignLeft="@id/tilTlf"
+        android:layout_alignStart="@id/tilTlf"
+        />
+    <RadioGroup
+        android:id="@+id/rgRepetidor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/lblCurso"
+        android:layout_alignLeft="@id/tilTlf"
+        android:layout_alignStart="@id/tilTlf"
+        android:orientation="horizontal"
+        android:checkedButton="@+id/rbNo">
+        <RadioButton
+            android:id="@+id/rbSi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/si"
+            />
+        <RadioButton
+            android:id="@+id/rbNo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/stringNo"
+            />
+
+    </RadioGroup>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/tilDireccion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/spCurso"
+        android:layout_marginTop="8dp"
+        android:layout_alignLeft="@+id/tilNombre"
+        android:layout_alignStart="@+id/tilNombre"
+
+        >
+
+        <EditText
+            android:id="@+id/txtDireccion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="12"
+            android:hint="@string/stringDireccion"
+            android:inputType="text"/>
+
+    </android.support.design.widget.TextInputLayout>
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/tilFoto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tilDireccion"
+        android:layout_marginTop="8dp"
+        android:layout_alignLeft="@+id/tilNombre"
+        android:layout_alignStart="@+id/tilNombre"
+
+        >
+
+        <EditText
+            android:id="@+id/txtFoto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="12"
+            android:hint="URL foto"
+            android:inputType="text"/>
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/ic_action_ok"
+        app:elevation="6dp"
+        app:pressedTranslationZ="12dp" />
+
+</RelativeLayout>
