@@ -2,13 +2,6 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
-    <dimen name="marginLeftMaterialList">16dp</dimen>
-
-    <!-- item_alumno -->
-    <dimen name="heighItemAlumno">56dp</dimen>
-    <dimen name="widthCircleImg">46dp</dimen>
-    <dimen name="marginLeftItemAlumno">56dp</dimen>
-
-    <!-- FAB -->
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="sizeHora">50sp</dimen>
 </resources>
