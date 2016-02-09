@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">PR049</string>
+    <string name="action_settings">Settings</string>
+    <string name="pais_deseado">País deseado:</string>
+    <string name="textHora">HORA</string>
+
+</resources>
