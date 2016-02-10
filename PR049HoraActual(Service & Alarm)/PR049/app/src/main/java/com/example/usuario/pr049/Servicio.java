@@ -33,9 +33,10 @@ public class Servicio extends IntentService {
             llamada.enqueue(new Callback<DatosZonaPOJO>() {
                 @Override
                 public void onResponse(Call<DatosZonaPOJO> call, Response<DatosZonaPOJO> response) {
+                    //Intent implicito a todos los que puedan "escuchar" ACTION_COMPLETADA.
                     Intent intentRespuesta = new Intent(ACTION_COMPLETADA);
                     intentRespuesta.putExtra(EXTRA_RESPUESTA, response.body());
-                    LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intentRespuesta);
+                    sendOrderedBroadcast(intentRespuesta, null);
                 }
 
                 @Override

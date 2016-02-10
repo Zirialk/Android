@@ -41,6 +41,6 @@
         android:text="00:00:00"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/lblTituloHora"
-        android:textSize="75sp"/>
+        android:textSize="70sp"/>
 
 </RelativeLayout>

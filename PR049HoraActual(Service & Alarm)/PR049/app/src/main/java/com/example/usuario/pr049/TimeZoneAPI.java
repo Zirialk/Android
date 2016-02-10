@@ -16,7 +16,6 @@ public class TimeZoneAPI {
     private static final String BASE_URL = "http://api.timezonedb.com/";
 
     private TimeZoneAPI(){
-        OkHttpClient cliente = new OkHttpClient();
         Retrofit retrofit = new Retrofit.Builder().baseUrl(BASE_URL).addConverterFactory(GsonConverterFactory.create()).build();
         service = retrofit.create(ZonaHorarioInterface.class);
     }
