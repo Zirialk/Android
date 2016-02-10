@@ -1,6 +1,7 @@
 package com.example.aleja.practica2trimestre;
 
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -16,6 +17,8 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements AlumnosFragment.OnAlumnoSelectedListener, NavigationView.OnNavigationItemSelectedListener {
     //Variables
@@ -60,11 +63,14 @@ public class MainActivity extends AppCompatActivity implements AlumnosFragment.O
     private void configFragments() {
         frmContenido = (FrameLayout) findViewById(R.id.frmContenido);
         mGestorFragmento = getSupportFragmentManager();
-        //Si es la primera vez que se entra a la aplicación.
-        if(frgActual == null){
+        //Si es la primera vez que se entra a la aplicación creará un nuevo fragmento de lista de alumnos.
+        if(mGestorFragmento.findFragmentByTag(TAG_FRM_CONTENIDO) ==null)
             frgActual = new AlumnosFragment();
-            mGestorFragmento.beginTransaction().replace(R.id.frmContenido, frgActual, TAG_FRM_CONTENIDO).commit();
-        }
+        else
+            frgActual = mGestorFragmento.findFragmentByTag(TAG_FRM_CONTENIDO);
+
+        mGestorFragmento.beginTransaction().replace(R.id.frmContenido, frgActual, TAG_FRM_CONTENIDO).commit();
+
 
     }
 
@@ -119,5 +125,12 @@ public class MainActivity extends AppCompatActivity implements AlumnosFragment.O
                 break;
         }
         return true;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+
+        super.onSaveInstanceState(outState, outPersistentState);
+
     }
 }

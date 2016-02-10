@@ -77,6 +77,15 @@ public class AlumnoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         notifyItemRemoved(posicion);
         checkIfEmpty();
     }
+    public void replaceAll(List<Alumno> listaAlumnos){
+        mDatos.clear();
+        mDatos.addAll(listaAlumnos);
+        notifyDataSetChanged();
+    }
+    public List<Alumno> getAlumnos(){
+        return mDatos;
+    }
+
 
     // Establece el listener a informar cuando se hace click sobre un elemento de la lista.
     public void setOnItemClickListener(OnItemClickListener listener) {

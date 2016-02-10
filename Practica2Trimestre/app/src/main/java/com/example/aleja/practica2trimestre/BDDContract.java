@@ -21,8 +21,9 @@ public class BDDContract {
         public static final String TUTOR = "tutor";
         public static final String HORARIO = "horario";
         public static final String DIRECCION = "direccion";
+        public static final String FOTO = "foto";
         public static final String[] TODOS = new String[] { _ID, NOMBRE, TELEFONO,
-                EMAIL, TUTOR, HORARIO, DIRECCION };
+                EMAIL, TUTOR, HORARIO, DIRECCION, FOTO };
     }
     //Tabla Visitas
     public static abstract class Visita implements BaseColumns {

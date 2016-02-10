@@ -12,6 +12,10 @@
     <dimen name="widthCircleImg">46dp</dimen>
     <dimen name="marginLeftItemAlumno">56dp</dimen>
 
-
+    <!-- Material -->
     <dimen name="marginLeftMaterialList">16dp</dimen>
+    <dimen name="paddingTopMaterialList">8dp</dimen>
+    <dimen name="iconMaterialBounds">24dp</dimen>
+    <dimen name="textSizeMaterialEditText">16sp</dimen>
+
 </resources>
