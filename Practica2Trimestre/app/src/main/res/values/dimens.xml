@@ -18,4 +18,8 @@
     <dimen name="iconMaterialBounds">24dp</dimen>
     <dimen name="textSizeMaterialEditText">16sp</dimen>
 
+    <!-- Editor Alumno -->
+    <dimen name="iconCreadorSeparacion">20dp</dimen>
+    <dimen name="widthTxtCreador">200dp</dimen>
+
 </resources>

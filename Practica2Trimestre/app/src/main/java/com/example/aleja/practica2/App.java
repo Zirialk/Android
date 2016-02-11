@@ -1,4 +1,4 @@
-package com.example.aleja.practica2trimestre;
+package com.example.aleja.practica2;
 
 import android.app.Application;
 

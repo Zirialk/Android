@@ -1,4 +1,4 @@
-package com.example.aleja.practica2trimestre;
+package com.example.aleja.practica2.fragmentos;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -10,13 +10,16 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
+
+import com.example.aleja.practica2.modelos.Alumno;
+import com.example.aleja.practica2.adaptadores.AlumnoAdapter;
+import com.example.aleja.practica2.bdd.DAO;
+import com.example.aleja.practica2.R;
 
 import java.util.ArrayList;
-import java.util.List;
 
 
-public class AlumnosFragment extends Fragment implements AlumnoAdapter.OnItemClickListener{
+public class AlumnosFragment extends Fragment implements AlumnoAdapter.OnItemClickListener {
 
     private static final String STATE_ALUMNOS = "stateAlumnos";
     private ArrayList<Alumno> mAlumnos = new ArrayList<>();
@@ -31,7 +34,7 @@ public class AlumnosFragment extends Fragment implements AlumnoAdapter.OnItemCli
     // Interfaz para notificación de eventos desde el fragmento.
     public interface OnAlumnoSelectedListener {
         // Cuando se selecciona un Alumno.
-        void onAlumnoSelected(Alumno obra, int position);
+        void onAlumnoSelected(Alumno alumno, int position);
     }
 
 

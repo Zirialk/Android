@@ -1,4 +1,4 @@
-package com.example.aleja.practica2trimestre;
+package com.example.aleja.practica2.bdd;
 
 
 import android.provider.BaseColumns;
@@ -18,12 +18,13 @@ public class BDDContract {
         public static final String NOMBRE = "nombre";
         public static final String TELEFONO = "telefono";
         public static final String EMAIL = "email";
+        public static final String EMPRESA = "empresa";
         public static final String TUTOR = "tutor";
         public static final String HORARIO = "horario";
         public static final String DIRECCION = "direccion";
         public static final String FOTO = "foto";
         public static final String[] TODOS = new String[] { _ID, NOMBRE, TELEFONO,
-                EMAIL, TUTOR, HORARIO, DIRECCION, FOTO };
+                EMAIL, EMPRESA, TUTOR, HORARIO, DIRECCION, FOTO };
     }
     //Tabla Visitas
     public static abstract class Visita implements BaseColumns {

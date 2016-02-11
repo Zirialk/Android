@@ -1,8 +1,10 @@
-package com.example.aleja.practica2trimestre;
+package com.example.aleja.practica2.bdd;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import com.example.aleja.practica2.bdd.BDDContract;
 
 
 public class SQLiteHelper extends SQLiteOpenHelper {
@@ -12,6 +14,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
             BDDContract.Alumno.NOMBRE + " TEXT, " +
             BDDContract.Alumno.TELEFONO + " TEXT, " +
             BDDContract.Alumno.EMAIL + " TEXT," +
+            BDDContract.Alumno.EMPRESA + " TEXT," +
             BDDContract.Alumno.TUTOR + " TEXT," +
             BDDContract.Alumno.HORARIO + " TEXT," +
             BDDContract.Alumno.DIRECCION + " TEXT," +

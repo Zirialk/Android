@@ -1,4 +1,4 @@
-package com.example.aleja.practica2trimestre;
+package com.example.aleja.practica2.modelos;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -8,6 +8,7 @@ public class Alumno implements Parcelable {
     private String nombre;
     private String telefono;
     private String email;
+    private String empresa;
     private String tutor;
     private String horario;
     private String direccion;
@@ -17,17 +18,17 @@ public class Alumno implements Parcelable {
 
     }
 
-    public Alumno(String nombre, String telefono, String email, String tutor, String horario, String direccion, String foto) {
+    public Alumno(String nombre, String telefono, String email, String empresa, String tutor, String horario, String direccion, String foto) {
         this.nombre = nombre;
         this.telefono = telefono;
         this.email = email;
+        this.empresa = empresa;
         this.tutor = tutor;
         this.horario = horario;
         this.direccion = direccion;
         this.foto = foto;
     }
 
-    //GETTERS AND SETTERS
     public int getId() {
         return id;
     }
@@ -58,6 +59,14 @@ public class Alumno implements Parcelable {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getEmpresa() {
+        return empresa;
+    }
+
+    public void setEmpresa(String empresa) {
+        this.empresa = empresa;
     }
 
     public String getTutor() {
@@ -103,6 +112,7 @@ public class Alumno implements Parcelable {
         dest.writeString(this.nombre);
         dest.writeString(this.telefono);
         dest.writeString(this.email);
+        dest.writeString(this.empresa);
         dest.writeString(this.tutor);
         dest.writeString(this.horario);
         dest.writeString(this.direccion);
@@ -114,13 +124,14 @@ public class Alumno implements Parcelable {
         this.nombre = in.readString();
         this.telefono = in.readString();
         this.email = in.readString();
+        this.empresa = in.readString();
         this.tutor = in.readString();
         this.horario = in.readString();
         this.direccion = in.readString();
         this.foto = in.readString();
     }
 
-    public static final Parcelable.Creator<Alumno> CREATOR = new Parcelable.Creator<Alumno>() {
+    public static final Creator<Alumno> CREATOR = new Creator<Alumno>() {
         public Alumno createFromParcel(Parcel source) {
             return new Alumno(source);
         }

@@ -1,4 +1,4 @@
-package com.example.aleja.practica2trimestre;
+package com.example.aleja.practica2.adaptadores;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.aleja.practica2.modelos.Alumno;
+import com.example.aleja.practica2.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;

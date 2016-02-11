@@ -1,10 +1,12 @@
-package com.example.aleja.practica2trimestre;
+package com.example.aleja.practica2.bdd;
 
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+
+import com.example.aleja.practica2.modelos.Alumno;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +45,7 @@ public class DAO {
         valores.put(BDDContract.Alumno.NOMBRE, alumno.getNombre());
         valores.put(BDDContract.Alumno.TELEFONO, alumno.getTelefono());
         valores.put(BDDContract.Alumno.EMAIL, alumno.getEmail());
+        valores.put(BDDContract.Alumno.EMPRESA, alumno.getEmpresa());
         valores.put(BDDContract.Alumno.TUTOR, alumno.getTutor());
         valores.put(BDDContract.Alumno.HORARIO, alumno.getHorario());
         valores.put(BDDContract.Alumno.DIRECCION, alumno.getDireccion());
@@ -87,6 +90,7 @@ public class DAO {
         alumno.setNombre(cursorAlumno.getString(cursorAlumno.getColumnIndexOrThrow(BDDContract.Alumno.NOMBRE)));
         alumno.setTelefono(cursorAlumno.getString(cursorAlumno.getColumnIndexOrThrow(BDDContract.Alumno.TELEFONO)));
         alumno.setEmail(cursorAlumno.getString(cursorAlumno.getColumnIndexOrThrow(BDDContract.Alumno.EMAIL)));
+        alumno.setEmpresa(cursorAlumno.getString(cursorAlumno.getColumnIndexOrThrow(BDDContract.Alumno.EMPRESA)));
         alumno.setTutor(cursorAlumno.getString(cursorAlumno.getColumnIndexOrThrow(BDDContract.Alumno.TUTOR)));
         alumno.setHorario(cursorAlumno.getString(cursorAlumno.getColumnIndexOrThrow(BDDContract.Alumno.HORARIO)));
         alumno.setDireccion(cursorAlumno.getString(cursorAlumno.getColumnIndexOrThrow(BDDContract.Alumno.DIRECCION)));
