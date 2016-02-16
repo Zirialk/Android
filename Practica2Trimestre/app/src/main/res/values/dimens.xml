@@ -7,11 +7,6 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
 
-    <!-- item_alumno -->
-    <dimen name="heighItemAlumno">56dp</dimen>
-    <dimen name="widthCircleImg">46dp</dimen>
-    <dimen name="marginLeftItemAlumno">56dp</dimen>
-
     <!-- Material -->
     <dimen name="marginLeftMaterialList">16dp</dimen>
     <dimen name="paddingTopMaterialList">8dp</dimen>
@@ -21,5 +16,23 @@
     <!-- Editor Alumno -->
     <dimen name="iconCreadorSeparacion">20dp</dimen>
     <dimen name="widthTxtCreador">200dp</dimen>
+
+    <!-- TABLAYOUT -->
+    <dimen name="appbar_padding_top">8dp</dimen>
+
+    <!-- item_alumno -->
+    <dimen name="heighItemAlumno">56dp</dimen>
+    <dimen name="widthCircleImg">46dp</dimen>
+    <dimen name="marginLeftItemAlumno">56dp</dimen>
+
+    <!-- item_visita -->
+    <dimen name="marginTopTxtVisita">15dp</dimen>
+    <dimen name="marginLeftLblVisita">30dp</dimen>
+    <dimen name="textSizeCv">20sp</dimen>
+    <dimen name="marginLeftLblFecha">95dp</dimen>
+    <dimen name="marginRightLblHora">20dp</dimen>
+    <dimen name="marginTopLblResumen">60dp</dimen>
+    <dimen name="widthLblResumen">300dp</dimen>
+
 
 </resources>

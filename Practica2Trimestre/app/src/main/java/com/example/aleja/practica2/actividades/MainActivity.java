@@ -1,8 +1,10 @@
 package com.example.aleja.practica2.actividades;
 
 import android.animation.Animator;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.support.annotation.UiThread;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -16,15 +18,22 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
+import com.example.aleja.practica2.bdd.DAO;
 import com.example.aleja.practica2.fragmentos.EditorFragment;
+import com.example.aleja.practica2.fragmentos.TutoriaIndividualFragment;
+import com.example.aleja.practica2.fragmentos.VisitasFragment;
 import com.example.aleja.practica2.modelos.Alumno;
 import com.example.aleja.practica2.R;
 import com.example.aleja.practica2.fragmentos.AlumnosFragment;
+import com.example.aleja.practica2.modelos.Visita;
 
-public class MainActivity extends AppCompatActivity implements AlumnosFragment.OnAlumnoSelectedListener, NavigationView.OnNavigationItemSelectedListener {
+import java.util.Date;
+
+public class MainActivity extends AppCompatActivity implements AlumnosFragment.OnAlumnoSelectedListener,VisitasFragment.OnVisitaSelectedListener, NavigationView.OnNavigationItemSelectedListener {
     //Variables
     private FragmentManager mGestorFragmento;
     private static final String TAG_FRG_LISTA_ALUMNOS = "Alumnos";
@@ -46,7 +55,8 @@ public class MainActivity extends AppCompatActivity implements AlumnosFragment.O
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         initViews();
-       // DAO.getInstance(this).createAlumno(new Alumno("Alejandro", "956", "aa@g", "Empresa", "Tutor", "horario", "direccion", "http://lorempixel.com/g/200/200/"));
+        //DAO.getInstance(this).createAlumno(new Alumno("Pepe", "956", "aa@g", "Empresa", "Tutor", "horario", "direccion", "http://lorempixel.com/g/200/200/"));
+        //DAO.getInstance(this).createVisita(new Visita(1,new Date(),new Date(), new Date(), "Esto es un resumen"));
     }
 
     private void initViews() {
@@ -90,12 +100,7 @@ public class MainActivity extends AppCompatActivity implements AlumnosFragment.O
         });
 
     }
-    //Click del fragmento de lista de alumnos.
-    @Override
-    public void onAlumnoSelected(Alumno alumno, int position) {
-        frgActual = EditorFragment.newInstance(alumno);
-        mGestorFragmento.beginTransaction().replace(R.id.frmContenido, frgActual, TAG_FRG_EDITOR).commit();
-    }
+
 
 
     @Override
@@ -119,7 +124,7 @@ public class MainActivity extends AppCompatActivity implements AlumnosFragment.O
 
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        String tag = TAG_FRG_LISTA_ALUMNOS;
+        String tag = "";
 
         //Acciones de los elementos de la navigation drawer.
         switch (item.getItemId()){
@@ -137,6 +142,7 @@ public class MainActivity extends AppCompatActivity implements AlumnosFragment.O
                 break;
             case R.id.nav_acerca:
                 break;
+
         }
         //Reemplaza el fragmento actual por el seleccionado de la navigation drawer.
         mGestorFragmento.beginTransaction().replace(R.id.frmContenido, frgActual, tag).commit();
@@ -144,12 +150,6 @@ public class MainActivity extends AppCompatActivity implements AlumnosFragment.O
         return true;
     }
 
-    @Override
-    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
-
-        super.onSaveInstanceState(outState, outPersistentState);
-
-    }
 
     @Override
     public void onBackPressed() {
@@ -157,5 +157,69 @@ public class MainActivity extends AppCompatActivity implements AlumnosFragment.O
             drawer.closeDrawers();
         else
             super.onBackPressed();
+    }
+
+    public static void translateFab(final FloatingActionButton fab, final float toPosX, final float toPosY, final Drawable drawable){
+        //Oculta el FAB
+        fab.animate().scaleX(0).scaleY(0).setListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                //Mueve el fab a la posicion deseada.
+                fab.animate().translationX(toPosX).translationY(toPosY).setListener(new Animator.AnimatorListener() {
+                    @Override
+                    public void onAnimationStart(Animator animation) {
+                        //Le cambia el icono
+                        fab.setImageDrawable(drawable);
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+
+                        //Lo hace reaparecer
+                        fab.animate().scaleX(1).scaleY(1);
+                    }
+
+                    @Override
+                    public void onAnimationCancel(Animator animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animator animation) {
+
+                    }
+                });
+
+
+
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        }).start();
+
+    }
+    //Click en una visita de la lista de fragmentVisitas
+    @Override
+    public void onVisitaSelected(Visita visita, int position) {
+
+    }
+    //Click del fragmento de lista de alumnos.
+    @Override
+    public void onAlumnoSelected(Alumno alumno, int position) {
+        frgActual = TutoriaIndividualFragment.newInstance(alumno);
+        mGestorFragmento.beginTransaction().replace(R.id.frmContenido, frgActual, TAG_FRG_EDITOR).commit();
     }
 }

@@ -22,9 +22,10 @@ public class SQLiteHelper extends SQLiteOpenHelper {
             " );";
     private static final String SQL_CREATE_VISITA = "CREATE TABLE " + BDDContract.Visita.TABLA + " (" +
             BDDContract.Visita._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-            BDDContract.Visita.DIA + " TEXT, " +
-            BDDContract.Visita.HORA_INICIO + " TEXT, " +
-            BDDContract.Visita.HORA_FIN + " TEXT," +
+            BDDContract.Visita.ID_ALUMNO + " INTEGER," +
+            BDDContract.Visita.DIA + " DATE, " +
+            BDDContract.Visita.HORA_INICIO + " TIME, " +
+            BDDContract.Visita.HORA_FIN + " TIME," +
             BDDContract.Visita.RESUMEN + " TEXT" +
             " );";
 

@@ -12,30 +12,45 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.aleja.practica2.actividades.MainActivity;
-import com.example.aleja.practica2.modelos.Alumno;
-import com.example.aleja.practica2.adaptadores.AlumnoAdapter;
-import com.example.aleja.practica2.bdd.DAO;
 import com.example.aleja.practica2.R;
+import com.example.aleja.practica2.actividades.MainActivity;
+import com.example.aleja.practica2.adaptadores.VisitaAdapter;
+import com.example.aleja.practica2.bdd.DAO;
+import com.example.aleja.practica2.modelos.Alumno;
+import com.example.aleja.practica2.modelos.Visita;
 
 import java.util.ArrayList;
 
-
-public class AlumnosFragment extends Fragment implements AlumnoAdapter.OnItemClickListener {
-
-    private static final String STATE_ALUMNOS = "stateAlumnos";
-    private ArrayList<Alumno> mAlumnos = new ArrayList<>();
-    private OnAlumnoSelectedListener mListener;
-    private RecyclerView rvAlumnos;
-    private AlumnoAdapter mAdaptador;
+public class VisitasFragment extends Fragment implements VisitaAdapter.OnVisitaClickListener {
+    private static final String STATE_VISITA = "stateVisitas";
+    private static final String ARG_ALUMNO = "alumno";
+    private ArrayList<Visita> mVisitas = new ArrayList<>();
+    private OnVisitaSelectedListener mListener;
+    private RecyclerView rvVisitas;
+    private VisitaAdapter mAdaptador;
     private LinearLayoutManager mLayoutManager;
     private FloatingActionButton fab;
 
 
+
+
     // Interfaz para notificación de eventos desde el fragmento.
-    public interface OnAlumnoSelectedListener {
+    public interface OnVisitaSelectedListener {
         // Cuando se selecciona un Alumno.
-        void onAlumnoSelected(Alumno alumno, int position);
+        void onVisitaSelected(Visita visita, int position);
+    }
+
+    public static VisitasFragment newInstance(Alumno alumno) {
+
+        Bundle args = new Bundle();
+        args.putParcelable(ARG_ALUMNO, alumno);
+        VisitasFragment fragment = new VisitasFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    public static VisitasFragment newInstance() {
+        return new VisitasFragment();
     }
 
 
@@ -50,13 +65,13 @@ public class AlumnosFragment extends Fragment implements AlumnoAdapter.OnItemCli
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         initViews();
-        //Solo consultará la BDD al cargar el fragmento si no se había cargado de antes.
-        //Evita que se consulte cada vez que se gira la pantalla.
-        if(savedInstanceState == null)
-            mAdaptador.replaceAll(DAO.getInstance(getContext()).getAllAlumnos());
+        //Si se entra sin argumentos, se pedirá la lista entera
+        if(getArguments() == null)
+            mAdaptador.replaceAll(DAO.getInstance(getContext()).getAllVisitas());
         else
-            //Recuperará los alumnos de la antigua vez que cargó el fragmento.
-            mAdaptador.replaceAll(savedInstanceState.<Alumno>getParcelableArrayList(STATE_ALUMNOS));
+            //Si existe argumento, se pedira las visitas del alumno pasado por parámetro.
+            mAdaptador.replaceAll(DAO.getInstance(getContext()).getAlumnoVisitas(((Alumno) getArguments().getParcelable(ARG_ALUMNO)).getId()));
+
 
     }
 
@@ -66,36 +81,30 @@ public class AlumnosFragment extends Fragment implements AlumnoAdapter.OnItemCli
     }
 
     private void configRecyclerView() {
-        rvAlumnos = (RecyclerView) getActivity().findViewById(R.id.rv);
-        rvAlumnos.setHasFixedSize(true);
-        mAdaptador = new AlumnoAdapter(mAlumnos);
+        rvVisitas = (RecyclerView) getActivity().findViewById(R.id.rv);
+        rvVisitas.setHasFixedSize(true);
+        mAdaptador = new VisitaAdapter(mVisitas);
         mAdaptador.setOnItemClickListener(this);
-        rvAlumnos.setAdapter(mAdaptador);
+        rvVisitas.setAdapter(mAdaptador);
         mLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-        rvAlumnos.setLayoutManager(mLayoutManager);
-        rvAlumnos.setItemAnimator(new DefaultItemAnimator());
+        rvVisitas.setLayoutManager(mLayoutManager);
+        rvVisitas.setItemAnimator(new DefaultItemAnimator());
     }
 
     private void configFab() {
         fab = (FloatingActionButton)getActivity().findViewById(R.id.fab);
         MainActivity.translateFab(fab, 0, 0, getResources().getDrawable(R.drawable.ic_add));
     }
-    //Click en un item del RecyclerView.
-    @Override
-    public void onItemClick(View view, Alumno alumno, int position) {
-        //La actividad que contenga este fragmento, se encargará de que hacer con el alumno seleccionado.
-        mListener.onAlumnoSelected(alumno, position);
-    }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         try {
-            mListener = (OnAlumnoSelectedListener) context;
+            mListener = (OnVisitaSelectedListener) context;
 
         } catch (ClassCastException e) {
             // La actividad no implementa la interfaz necesaria.
-            throw new ClassCastException(context.toString() + " must implements OnAlumnoSeleccionadoListener");
+            throw new ClassCastException(context.toString() + " must implements OnVisitaSelectedListener");
         }
     }
 
@@ -108,7 +117,13 @@ public class AlumnosFragment extends Fragment implements AlumnoAdapter.OnItemCli
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        outState.putParcelableArrayList(STATE_ALUMNOS, mAlumnos);
+        outState.putParcelableArrayList(STATE_VISITA, mVisitas);
         super.onSaveInstanceState(outState);
     }
+
+    @Override
+    public void onVisitaClick(View view, Visita visita, int position) {
+
+    }
+
 }
