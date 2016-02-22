@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/heighItemAlumno"
+    android:layout_marginLeft="@dimen/marginLeftMaterialList"
+    android:layout_marginStart="@dimen/marginLeftMaterialList"
+    android:layout_marginRight="@dimen/marginLeftMaterialList"
+    android:layout_marginEnd="@dimen/marginLeftMaterialList">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/imgAvatar"
+        android:layout_width="@dimen/widthCircleImg"
+        android:layout_height="@dimen/widthCircleImg"
+        android:layout_centerVertical="true"
+        />
+    <TextView
+        android:id="@+id/lblNombre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:layout_marginLeft="@dimen/marginLeftItemAlumno"
+        android:layout_marginStart="@dimen/marginLeftItemAlumno"
+        android:layout_centerVertical="true"
+        android:textSize="16sp"
+        />
+</RelativeLayout>
