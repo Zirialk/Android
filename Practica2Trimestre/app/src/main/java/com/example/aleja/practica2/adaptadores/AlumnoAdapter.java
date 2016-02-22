@@ -1,5 +1,6 @@
 package com.example.aleja.practica2.adaptadores;
 
+import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.amulyakhare.textdrawable.TextDrawable;
+import com.amulyakhare.textdrawable.util.ColorGenerator;
 import com.example.aleja.practica2.modelos.Alumno;
 import com.example.aleja.practica2.R;
 import com.squareup.picasso.Picasso;
@@ -18,6 +21,7 @@ public class AlumnoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private final List<Alumno> mDatos;
     private OnItemClickListener onItemClickListener;
     private View emptyView;
+    private final TextDrawable.IBuilder mDrawableBuilder;
 
     // Interfaz que debe implementar el listener para cuando se haga click sobre un elemento.
     public interface OnItemClickListener {
@@ -26,6 +30,13 @@ public class AlumnoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     public AlumnoAdapter(List<Alumno> datos) {
         mDatos = datos;
+        mDrawableBuilder = TextDrawable.builder()
+                .beginConfig()
+                .width(100)
+                .height(100)
+                .toUpperCase()
+                .endConfig()
+                .round();
     }
 
     @Override
@@ -55,7 +66,7 @@ public class AlumnoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         return mDatos.size();
     }
 
-    static class AlumnoViewHolder extends RecyclerView.ViewHolder{
+    class AlumnoViewHolder extends RecyclerView.ViewHolder{
 
         private final ImageView imgAvatar;
         private final TextView lblNombre;
@@ -67,9 +78,16 @@ public class AlumnoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
         public void onBind(Alumno alumno){
             lblNombre.setText(alumno.getNombre());
-            Picasso.with(itemView.getContext()).load(alumno.getFoto()).into(imgAvatar);
+            //Si el alumno no contiene imagen o no la encuentra cargará su primera letras más un fondo de color
+            Drawable drawable = mDrawableBuilder.build(alumno.getNombre().substring(0, 1), ColorGenerator.MATERIAL.getColor(alumno.getNombre()));
+            if(alumno.getFoto().isEmpty())
+                imgAvatar.setImageDrawable(drawable);
+            else
+                Picasso.with(itemView.getContext()).load(alumno.getFoto()).error(drawable).into(imgAvatar);
+
         }
     }
+
     public void addItem(Alumno alumno){
         notifyItemInserted(mDatos.size()-1);
         mDatos.add(alumno);

@@ -55,8 +55,8 @@ public class MainActivity extends AppCompatActivity implements AlumnosFragment.O
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         initViews();
-        //DAO.getInstance(this).createAlumno(new Alumno("Pepe", "956", "aa@g", "Empresa", "Tutor", "horario", "direccion", "http://lorempixel.com/g/200/200/"));
-        //DAO.getInstance(this).createVisita(new Visita(1,new Date(),new Date(), new Date(), "Esto es un resumen"));
+        //DAO.getInstance(this).createAlumno(new Alumno("Pepe", "956", "aa@g", "Empresa", "Tutor", "horario", "direccion", ""));
+        //DAO.getInstance(this).createVisita(new Visita(4,new Date(),new Date(), new Date(), "Tio sin foto"));
     }
 
     private void initViews() {
@@ -137,6 +137,7 @@ public class MainActivity extends AppCompatActivity implements AlumnosFragment.O
                 tag = TAG_FRG_LISTA_ALUMNOS;
                 break;
             case R.id.nav_prox_visitas:
+                frgActual = new VisitasFragment();
                 break;
             case R.id.nav_configuracion:
                 break;

@@ -64,15 +64,18 @@ public class VisitasFragment extends Fragment implements VisitaAdapter.OnVisitaC
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        initViews();
-        //Si se entra sin argumentos, se pedirá la lista entera
-        if(getArguments() == null)
-            mAdaptador.replaceAll(DAO.getInstance(getContext()).getAllVisitas());
-        else
+
+        //Si se entra sin argumentos, se pedirá la lista de próximas visitas.
+        if(getArguments() == null){
+            mAdaptador = new VisitaAdapter(mVisitas, true);
+            mAdaptador.replaceAll(DAO.getInstance(getContext()).getAllProxVisitas());
+        }
+        else{
+            mAdaptador = new VisitaAdapter(mVisitas, false);
             //Si existe argumento, se pedira las visitas del alumno pasado por parámetro.
             mAdaptador.replaceAll(DAO.getInstance(getContext()).getAlumnoVisitas(((Alumno) getArguments().getParcelable(ARG_ALUMNO)).getId()));
-
-
+        }
+        initViews();
     }
 
     private void initViews() {
@@ -83,7 +86,7 @@ public class VisitasFragment extends Fragment implements VisitaAdapter.OnVisitaC
     private void configRecyclerView() {
         rvVisitas = (RecyclerView) getActivity().findViewById(R.id.rv);
         rvVisitas.setHasFixedSize(true);
-        mAdaptador = new VisitaAdapter(mVisitas);
+
         mAdaptador.setOnItemClickListener(this);
         rvVisitas.setAdapter(mAdaptador);
         mLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
@@ -125,5 +128,6 @@ public class VisitasFragment extends Fragment implements VisitaAdapter.OnVisitaC
     public void onVisitaClick(View view, Visita visita, int position) {
 
     }
+
 
 }

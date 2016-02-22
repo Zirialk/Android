@@ -1,13 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+
+    android:layout_marginLeft="@dimen/marginLeftMaterialList"
+    android:layout_marginStart="@dimen/marginLeftMaterialList"
+    android:layout_marginRight="@dimen/marginLeftMaterialList"
+    android:layout_marginEnd="@dimen/marginLeftMaterialList"
     >
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+        <ImageView
+            android:id="@+id/imgAvatar"
+            android:layout_width="62dp"
+            android:layout_height="62dp"
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/visita"
-        />
+            android:src="@drawable/icon_user_default"/>
+        <TextView
+            android:id="@+id/lblNombre"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Alejandro Torres Gómez"
+            android:textStyle="bold"
+            android:layout_toRightOf="@id/imgAvatar"
+            android:layout_toEndOf="@id/imgAvatar"
+            android:layout_marginTop="4dp"
+            android:layout_marginLeft="@dimen/marginLeftMaterialList"
+            android:layout_marginStart="@dimen/marginLeftMaterialList"
 
-</RelativeLayout>
+            />
+
+        <TextView
+            android:id="@+id/lblFecha"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Fecha:"
+            android:layout_alignLeft="@id/lblNombre"
+            android:layout_alignStart="@id/lblNombre"
+            android:layout_below="@id/lblNombre"/>
+        <!-- Día -->
+        <TextView
+            android:id="@+id/lblDia"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="11/02/16"
+            android:layout_alignLeft="@id/lblNombre"
+            android:layout_alignStart="@id/lblNombre"
+            android:layout_below="@id/lblNombre"
+            android:layout_marginLeft="47dp"
+            android:layout_marginStart="47dp"/>
+        <!-- Horas -->
+        <TextView
+            android:id="@+id/lblHora"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="10:15-11:15"
+            android:layout_toRightOf="@id/lblDia"
+            android:layout_toEndOf="@id/lblDia"
+            android:layout_below="@id/lblNombre"
+            android:layout_marginLeft="30dp"
+            android:layout_marginStart="30dp"/>
+
+    </RelativeLayout>
+</android.support.v7.widget.CardView>

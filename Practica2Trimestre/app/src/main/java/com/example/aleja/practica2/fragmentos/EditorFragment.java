@@ -58,7 +58,7 @@ public class EditorFragment extends Fragment {
             if((alumno = getArguments().getParcelable(ARG_ALUMNO)) != null)
                 cargarDatosAlumno();
 
-        //fab.animate().translationY(fab.getHeight() + 16).setInterpolator(new AccelerateInterpolator(2)).setDuration(1000).start();
+
 
     }
 
@@ -93,7 +93,10 @@ public class EditorFragment extends Fragment {
         txtTutor.setText(alumno.getTutor());
         txtHorario.setText(alumno.getHorario());
         txtDireccion.setText(alumno.getDireccion());
-        Picasso.with(getContext()).load(alumno.getFoto()).error(R.drawable.icon_user_default).into(imgFoto);
+        if(alumno.getFoto().isEmpty())
+            imgFoto.setImageDrawable(getResources().getDrawable(R.drawable.icon_user_default));
+        else
+            Picasso.with(getContext()).load(alumno.getFoto()).error(R.drawable.icon_user_default).into(imgFoto);
     }
 
 

@@ -26,13 +26,15 @@
     <dimen name="marginLeftItemAlumno">56dp</dimen>
 
     <!-- item_visita -->
-    <dimen name="marginTopTxtVisita">15dp</dimen>
+    <dimen name="marginTopTxtVisita">0dp</dimen>
     <dimen name="marginLeftLblVisita">30dp</dimen>
     <dimen name="textSizeCv">20sp</dimen>
     <dimen name="marginLeftLblFecha">95dp</dimen>
     <dimen name="marginRightLblHora">20dp</dimen>
     <dimen name="marginTopLblResumen">60dp</dimen>
     <dimen name="widthLblResumen">300dp</dimen>
+
+    <!-- item_prox_visita -->
 
 
 </resources>

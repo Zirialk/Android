@@ -40,6 +40,11 @@ public class DAO {
         mHelper.close();
     }
 
+
+
+    //      ALUMNO
+
+
     public long createAlumno(Alumno alumno){
         long idAlumnoInsertado;
 
@@ -103,7 +108,12 @@ public class DAO {
         //Se retorna el alumno ya configurado.
         return alumno;
     }
-
+    public Alumno getAlumno(long id){
+        SQLiteDatabase bd = mHelper.getWritableDatabase();
+        Cursor cursor = bd.query(BDDContract.Alumno.TABLA, BDDContract.Alumno.TODOS, BDDContract.Alumno._ID + "=" + id, null, null, null, null);
+        cursor.moveToFirst();
+        return cursorToAlumno(cursor);
+    }
 
     //    VISITAS
 
@@ -129,17 +139,19 @@ public class DAO {
     public Cursor queryAlumnoVisitas(SQLiteDatabase bd, int idAlumno){
         return bd.query(BDDContract.Visita.TABLA, BDDContract.Visita.TODOS, BDDContract.Visita.ID_ALUMNO+ "=" + idAlumno, null, null, null, BDDContract.Visita.DIA);
     }
-    public Cursor queryAllVisitas(SQLiteDatabase bd){
-        //Devuelve todos los alumnos ordenados por el nombre.
+    public Cursor queryAllProxVisitas(SQLiteDatabase bd){
+        String condicion = new Date().getTime() + "<" +BDDContract.Visita.DIA;
+
+        //Devuelve las visitas posteriores al momento de ejecución de esta sentencia.
         return bd.query(BDDContract.Visita.TABLA, BDDContract.Visita.TODOS, null, null, null, null, BDDContract.Visita.DIA);
     }
-    public List<Visita> getAllVisitas(){
+    public List<Visita> getAllProxVisitas(){
         SQLiteDatabase db = mHelper.getWritableDatabase();
         List<Visita> lista = new ArrayList<>();
         //Se obtiene el cursor con todos los alumnos.
-        Cursor cursor = queryAllVisitas(db);
+        Cursor cursor = queryAllProxVisitas(db);
         cursor.moveToFirst();
-        //Se traspasa todos los elementos del cursor hacia una lista.
+        //Se traspasa todos los elementos del cursor a una lista.
         while (!cursor.isAfterLast()){
             lista.add(cursorToVisita(cursor));
             cursor.moveToNext();
