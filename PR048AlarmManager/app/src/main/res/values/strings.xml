@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">PR048AlarmManager</string>
+    <string name="action_settings">Settings</string>
+    <string name="mensaje">Mensaje</string>
+    <string name="intervalo">Intervalo (ms)</string>
+    <string name="aviso_importante">Aviso importante</string>
+    <string name="quillo_ponte_ya_a_currar">Quillo ponte ya a currar</string>
+</resources>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.example.usuario.pr048alarmmanager.MainActivity"
+    tools:showIn="@layout/activity_main">
+
+    <TextView
+        android:id="@+id/lblMensaje"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/mensaje" />
+    <EditText
+        android:id="@+id/txtMensaje"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/lblMensaje"
+        android:inputType="text" />
+    <TextView
+        android:id="@+id/lblIntervalo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txtMensaje"
+        android:text="@string/intervalo" />
+    <EditText
+        android:id="@+id/txtIntervalo"
+        android:layout_width="@dimen/widthIntervalo"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/lblIntervalo"
+        android:inputType="text" />
+    <android.support.v7.widget.SwitchCompat
+        android:id="@+id/swActivar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/lblIntervalo"
+        android:layout_toRightOf="@id/txtIntervalo"
+        android:layout_toEndOf="@id/txtIntervalo"
+        />
+
+
+</RelativeLayout>

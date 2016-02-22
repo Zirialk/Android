@@ -7,5 +7,6 @@
     <string name="action_settings">Settings</string>
     <!-- Editor de Alumnos-->
     <string name="contentImgFoto">foto</string>
+    <string name="visita">Visita:</string>
 
 </resources>

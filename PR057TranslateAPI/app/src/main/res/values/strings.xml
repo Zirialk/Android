@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">PR057TranslateAPI</string>
+    <string name="action_settings">Settings</string>
+    <string name="hint">Introduce el texto a traducir aquí.</string>
+
+    <string-array name="lenguajes">
+        <item>Español</item>
+        <item>Francés</item>
+    </string-array>
+</resources>
