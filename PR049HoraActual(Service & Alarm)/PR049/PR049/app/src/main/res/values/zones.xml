@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+<<<<<<< HEAD:PR049HoraActual(Service & Alarm)/PR049/app/src/main/res/values/strings.xml
+    <string name="app_name">PR049</string>
+    <string name="action_settings">Settings</string>
+    <string name="pais_deseado">País deseado:</string>
+    <string name="textHora">HORA</string>
+
+</resources>
+=======
     <string-array name="paises">
         <item>Europe/Andorra
         </item><item>Asia/Dubai
@@ -421,3 +429,4 @@
 
     </string-array>
 </resources>
+>>>>>>> origin/master:PR049HoraActual(Service & Alarm)/PR049/PR049/app/src/main/res/values/zones.xml
