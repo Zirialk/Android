@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,7 +36,7 @@ public class AlumnosFragment extends Fragment implements AlumnoAdapter.OnItemCli
     // Interfaz para notificación de eventos desde el fragmento.
     public interface OnAlumnoSelectedListener {
         // Cuando se selecciona un Alumno.
-        void onAlumnoSelected(Alumno alumno, int position);
+        void onAlumnoSelected(Alumno alumno);
     }
 
 
@@ -84,7 +85,7 @@ public class AlumnosFragment extends Fragment implements AlumnoAdapter.OnItemCli
     @Override
     public void onItemClick(View view, Alumno alumno, int position) {
         //La actividad que contenga este fragmento, se encargará de que hacer con el alumno seleccionado.
-        mListener.onAlumnoSelected(alumno, position);
+        mListener.onAlumnoSelected(alumno);
     }
 
     @Override
@@ -92,7 +93,6 @@ public class AlumnosFragment extends Fragment implements AlumnoAdapter.OnItemCli
         super.onAttach(context);
         try {
             mListener = (OnAlumnoSelectedListener) context;
-
         } catch (ClassCastException e) {
             // La actividad no implementa la interfaz necesaria.
             throw new ClassCastException(context.toString() + " must implements OnAlumnoSeleccionadoListener");

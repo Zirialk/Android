@@ -1,26 +1,23 @@
 package com.example.aleja.practica2.actividades;
 
 import android.animation.Animator;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.PersistableBundle;
-import android.support.annotation.UiThread;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.Animation;
 import android.widget.FrameLayout;
-import android.widget.Toast;
 
 import com.example.aleja.practica2.bdd.DAO;
 import com.example.aleja.practica2.fragmentos.EditorFragment;
@@ -33,11 +30,15 @@ import com.example.aleja.practica2.modelos.Visita;
 
 import java.util.Date;
 
+
 public class MainActivity extends AppCompatActivity implements AlumnosFragment.OnAlumnoSelectedListener,VisitasFragment.OnVisitaSelectedListener, NavigationView.OnNavigationItemSelectedListener {
+
     //Variables
     private FragmentManager mGestorFragmento;
     private static final String TAG_FRG_LISTA_ALUMNOS = "Alumnos";
     private static final String TAG_FRG_EDITOR = "Editor";
+    private static final String BACKSTACK = "backstack";
+    private static final String BACKSTACK_TUTORIA_CREADOR_ALUMNO = "Lista Alumno <-- creadorAlumno";
     //Vistas
     private FrameLayout frmContenido;
     private Fragment frgActual;
@@ -55,14 +56,15 @@ public class MainActivity extends AppCompatActivity implements AlumnosFragment.O
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         initViews();
-        //DAO.getInstance(this).createAlumno(new Alumno("Pepe", "956", "aa@g", "Empresa", "Tutor", "horario", "direccion", ""));
-        //DAO.getInstance(this).createVisita(new Visita(4,new Date(),new Date(), new Date(), "Tio sin foto"));
+        //DAO.getInstance(this).createAlumno(new Alumno("Fernando", "956", "aa@g", "Empresa", "Tutor", "horario", "direccion", ""));
+        //DAO.getInstance(this).createVisita(new Visita(2, new Date(), new Date(), new Date(), "Tio sin foto"));
     }
 
     private void initViews() {
         configNavigation();
         configFragments();
         configFab();
+
     }
 
     private void configNavigation() {
@@ -79,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements AlumnosFragment.O
         frmContenido = (FrameLayout) findViewById(R.id.frmContenido);
         mGestorFragmento = getSupportFragmentManager();
         //Si es la primera vez que se entra a la aplicación creará un nuevo fragmento de lista de alumnos.
-        if(mGestorFragmento.findFragmentByTag(TAG_FRG_LISTA_ALUMNOS) ==null)
+        if(mGestorFragmento.findFragmentByTag(TAG_FRG_LISTA_ALUMNOS) == null)
             frgActual = new AlumnosFragment();
         else
             frgActual = mGestorFragmento.findFragmentByTag(TAG_FRG_LISTA_ALUMNOS);
@@ -95,7 +97,7 @@ public class MainActivity extends AppCompatActivity implements AlumnosFragment.O
             @Override
             public void onClick(View v) {
 
-                Toast.makeText(getApplicationContext(), "Hola", Toast.LENGTH_LONG).show();
+                startActivity(new Intent(MainActivity.this, CreadorVisitaActivity.class));
             }
         });
 
@@ -125,28 +127,41 @@ public class MainActivity extends AppCompatActivity implements AlumnosFragment.O
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         String tag = "";
+        //Resetea la cola de fragmentos, para que no se hagan un lio.
+        mGestorFragmento.popBackStack();
+
+        FragmentTransaction trans = mGestorFragmento.beginTransaction();
 
         //Acciones de los elementos de la navigation drawer.
         switch (item.getItemId()){
             case R.id.nav_nuevo_alumno:
+                toolbar.setTitle(R.string.labelCrearAlumno);
                 frgActual = new EditorFragment();
+
+                //Permitirá volver a la lista dandole al botón de atrás.
+                trans.addToBackStack(BACKSTACK);
                 tag = TAG_FRG_EDITOR;
                 break;
             case R.id.nav_tutorias:
                 frgActual = new AlumnosFragment();
+                toolbar.setTitle(R.string.labelAlumnos);
                 tag = TAG_FRG_LISTA_ALUMNOS;
                 break;
             case R.id.nav_prox_visitas:
+                toolbar.setTitle(R.string.labelProxVisitas);
                 frgActual = new VisitasFragment();
                 break;
             case R.id.nav_configuracion:
+                toolbar.setTitle(R.string.labelConfiguracion);
                 break;
             case R.id.nav_acerca:
+                toolbar.setTitle(R.string.labelAcercaDe);
                 break;
 
         }
+
         //Reemplaza el fragmento actual por el seleccionado de la navigation drawer.
-        mGestorFragmento.beginTransaction().replace(R.id.frmContenido, frgActual, tag).commit();
+        trans.replace(R.id.frmContenido, frgActual, tag).commit();
         drawer.closeDrawers();
         return true;
     }
@@ -154,6 +169,7 @@ public class MainActivity extends AppCompatActivity implements AlumnosFragment.O
 
     @Override
     public void onBackPressed() {
+        //Si el navigationDrawer está abierto lo cierra sino ejecuta un onBackPressed normal.
         if(drawer.isDrawerOpen(GravityCompat.START))
             drawer.closeDrawers();
         else
@@ -219,8 +235,11 @@ public class MainActivity extends AppCompatActivity implements AlumnosFragment.O
     }
     //Click del fragmento de lista de alumnos.
     @Override
-    public void onAlumnoSelected(Alumno alumno, int position) {
+    public void onAlumnoSelected(Alumno alumno) {
         frgActual = TutoriaIndividualFragment.newInstance(alumno);
-        mGestorFragmento.beginTransaction().replace(R.id.frmContenido, frgActual, TAG_FRG_EDITOR).commit();
+
+        FragmentTransaction trans  = mGestorFragmento.beginTransaction();
+        trans.addToBackStack(BACKSTACK);
+        trans.replace(R.id.frmContenido, frgActual, TAG_FRG_EDITOR).commit();
     }
 }

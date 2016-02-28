@@ -7,6 +7,8 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
 
+
+
     <!-- Material -->
     <dimen name="marginLeftMaterialList">16dp</dimen>
     <dimen name="paddingTopMaterialList">8dp</dimen>
@@ -34,7 +36,17 @@
     <dimen name="marginTopLblResumen">60dp</dimen>
     <dimen name="widthLblResumen">300dp</dimen>
 
-    <!-- item_prox_visita -->
+
+    <!-- Activity Creador Visita -->
+    <dimen name="textSizeCreadorVisita">20sp</dimen>
+    <dimen name="marginTopLblHoraInicio">25dp</dimen>
+    <dimen name="marginLeftImgCreador">120dp</dimen>
+    <dimen name="marginLeftTxtDia">10dp</dimen>
+        <!-- Collapsing Toolbar -->
+        <dimen name="text_padding">20dp</dimen>
+        <dimen name="appbar_height">128dp</dimen>
+        <dimen name="collapsing_titleMarginStart">32dp</dimen>
+        <dimen name="heightAppBar">250dp</dimen>
 
 
 </resources>

@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    android:id="@+id/main_content"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/heightAppBar"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/collapsingToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:expandedTitleMarginStart="@dimen/collapsing_titleMarginStart">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                app:layout_scrollFlags="scroll|enterAlways"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                app:layout_collapseMode="pin"
+                app:navigationIcon="@drawable/ic_back"/>
+
+        </android.support.design.widget.CollapsingToolbarLayout>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/nsvScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent" android:layout_height="match_parent">
+
+
+            <!-- Dia -->
+            <TextView
+                android:id="@+id/lblDia"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/lblDia"
+                android:textSize="@dimen/textSizeCreadorVisita"
+                android:layout_marginTop="25dp"
+                android:layout_marginLeft="@dimen/marginLeftMaterialList"
+                android:layout_marginStart="@dimen/marginLeftMaterialList"/>
+            <ImageView
+                android:id="@+id/imgDia"
+                android:layout_width="@dimen/iconMaterialBounds"
+                android:layout_height="@dimen/iconMaterialBounds"
+                android:src="@drawable/ic_dia"
+                android:layout_marginTop="31dp"
+                android:layout_marginLeft="@dimen/marginLeftImgCreador"
+                android:layout_marginStart="@dimen/marginLeftImgCreador"
+                android:layout_toRightOf="@id/lblDia"
+                android:layout_toEndOf="@id/lblDia"
+                />
+            <EditText
+                android:id="@+id/txtDia"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@id/lblDia"
+                android:layout_toRightOf="@id/imgDia"
+                android:layout_toEndOf="@id/imgDia"
+                android:layout_marginLeft="@dimen/marginLeftTxtDia"
+                android:layout_marginStart="@dimen/marginLeftTxtDia"
+                android:inputType="date"/>
+
+            <!-- HORA INICIO -->
+            <TextView
+                android:id="@+id/lblHoraInicio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/lblHoraInicio"
+                android:textSize="@dimen/textSizeCreadorVisita"
+                android:layout_marginTop="@dimen/marginTopLblHoraInicio"
+                android:layout_marginLeft="@dimen/marginLeftMaterialList"
+                android:layout_marginStart="@dimen/marginLeftMaterialList"
+                android:layout_below="@id/lblDia"/>
+
+            <EditText
+                android:id="@+id/txtHoraInicio"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@id/lblHoraInicio"
+                android:layout_toRightOf="@id/imgDia"
+                android:layout_toEndOf="@id/imgDia"
+                android:layout_marginLeft="@dimen/marginLeftTxtDia"
+                android:layout_marginStart="@dimen/marginLeftTxtDia"
+                android:layout_below="@id/txtDia"
+                android:inputType="time"/>
+            <ImageView
+                android:id="@+id/imgHoraInicio"
+                android:layout_width="@dimen/iconMaterialBounds"
+                android:layout_height="@dimen/iconMaterialBounds"
+                android:src="@drawable/ic_clock"
+                android:layout_below="@id/imgDia"
+                android:layout_marginTop="26dp"
+                android:layout_marginLeft="@dimen/marginLeftImgCreador"
+                android:layout_marginStart="@dimen/marginLeftImgCreador"
+                android:layout_toRightOf="@id/lblDia"
+                android:layout_toEndOf="@id/lblDia"/>
+            <!-- HORA FIN -->
+            <TextView
+                android:id="@+id/lblHoraFin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/lblHoraFin"
+                android:textSize="@dimen/textSizeCreadorVisita"
+                android:layout_marginTop="@dimen/marginTopLblHoraInicio"
+                android:layout_marginStart="@dimen/marginLeftMaterialList"
+                android:layout_marginLeft="@dimen/marginLeftMaterialList"
+                android:layout_below="@id/lblHoraInicio"/>
+            <EditText
+                android:id="@+id/txtHoraFin"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@id/lblHoraFin"
+                android:layout_toRightOf="@id/imgDia"
+                android:layout_toEndOf="@id/imgDia"
+                android:layout_marginLeft="@dimen/marginLeftTxtDia"
+                android:layout_marginStart="@dimen/marginLeftTxtDia"
+                android:layout_below="@id/txtDia"
+                android:inputType="time"/>
+            <ImageView
+                android:id="@+id/imgHoraFin"
+                android:layout_width="@dimen/iconMaterialBounds"
+                android:layout_height="@dimen/iconMaterialBounds"
+                android:src="@drawable/ic_clock"
+                android:layout_below="@id/imgHoraInicio"
+                android:layout_marginTop="25dp"
+                android:layout_marginLeft="@dimen/marginLeftImgCreador"
+                android:layout_marginStart="@dimen/marginLeftImgCreador"
+                android:layout_toRightOf="@id/lblDia"
+                android:layout_toEndOf="@id/lblDia"/>
+            <!-- RESUMEN -->
+            <TextView
+                android:id="@+id/lblResumen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/lblResumen"
+                android:textSize="@dimen/textSizeCreadorVisita"
+                android:layout_marginTop="@dimen/marginTopLblHoraInicio"
+                android:layout_marginLeft="@dimen/marginLeftMaterialList"
+                android:layout_marginStart="@dimen/marginLeftMaterialList"
+                android:layout_below="@id/lblHoraFin"/>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/lblResumen"
+                android:maxLines="1"
+                android:maxLength="31"
+                android:layout_marginLeft="@dimen/marginLeftMaterialList"
+                android:layout_marginStart="@dimen/marginLeftMaterialList"
+                android:layout_marginRight="@dimen/marginLeftMaterialList"
+                android:layout_marginEnd="@dimen/marginLeftMaterialList"
+                android:inputType="text"/>
+
+        </RelativeLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+</android.support.design.widget.CoordinatorLayout>

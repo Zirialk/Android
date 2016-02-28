@@ -104,7 +104,6 @@ public class VisitasFragment extends Fragment implements VisitaAdapter.OnVisitaC
         super.onAttach(context);
         try {
             mListener = (OnVisitaSelectedListener) context;
-
         } catch (ClassCastException e) {
             // La actividad no implementa la interfaz necesaria.
             throw new ClassCastException(context.toString() + " must implements OnVisitaSelectedListener");

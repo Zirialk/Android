@@ -119,7 +119,7 @@ public class AlumnoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     // Establece la empty view para la lista.
     public void setEmptyView(View emptyView) {
         this.emptyView = emptyView;
-        // Muestra la empty view si  la lista está vacía.
+        // Muestra la empty view si la lista está vacía.
         checkIfEmpty();
     }
 

@@ -18,9 +18,7 @@ public class DAO {
     private static DAO mInstance;
     private static SQLiteHelper mHelper;
 
-    public enum SelectVisitas {
-        TODAS,ID_ALUMNO
-    }
+
     private DAO(Context context){
         mHelper = new SQLiteHelper(context, BDDContract.BDD_NAME, null, BDDContract.BDD_VERSION);
     }
@@ -177,7 +175,7 @@ public class DAO {
         return lista;
 
     }
-    //Crea un objeto alumno a partir del registro ACTUAL del cursor pasado por parámetro.
+    //Crea un objeto visita a partir del registro ACTUAL del cursor pasado por parámetro.
     public Visita cursorToVisita(Cursor cursorVisita){
         Visita visita = new Visita();
         visita.setId(cursorVisita.getInt(cursorVisita.getColumnIndexOrThrow(BDDContract.Visita._ID)));
@@ -186,7 +184,6 @@ public class DAO {
         visita.setHoraInicio(new Date(cursorVisita.getLong(cursorVisita.getColumnIndexOrThrow(BDDContract.Visita.HORA_INICIO))));
         visita.setHoraFin(new Date(cursorVisita.getLong(cursorVisita.getColumnIndexOrThrow(BDDContract.Visita.HORA_FIN))));
         visita.setResumen(cursorVisita.getString(cursorVisita.getColumnIndexOrThrow(BDDContract.Visita.RESUMEN)));
-
         //Se retorna el alumno ya configurado.
         return visita;
     }

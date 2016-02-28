@@ -6,6 +6,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +18,6 @@ import com.example.aleja.practica2.modelos.Alumno;
 
 public class TutoriaIndividualFragment extends Fragment{
     private static final String ARG_ALUMNO = "alumno";
-    private FragmentManager mGestor;
     private Alumno mAlumno;
 
     public static TutoriaIndividualFragment newInstance(Alumno alumno) {
@@ -46,7 +46,7 @@ public class TutoriaIndividualFragment extends Fragment{
     }
 
     private void configViewPager() {
-        SectionsPagerAdapter vpAdapter = new SectionsPagerAdapter(getChildFragmentManager(), mAlumno);
+        SectionsPagerAdapter vpAdapter = new SectionsPagerAdapter(getChildFragmentManager());
         ViewPager viewPager = (ViewPager) getActivity().findViewById(R.id.container);
         viewPager.setAdapter(vpAdapter);
 
@@ -54,20 +54,18 @@ public class TutoriaIndividualFragment extends Fragment{
         tabLayout.setupWithViewPager(viewPager);
     }
 
-    public class SectionsPagerAdapter extends CachedFragmentPagerAdapter {
+    class SectionsPagerAdapter extends CachedFragmentPagerAdapter {
 
-        private final Alumno alumno;
 
-        public SectionsPagerAdapter(FragmentManager fm, Alumno alumno) {
+        public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
-            this.alumno = alumno;
         }
-
+        //Especifica que fragmento irá en cada página del viewPager
         @Override
         public Fragment getItem(int position) {
             switch (position){
                 case 0:
-                    return EditorFragment.newInstance(alumno);
+                    return EditorFragment.newInstance(mAlumno);
                 case 1:
                     return VisitasFragment.newInstance(mAlumno);
             }
@@ -79,13 +77,14 @@ public class TutoriaIndividualFragment extends Fragment{
             return 2;
         }
 
+        //Establece los títulos de los tabs.
         @Override
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "ALUMNO";
+                    return getActivity().getString(R.string.tabAlumno);
                 case 1:
-                    return "TUTORÍAS";
+                    return getActivity().getString(R.string.tabTutorias);
             }
             return null;
         }

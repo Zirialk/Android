@@ -26,7 +26,8 @@ public class SQLiteHelper extends SQLiteOpenHelper {
             BDDContract.Visita.DIA + " DATE, " +
             BDDContract.Visita.HORA_INICIO + " TIME, " +
             BDDContract.Visita.HORA_FIN + " TIME," +
-            BDDContract.Visita.RESUMEN + " TEXT" +
+            BDDContract.Visita.RESUMEN + " TEXT," +
+            "FOREIGN KEY (" + BDDContract.Visita.ID_ALUMNO + ") References " + BDDContract.Alumno.TABLA + " (" + BDDContract.Alumno._ID + ")"+
             " );";
 
     public SQLiteHelper(Context context, String BDName, SQLiteDatabase.CursorFactory factory, int DBVersion) {
