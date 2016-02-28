@@ -1,6 +1,7 @@
 package com.example.aleja.practica2.fragmentos;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.aleja.practica2.R;
+import com.example.aleja.practica2.actividades.CreadorVisitaActivity;
 import com.example.aleja.practica2.actividades.MainActivity;
 import com.example.aleja.practica2.adaptadores.VisitaAdapter;
 import com.example.aleja.practica2.bdd.DAO;
@@ -25,17 +27,17 @@ public class VisitasFragment extends Fragment implements VisitaAdapter.OnVisitaC
     private static final String STATE_VISITA = "stateVisitas";
     private static final String ARG_ALUMNO = "alumno";
     private ArrayList<Visita> mVisitas = new ArrayList<>();
-    private OnVisitaSelectedListener mListener;
+    private IVisitasFragment mListener;
     private RecyclerView rvVisitas;
     private VisitaAdapter mAdaptador;
     private LinearLayoutManager mLayoutManager;
     private FloatingActionButton fab;
 
-
+    private int idAlumno = -1;
 
 
     // Interfaz para notificación de eventos desde el fragmento.
-    public interface OnVisitaSelectedListener {
+    public interface IVisitasFragment {
         // Cuando se selecciona un Alumno.
         void onVisitaSelected(Visita visita, int position);
     }
@@ -71,9 +73,10 @@ public class VisitasFragment extends Fragment implements VisitaAdapter.OnVisitaC
             mAdaptador.replaceAll(DAO.getInstance(getContext()).getAllProxVisitas());
         }
         else{
+            idAlumno = ((Alumno) getArguments().getParcelable(ARG_ALUMNO)).getId();
             mAdaptador = new VisitaAdapter(mVisitas, false);
             //Si existe argumento, se pedira las visitas del alumno pasado por parámetro.
-            mAdaptador.replaceAll(DAO.getInstance(getContext()).getAlumnoVisitas(((Alumno) getArguments().getParcelable(ARG_ALUMNO)).getId()));
+            mAdaptador.replaceAll(DAO.getInstance(getContext()).getAlumnoVisitas(idAlumno));
         }
         initViews();
     }
@@ -97,16 +100,25 @@ public class VisitasFragment extends Fragment implements VisitaAdapter.OnVisitaC
     private void configFab() {
         fab = (FloatingActionButton)getActivity().findViewById(R.id.fab);
         MainActivity.translateFab(fab, 0, 0, getResources().getDrawable(R.drawable.ic_add));
+
+    }
+    public void onFabPressed(){
+        //Si se entró en las visitas especificas de un alumno.
+        if(idAlumno != -1){
+            Intent intent = new Intent(getContext(), CreadorVisitaActivity.class);
+            intent.putExtra(CreadorVisitaActivity.INTENT_ID_ALUMNO, idAlumno);
+            startActivity(intent);
+        }
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         try {
-            mListener = (OnVisitaSelectedListener) context;
+            mListener = (IVisitasFragment) context;
         } catch (ClassCastException e) {
             // La actividad no implementa la interfaz necesaria.
-            throw new ClassCastException(context.toString() + " must implements OnVisitaSelectedListener");
+            throw new ClassCastException(context.toString() + " must implements IVisitasFragment");
         }
     }
 

@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.example.aleja.practica2.modelos.Alumno;
 import com.example.aleja.practica2.modelos.Visita;
+import com.example.aleja.practica2.utils.Constantes;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -117,20 +118,35 @@ public class DAO {
 
 
     public long createVisita(Visita visita){
-        long idVisitaInsertado;
+        long idVisitaInsertado = -1;
+
+        String condicion = String.format("%s = %d AND %s >= %d AND %s <= %d"
+                //%d  =  %s          En el mismo día
+                ,BDDContract.Visita.DIA, visita.getDia().getTime()
+                //                   La visita que termine despues de que empieze la nueva visita.
+                , BDDContract.Visita.HORA_FIN, visita.getHoraInicio().getTime()
+                //                   La visita que empieze antes de que termine la nueva visita.
+                , BDDContract.Visita.HORA_INICIO, visita.getHoraFin().getTime());
 
         //Se abre la base de datos
         SQLiteDatabase db = mHelper.getWritableDatabase();
-        //Se crea la lista de pares clave-valor para realizar la inserción.
-        ContentValues valores = new ContentValues();
-        valores.put(BDDContract.Visita.ID_ALUMNO, visita.getIdAlumno());
-        valores.put(BDDContract.Visita.DIA, visita.getDia().getTime());
-        valores.put(BDDContract.Visita.HORA_INICIO, visita.getHoraInicio().getTime());
-        valores.put(BDDContract.Visita.HORA_FIN, visita.getHoraFin().getTime());
-        valores.put(BDDContract.Visita.RESUMEN, visita.getResumen());
+        //Busca si existe alguna visita en el mismo intervalo de tiempo que la nueva.
+        //Si existiera, no permitiría la creación de la nueva.
+        Cursor cursor = db.query(BDDContract.Visita.TABLA,BDDContract.Visita.TODOS, condicion, null, null, null, null, null);
+        if(cursor.getCount() == 0){
+            //Se crea la lista de pares clave-valor para realizar la inserción.
+            ContentValues valores = new ContentValues();
+            valores.put(BDDContract.Visita.ID_ALUMNO, visita.getIdAlumno());
+            valores.put(BDDContract.Visita.DIA, visita.getDia().getTime());
+            valores.put(BDDContract.Visita.HORA_INICIO, visita.getHoraInicio().getTime());
+            valores.put(BDDContract.Visita.HORA_FIN, visita.getHoraFin().getTime());
+            valores.put(BDDContract.Visita.RESUMEN, visita.getResumen());
 
-        //Se realiza la Insert y se cierra la base de datos.
-        idVisitaInsertado = db.insert(BDDContract.Visita.TABLA, null, valores);
+            //Se realiza la Insert y se cierra la base de datos.
+            idVisitaInsertado = db.insert(BDDContract.Visita.TABLA, null, valores);
+        }
+
+        cursor.close();
         db.close();
         return idVisitaInsertado;
     }

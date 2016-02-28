@@ -42,11 +42,13 @@
     <dimen name="marginTopLblHoraInicio">25dp</dimen>
     <dimen name="marginLeftImgCreador">120dp</dimen>
     <dimen name="marginLeftTxtDia">10dp</dimen>
+    <dimen name="widthTxtDia">110dp</dimen>
         <!-- Collapsing Toolbar -->
         <dimen name="text_padding">20dp</dimen>
         <dimen name="appbar_height">128dp</dimen>
         <dimen name="collapsing_titleMarginStart">32dp</dimen>
         <dimen name="heightAppBar">250dp</dimen>
+    <dimen name="widthTxtHora">55dp</dimen>
 
 
 </resources>

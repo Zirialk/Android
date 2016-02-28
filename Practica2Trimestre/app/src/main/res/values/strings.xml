@@ -7,6 +7,10 @@
     <string name="labelProxVisitas">Próximas visitas</string>
     <string name="labelConfiguracion">Configuración</string>
     <string name="labelAcercaDe">Acerca de…</string>
+    <!-- DialogPickers -->
+        <string name="labelPickerFecha">Fecha</string>
+        <string name="labelpickerHoraInicio">Hora Inicio</string>
+        <string name="labelPickerHoraFin">Hora Fin</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>

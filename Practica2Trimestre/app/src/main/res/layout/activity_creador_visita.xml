@@ -65,14 +65,16 @@
                 />
             <EditText
                 android:id="@+id/txtDia"
-                android:layout_width="100dp"
+                android:layout_width="@dimen/widthTxtDia"
                 android:layout_height="wrap_content"
                 android:layout_alignBaseline="@id/lblDia"
                 android:layout_toRightOf="@id/imgDia"
                 android:layout_toEndOf="@id/imgDia"
                 android:layout_marginLeft="@dimen/marginLeftTxtDia"
                 android:layout_marginStart="@dimen/marginLeftTxtDia"
-                android:inputType="date"/>
+                android:inputType="date"
+                android:focusable="false"
+                />
 
             <!-- HORA INICIO -->
             <TextView
@@ -88,7 +90,7 @@
 
             <EditText
                 android:id="@+id/txtHoraInicio"
-                android:layout_width="100dp"
+                android:layout_width="@dimen/widthTxtHora"
                 android:layout_height="wrap_content"
                 android:layout_alignBaseline="@id/lblHoraInicio"
                 android:layout_toRightOf="@id/imgDia"
@@ -96,7 +98,8 @@
                 android:layout_marginLeft="@dimen/marginLeftTxtDia"
                 android:layout_marginStart="@dimen/marginLeftTxtDia"
                 android:layout_below="@id/txtDia"
-                android:inputType="time"/>
+                android:inputType="time"
+                android:focusable="false"/>
             <ImageView
                 android:id="@+id/imgHoraInicio"
                 android:layout_width="@dimen/iconMaterialBounds"
@@ -121,7 +124,7 @@
                 android:layout_below="@id/lblHoraInicio"/>
             <EditText
                 android:id="@+id/txtHoraFin"
-                android:layout_width="100dp"
+                android:layout_width="@dimen/widthTxtHora"
                 android:layout_height="wrap_content"
                 android:layout_alignBaseline="@id/lblHoraFin"
                 android:layout_toRightOf="@id/imgDia"
@@ -129,7 +132,8 @@
                 android:layout_marginLeft="@dimen/marginLeftTxtDia"
                 android:layout_marginStart="@dimen/marginLeftTxtDia"
                 android:layout_below="@id/txtDia"
-                android:inputType="time"/>
+                android:inputType="time"
+                android:focusable="false"/>
             <ImageView
                 android:id="@+id/imgHoraFin"
                 android:layout_width="@dimen/iconMaterialBounds"
@@ -153,6 +157,7 @@
                 android:layout_marginStart="@dimen/marginLeftMaterialList"
                 android:layout_below="@id/lblHoraFin"/>
             <EditText
+                android:id="@+id/txtResumen"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/lblResumen"

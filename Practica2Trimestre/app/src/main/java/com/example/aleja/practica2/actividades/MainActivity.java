@@ -1,7 +1,6 @@
 package com.example.aleja.practica2.actividades;
 
 import android.animation.Animator;
-import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -19,7 +18,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 
-import com.example.aleja.practica2.bdd.DAO;
 import com.example.aleja.practica2.fragmentos.EditorFragment;
 import com.example.aleja.practica2.fragmentos.TutoriaIndividualFragment;
 import com.example.aleja.practica2.fragmentos.VisitasFragment;
@@ -28,10 +26,8 @@ import com.example.aleja.practica2.R;
 import com.example.aleja.practica2.fragmentos.AlumnosFragment;
 import com.example.aleja.practica2.modelos.Visita;
 
-import java.util.Date;
 
-
-public class MainActivity extends AppCompatActivity implements AlumnosFragment.OnAlumnoSelectedListener,VisitasFragment.OnVisitaSelectedListener, NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements AlumnosFragment.OnAlumnoSelectedListener,VisitasFragment.IVisitasFragment, NavigationView.OnNavigationItemSelectedListener {
 
     //Variables
     private FragmentManager mGestorFragmento;
@@ -96,8 +92,10 @@ public class MainActivity extends AppCompatActivity implements AlumnosFragment.O
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (frgActual instanceof TutoriaIndividualFragment)
+                    ((VisitasFragment) frgActual).onFabPressed();
 
-                startActivity(new Intent(MainActivity.this, CreadorVisitaActivity.class));
+
             }
         });
 
@@ -233,6 +231,7 @@ public class MainActivity extends AppCompatActivity implements AlumnosFragment.O
     public void onVisitaSelected(Visita visita, int position) {
 
     }
+
     //Click del fragmento de lista de alumnos.
     @Override
     public void onAlumnoSelected(Alumno alumno) {

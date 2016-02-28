@@ -25,9 +25,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class VisitaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private final boolean isProxVisita;
-    private final TextDrawable.IBuilder mDrawableBuilder;
     private List<Visita> mDatos;
-    OnVisitaClickListener mOnVisitaClickListener;
+    private OnVisitaClickListener mOnVisitaClickListener;
     private View emptyView;
 
     public interface OnVisitaClickListener{
@@ -37,14 +36,6 @@ public class VisitaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public VisitaAdapter(List<Visita> datos, boolean isProxVisita){
         mDatos=datos;
         this.isProxVisita = isProxVisita;
-
-        mDrawableBuilder = TextDrawable.builder()
-                .beginConfig()
-                .width(100)
-                .height(100)
-                .toUpperCase()
-                .endConfig()
-                .round();
     }
 
     @Override
