@@ -1,6 +1,9 @@
 package com.example.aleja.practica2.actividades;
 
 import android.animation.Animator;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -17,7 +20,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
+import com.example.aleja.practica2.bdd.DAO;
 import com.example.aleja.practica2.fragmentos.EditorFragment;
 import com.example.aleja.practica2.fragmentos.TutoriaIndividualFragment;
 import com.example.aleja.practica2.fragmentos.VisitasFragment;
@@ -36,7 +41,6 @@ public class MainActivity extends AppCompatActivity implements AlumnosFragment.O
     private static final String BACKSTACK = "backstack";
     private static final String BACKSTACK_TUTORIA_CREADOR_ALUMNO = "Lista Alumno <-- creadorAlumno";
     //Vistas
-    private FrameLayout frmContenido;
     private Fragment frgActual;
     private FloatingActionButton fab;
     private Toolbar toolbar;
@@ -45,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements AlumnosFragment.O
     private DrawerLayout drawer;
     private NavigationView navigationView;
 
+    Bitmap b;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,8 +57,9 @@ public class MainActivity extends AppCompatActivity implements AlumnosFragment.O
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         initViews();
-        //DAO.getInstance(this).createAlumno(new Alumno("Fernando", "956", "aa@g", "Empresa", "Tutor", "horario", "direccion", ""));
+        //DAO.getInstance(this).createAlumno(new Alumno("Alex", "956", "aa@g", "Empresa", "Tutor", "horario", "direccion", ""));
         //DAO.getInstance(this).createVisita(new Visita(2, new Date(), new Date(), new Date(), "Tio sin foto"));
+
     }
 
     private void initViews() {
@@ -74,7 +80,6 @@ public class MainActivity extends AppCompatActivity implements AlumnosFragment.O
     }
 
     private void configFragments() {
-        frmContenido = (FrameLayout) findViewById(R.id.frmContenido);
         mGestorFragmento = getSupportFragmentManager();
         //Si es la primera vez que se entra a la aplicación creará un nuevo fragmento de lista de alumnos.
         if(mGestorFragmento.findFragmentByTag(TAG_FRG_LISTA_ALUMNOS) == null)
@@ -83,19 +88,33 @@ public class MainActivity extends AppCompatActivity implements AlumnosFragment.O
             frgActual = mGestorFragmento.findFragmentByTag(TAG_FRG_LISTA_ALUMNOS);
 
         mGestorFragmento.beginTransaction().replace(R.id.frmContenido, frgActual, TAG_FRG_LISTA_ALUMNOS).commit();
-
-
     }
 
     private void configFab() {
         fab = (FloatingActionButton)findViewById(R.id.fab);
+        //Dependiendo del fragmento que esté cargado en el framelayout, la acción del Fab será diferente.
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (frgActual instanceof TutoriaIndividualFragment)
-                    ((VisitasFragment) frgActual).onFabPressed();
-
-
+                Fragment frg = mGestorFragmento.findFragmentById(R.id.frmContenido);
+                //
+                if (frg instanceof TutoriaIndividualFragment) {
+                    //Si se encuentra en el tab de Visitas, al presionar el fab, se podrá crear una visita nueva.
+                    if (((TutoriaIndividualFragment) frgActual).getCurrentPage() == 1) {
+                        Intent intent = new Intent(MainActivity.this, CreadorVisitaActivity.class);
+                        intent.putExtra(CreadorVisitaActivity.INTENT_ID_ALUMNO, ((TutoriaIndividualFragment) frgActual).getIdAlumno());
+                        startActivity(intent);
+                    }
+                    //Abre el creador de alumnos
+                } else if (frg instanceof AlumnosFragment) {
+                    mGestorFragmento.popBackStack();
+                    frgActual = new EditorFragment();
+                    FragmentTransaction trans = mGestorFragmento.beginTransaction();
+                    trans.addToBackStack(BACKSTACK);
+                    trans.replace(R.id.frmContenido, frgActual, TAG_FRG_EDITOR).commit();
+                } else if (frg instanceof EditorFragment) {
+                    ((EditorFragment) frg).buscarFotoEnGaleria();
+                }
             }
         });
 
@@ -110,16 +129,7 @@ public class MainActivity extends AppCompatActivity implements AlumnosFragment.O
         return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
 
-        switch (item.getItemId()){
-            case R.id.action_settings:
-                break;
-        }
-
-        return true;
-    }
 
 
     @Override
@@ -241,4 +251,6 @@ public class MainActivity extends AppCompatActivity implements AlumnosFragment.O
         trans.addToBackStack(BACKSTACK);
         trans.replace(R.id.frmContenido, frgActual, TAG_FRG_EDITOR).commit();
     }
+
+
 }

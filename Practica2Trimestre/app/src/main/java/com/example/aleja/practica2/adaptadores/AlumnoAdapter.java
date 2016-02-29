@@ -1,15 +1,21 @@
 package com.example.aleja.practica2.adaptadores;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+import android.media.ThumbnailUtils;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.amulyakhare.textdrawable.util.ColorGenerator;
+import com.example.aleja.practica2.actividades.MainActivity;
 import com.example.aleja.practica2.modelos.Alumno;
 import com.example.aleja.practica2.R;
 import com.squareup.picasso.Picasso;
@@ -82,8 +88,10 @@ public class AlumnoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             Drawable drawable = mDrawableBuilder.build(alumno.getNombre().substring(0, 1), ColorGenerator.MATERIAL.getColor(alumno.getNombre()));
             if(alumno.getFoto().isEmpty())
                 imgAvatar.setImageDrawable(drawable);
-            else
-                Picasso.with(itemView.getContext()).load(alumno.getFoto()).error(drawable).into(imgAvatar);
+            else{
+                Bitmap thumbnail = BitmapFactory.decodeFile(alumno.getFoto(), new BitmapFactory.Options());
+                imgAvatar.setImageBitmap(ThumbnailUtils.extractThumbnail(thumbnail, imgAvatar.getLayoutParams().width, imgAvatar.getLayoutParams().height));
+            }
 
         }
     }

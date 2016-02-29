@@ -102,14 +102,6 @@ public class VisitasFragment extends Fragment implements VisitaAdapter.OnVisitaC
         MainActivity.translateFab(fab, 0, 0, getResources().getDrawable(R.drawable.ic_add));
 
     }
-    public void onFabPressed(){
-        //Si se entró en las visitas especificas de un alumno.
-        if(idAlumno != -1){
-            Intent intent = new Intent(getContext(), CreadorVisitaActivity.class);
-            intent.putExtra(CreadorVisitaActivity.INTENT_ID_ALUMNO, idAlumno);
-            startActivity(intent);
-        }
-    }
 
     @Override
     public void onAttach(Context context) {

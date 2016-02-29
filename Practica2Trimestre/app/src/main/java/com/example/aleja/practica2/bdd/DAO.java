@@ -64,6 +64,25 @@ public class DAO {
         db.close();
         return idAlumnoInsertado;
     }
+    public int updateAlumno(Alumno alumno){
+        int camposActualizados;
+        //Se abre la base de datos
+        SQLiteDatabase db = mHelper.getWritableDatabase();
+        //Se crea la lista de pares clave-valor para realizar la actualización.
+        ContentValues valores = new ContentValues();
+        valores.put(BDDContract.Alumno.NOMBRE, alumno.getNombre());
+        valores.put(BDDContract.Alumno.TELEFONO, alumno.getTelefono());
+        valores.put(BDDContract.Alumno.EMAIL, alumno.getEmail());
+        valores.put(BDDContract.Alumno.EMPRESA, alumno.getEmpresa());
+        valores.put(BDDContract.Alumno.TUTOR, alumno.getTutor());
+        valores.put(BDDContract.Alumno.HORARIO, alumno.getHorario());
+        valores.put(BDDContract.Alumno.DIRECCION, alumno.getDireccion());
+        valores.put(BDDContract.Alumno.FOTO, alumno.getFoto());
+
+        camposActualizados = db.update(BDDContract.Alumno.TABLA, valores, BDDContract.Alumno._ID +"="+ alumno.getId(), null);
+        db.close();
+        return camposActualizados;
+    }
 
     public boolean deleteAlumno(long id){
         SQLiteDatabase db = mHelper.getWritableDatabase();
@@ -114,6 +133,7 @@ public class DAO {
         return cursorToAlumno(cursor);
     }
 
+
     //    VISITAS
 
 
@@ -157,7 +177,7 @@ public class DAO {
         String condicion = new Date().getTime() + "<" +BDDContract.Visita.DIA;
 
         //Devuelve las visitas posteriores al momento de ejecución de esta sentencia.
-        return bd.query(BDDContract.Visita.TABLA, BDDContract.Visita.TODOS, null, null, null, null, BDDContract.Visita.DIA);
+        return bd.query(BDDContract.Visita.TABLA, BDDContract.Visita.TODOS, condicion, null, null, null, BDDContract.Visita.DIA);
     }
     public List<Visita> getAllProxVisitas(){
         SQLiteDatabase db = mHelper.getWritableDatabase();

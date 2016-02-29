@@ -22,6 +22,13 @@
     <!-- Editor de Alumnos-->
     <string name="contentImgFoto">foto</string>
     <string name="visita">Visita:</string>
+        <!-- Errores campos vacíos -->
+        <string name="errorTutor">Tutor necesario.</string>
+        <string name="errorNombre">Nombre necesario</string>
+        <string name="errorEmpresa">Empresa necesaria</string>
+        <string name="errorHorario">Horario necesario</string>
+        <string name="errorTelefono">Teléfono necesario</string>
+        <string name="errorDireccion">Dirección necesaria</string>
 
     <!-- TABS-->
     <string name="tabAlumno">ALUMNO</string>

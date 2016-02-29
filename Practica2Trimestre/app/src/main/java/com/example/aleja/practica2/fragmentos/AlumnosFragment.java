@@ -10,6 +10,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -43,6 +45,7 @@ public class AlumnosFragment extends Fragment implements AlumnoAdapter.OnItemCli
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
         return inflater.inflate(R.layout.fragment_recycler_view, container, false);
     }
 
@@ -99,7 +102,6 @@ public class AlumnosFragment extends Fragment implements AlumnoAdapter.OnItemCli
         }
     }
 
-
     @Override
     public void onDetach() {
         mListener = null;
@@ -110,5 +112,11 @@ public class AlumnosFragment extends Fragment implements AlumnoAdapter.OnItemCli
     public void onSaveInstanceState(Bundle outState) {
         outState.putParcelableArrayList(STATE_ALUMNOS, mAlumnos);
         super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.main, menu);
+        super.onCreateOptionsMenu(menu, inflater);
     }
 }
