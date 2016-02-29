@@ -36,7 +36,7 @@ import java.io.FileOutputStream;
 public class EditorFragment extends Fragment {
 
     private static final String ARG_ALUMNO = "alumno_a_editar";
-    private static final int RC_SELECCIONAR_FOTO = 213;
+    public static final int RC_SELECCIONAR_FOTO = 8;
     private TextView txtEmail;
     private TextView txtNombre;
     private TextView txtTelefono;
@@ -116,6 +116,10 @@ public class EditorFragment extends Fragment {
         else
             imgFoto.setImageURI(Uri.fromFile(new File(mAlumno.getFoto())));
     }
+    public void confirmarCambios(){
+
+
+    }
     private boolean crearAlumno(){
         Alumno alumno = getAlumnoFromForms();
         //Si se han rellenado todos los campos y el alumno se ha creado correctamente
@@ -183,10 +187,12 @@ public class EditorFragment extends Fragment {
             }
             Alumno alumnoAux = new Alumno(txtNombre.getText().toString(), txtTelefono.getText().toString(), txtEmail.getText().toString(), txtEmpresa.getText().toString(), txtTutor.getText().toString(), txtHorario.getText().toString(), txtDireccion.getText().toString(), pathFotoEscalada);
 
-            //Si se está editando, al alumnoAux se le establecerá el mismo id y el path de la foto que contiene el alumno que estamos editando.
+            //Si se está editando, al alumnoAux se le establecerá el mismo id del alumno que estamos editando.
             if(mAlumno != null){
                 alumnoAux.setId(mAlumno.getId());
-                alumnoAux.setFoto(mAlumno.getFoto());
+                //Si no se ha escogido una imagen nueva, el alumno editado seguirá con la misma que tenía hasta el momento.
+                if(pathFotoEscalada.isEmpty())
+                    alumnoAux.setFoto(mAlumno.getFoto());
             }
 
             return alumnoAux;
@@ -234,7 +240,7 @@ public class EditorFragment extends Fragment {
     public void buscarFotoEnGaleria(){
         Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         i.setType("image/*");
-        startActivityForResult(i, RC_SELECCIONAR_FOTO);
+        getActivity().startActivityForResult(i, RC_SELECCIONAR_FOTO);
     }
 
     @Override
@@ -252,6 +258,7 @@ public class EditorFragment extends Fragment {
             }
         }
     }
+
 
     // Obtiene el path real de una imagen a partir de la URI de Galería obtenido con ACTION_PICK.
     private String getRealPath(Uri uriGaleria) {

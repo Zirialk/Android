@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements AlumnosFragment.O
     private FragmentManager mGestorFragmento;
     private static final String TAG_FRG_LISTA_ALUMNOS = "Alumnos";
     private static final String TAG_FRG_EDITOR = "Editor";
+    private static final String TAG_FRG_TUTORIA_INDIVIDUAL = "Tag tutoría individual";
     private static final String BACKSTACK = "backstack";
     private static final String BACKSTACK_TUTORIA_CREADOR_ALUMNO = "Lista Alumno <-- creadorAlumno";
     //Vistas
@@ -50,6 +51,8 @@ public class MainActivity extends AppCompatActivity implements AlumnosFragment.O
     private NavigationView navigationView;
 
     Bitmap b;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,8 +102,11 @@ public class MainActivity extends AppCompatActivity implements AlumnosFragment.O
                 Fragment frg = mGestorFragmento.findFragmentById(R.id.frmContenido);
                 //
                 if (frg instanceof TutoriaIndividualFragment) {
-                    //Si se encuentra en el tab de Visitas, al presionar el fab, se podrá crear una visita nueva.
-                    if (((TutoriaIndividualFragment) frgActual).getCurrentPage() == 1) {
+                    int currentPage = ((TutoriaIndividualFragment) frgActual).getCurrentPage();
+                    if (currentPage == 0)
+                        ((EditorFragment) ((TutoriaIndividualFragment) frg).getItem(currentPage)).buscarFotoEnGaleria();
+                        //Si se encuentra en el tab de Visitas, al presionar el fab, se podrá crear una visita nueva.
+                    else if (currentPage == 1) {
                         Intent intent = new Intent(MainActivity.this, CreadorVisitaActivity.class);
                         intent.putExtra(CreadorVisitaActivity.INTENT_ID_ALUMNO, ((TutoriaIndividualFragment) frgActual).getIdAlumno());
                         startActivity(intent);
@@ -249,8 +255,25 @@ public class MainActivity extends AppCompatActivity implements AlumnosFragment.O
 
         FragmentTransaction trans  = mGestorFragmento.beginTransaction();
         trans.addToBackStack(BACKSTACK);
-        trans.replace(R.id.frmContenido, frgActual, TAG_FRG_EDITOR).commit();
+        trans.replace(R.id.frmContenido, frgActual, TAG_FRG_TUTORIA_INDIVIDUAL).commit();
     }
 
-
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == RESULT_OK){
+            switch (requestCode){
+                //Cuando se seleccione foto de la galería a través del fab que contiene el MainActivity, al ejecutarlo desde el MainActivity
+                //en vez de ejecutarse el onActivityResult del fragmento, se ejecutará este.
+                case EditorFragment.RC_SELECCIONAR_FOTO:
+                    //Se conseguirá el fragmento que lanzó el startActivityForResult y se ejecutará su onActivityResult pasandole los parámetros de este.
+                    TutoriaIndividualFragment tutoriaFrg = (TutoriaIndividualFragment) mGestorFragmento.findFragmentByTag(TAG_FRG_TUTORIA_INDIVIDUAL);
+                    if(tutoriaFrg != null)
+                        tutoriaFrg.getItem(tutoriaFrg.getCurrentPage()).onActivityResult(requestCode, resultCode, data);
+                    else
+                        mGestorFragmento.findFragmentByTag(TAG_FRG_EDITOR).onActivityResult(requestCode,resultCode,data);
+                    break;
+            }
+        }
+    }
 }

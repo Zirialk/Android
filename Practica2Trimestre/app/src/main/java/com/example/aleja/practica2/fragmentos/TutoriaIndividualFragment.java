@@ -24,6 +24,7 @@ public class TutoriaIndividualFragment extends Fragment{
     private static final String ARG_ALUMNO = "alumno";
     private Alumno mAlumno;
     private ViewPager viewPager;
+    private SectionsPagerAdapter vpAdapter;
 
     public static TutoriaIndividualFragment newInstance(Alumno alumno) {
         Bundle args = new Bundle();
@@ -52,7 +53,7 @@ public class TutoriaIndividualFragment extends Fragment{
 
     private void configViewPager() {
         final FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
-        final SectionsPagerAdapter vpAdapter = new SectionsPagerAdapter(getChildFragmentManager());
+        vpAdapter = new SectionsPagerAdapter(getChildFragmentManager());
         viewPager = (ViewPager) getActivity().findViewById(R.id.container);
         viewPager.setAdapter(vpAdapter);
 
@@ -64,7 +65,7 @@ public class TutoriaIndividualFragment extends Fragment{
             public void onTabSelected(TabLayout.Tab tab) {
                 switch (tab.getPosition()) {
                     case 0:
-                        moverFab(-420 , R.drawable.ic_photo_camera_white_24dp);
+                        moverFab(-420, R.drawable.ic_photo_camera_white_24dp);
                         break;
                     case 1:
                         moverFab(0, R.drawable.ic_add);
@@ -88,12 +89,16 @@ public class TutoriaIndividualFragment extends Fragment{
     public int getCurrentPage(){
         return viewPager.getCurrentItem();
     }
+    public Fragment getItem(int position){
+        return vpAdapter.getItem(position);
+    }
     public int getIdAlumno(){
         return mAlumno.getId();
     }
 
     class SectionsPagerAdapter extends CachedFragmentPagerAdapter {
-
+        EditorFragment frgEditor;
+        VisitasFragment frgVisitas;
 
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -103,9 +108,13 @@ public class TutoriaIndividualFragment extends Fragment{
         public Fragment getItem(int position) {
             switch (position){
                 case 0:
-                    return EditorFragment.newInstance(mAlumno);
+                    if(frgEditor == null)
+                        frgEditor = EditorFragment.newInstance(mAlumno);
+                    return frgEditor;
                 case 1:
-                    return VisitasFragment.newInstance(mAlumno);
+                    if(frgVisitas == null)
+                        frgVisitas = VisitasFragment.newInstance(mAlumno);
+                    return frgVisitas;
             }
             return null;
         }

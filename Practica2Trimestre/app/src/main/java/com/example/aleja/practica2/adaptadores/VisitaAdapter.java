@@ -1,6 +1,9 @@
 package com.example.aleja.practica2.adaptadores;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+import android.media.ThumbnailUtils;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -134,9 +137,10 @@ public class VisitaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                 .rect().build(alumno.getNombre().substring(0, 1), ColorGenerator.MATERIAL.getColor(alumno.getNombre()));
             if(alumno.getFoto().isEmpty())
                 imgAvatar.setImageDrawable(drawable);
-            else
-                Picasso.with(itemView.getContext()).load(alumno.getFoto()).error(drawable).into(imgAvatar);
-
+            else{
+                Bitmap thumbnail = BitmapFactory.decodeFile(alumno.getFoto(), new BitmapFactory.Options());
+                imgAvatar.setImageBitmap(ThumbnailUtils.extractThumbnail(thumbnail, imgAvatar.getLayoutParams().width, imgAvatar.getLayoutParams().height));
+            }
         }
     }
 
