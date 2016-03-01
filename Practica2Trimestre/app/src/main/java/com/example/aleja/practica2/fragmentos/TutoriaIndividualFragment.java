@@ -1,6 +1,8 @@
 package com.example.aleja.practica2.fragmentos;
 
 import android.animation.Animator;
+import android.content.Context;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -16,6 +18,7 @@ import android.view.animation.AccelerateInterpolator;
 import android.widget.Toast;
 
 import com.example.aleja.practica2.R;
+import com.example.aleja.practica2.actividades.MainActivity;
 import com.example.aleja.practica2.adaptadores.CachedFragmentPagerAdapter;
 import com.example.aleja.practica2.modelos.Alumno;
 
@@ -25,6 +28,7 @@ public class TutoriaIndividualFragment extends Fragment{
     private Alumno mAlumno;
     private ViewPager viewPager;
     private SectionsPagerAdapter vpAdapter;
+    private FloatingActionButton fab;
 
     public static TutoriaIndividualFragment newInstance(Alumno alumno) {
         Bundle args = new Bundle();
@@ -49,10 +53,11 @@ public class TutoriaIndividualFragment extends Fragment{
 
     private void initViews() {
         configViewPager();
+
     }
 
     private void configViewPager() {
-        final FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
+        fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
         vpAdapter = new SectionsPagerAdapter(getChildFragmentManager());
         viewPager = (ViewPager) getActivity().findViewById(R.id.container);
         viewPager.setAdapter(vpAdapter);
@@ -65,7 +70,9 @@ public class TutoriaIndividualFragment extends Fragment{
             public void onTabSelected(TabLayout.Tab tab) {
                 switch (tab.getPosition()) {
                     case 0:
-                        moverFab(-420, R.drawable.ic_photo_camera_white_24dp);
+                        //Consigue la posición exacta en pantalla del final del imgFoto
+                        int posFinal = (int) (fab.getY()-((EditorFragment)getItem(0)).getPosDebajoImgFoto());
+                        moverFab(-posFinal, R.drawable.ic_photo_camera_white_24dp);
                         break;
                     case 1:
                         moverFab(0, R.drawable.ic_add);
@@ -85,10 +92,14 @@ public class TutoriaIndividualFragment extends Fragment{
 
             }
         });
+
     }
+
+
     public int getCurrentPage(){
         return viewPager.getCurrentItem();
     }
+
     public Fragment getItem(int position){
         return vpAdapter.getItem(position);
     }
@@ -137,32 +148,33 @@ public class TutoriaIndividualFragment extends Fragment{
             }
             return null;
         }
-
     }
 
     private void moverFab(int y, final int idDrawable){
-        final FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
 
         fab.animate().translationY(y).setInterpolator(new AccelerateInterpolator(2)).setListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animation) {
                 fab.setImageResource(idDrawable);
             }
-
             @Override
-            public void onAnimationEnd(Animator animation) {
-
-            }
-
+            public void onAnimationEnd(Animator animation) {}
             @Override
-            public void onAnimationCancel(Animator animation) {
-
-            }
-
+            public void onAnimationCancel(Animator animation) {}
             @Override
-            public void onAnimationRepeat(Animator animation) {
+            public void onAnimationRepeat(Animator animation) {}
+        }).start();
+    }
 
-            }
-        });
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        
+    }
+
+    @Override
+    public void onDetach() {
+        getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
+        super.onDetach();
     }
 }

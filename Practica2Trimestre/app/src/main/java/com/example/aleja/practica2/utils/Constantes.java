@@ -2,5 +2,11 @@ package com.example.aleja.practica2.utils;
 
 
 public final class Constantes {
-    public static final long MILISEG_OF_ONE_HOUR = 3600000;
+    //Preferencias
+    public static final String ORDEN_ASCENDENTE = "Ascendente";
+    public static final String ORDEN_DESCENDENTE = "Descendente";
+    public static final String FRG_INI_TUTORIAS = "Tutorías";
+    public static final String FRG_INI_PROX_VISITAS = "Próximas visitas";
+    public static final String PREF_FRAGMENTO_INICIAL = "prefFragmentoInicial";
+    public static final String PREF_ORDEN_VISITA = "prefOrdenVisitas";
 }

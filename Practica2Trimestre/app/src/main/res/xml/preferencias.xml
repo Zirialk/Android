@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ListPreference
+        android:key="prefFragmentoInicial"
+        android:title="@string/titlePestanaInicial"
+        android:dialogTitle="@string/titlePestanaInicial"
+        android:entries="@array/fragmentosIniciales"
+        android:entryValues="@array/fragmentosIniciales"
+        android:summary="%s"
+        android:defaultValue="@string/itemTutorias" />
+
+    <ListPreference
+        android:key="prefOrdenVisitas"
+        android:title="@string/titleOrdenVisitas"
+        android:dialogTitle="@string/titleOrdenVisitas"
+        android:entries="@array/ordenes"
+        android:entryValues="@array/ordenes"
+        android:summary="%s"
+        android:defaultValue="@string/itemAscendente" />
+</PreferenceScreen>

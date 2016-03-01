@@ -1,7 +1,9 @@
 package com.example.aleja.practica2.actividades;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -28,6 +30,9 @@ import java.util.Locale;
 public class CreadorVisitaActivity extends AppCompatActivity {
 
     public static final String INTENT_ID_ALUMNO = "intent_alumno";
+    public static final int RC_CREADOR_VISITA = 233;
+    private static final String INTENT_VISITA = "Edicion visita";
+    private Visita mVisita;
     private int mIdAlumno;
 
     private Toolbar toolbar;
@@ -36,6 +41,12 @@ public class CreadorVisitaActivity extends AppCompatActivity {
     private EditText txtHoraFin;
     private EditText txtResumen;
 
+    public static void startActivityForResult(Activity activity, Visita visita, int requestCode){
+        Intent intent = new Intent(activity, CreadorVisitaActivity.class);
+        intent.putExtra(INTENT_VISITA,visita);
+
+        activity.startActivityForResult(intent, requestCode);
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,7 +60,22 @@ public class CreadorVisitaActivity extends AppCompatActivity {
             }
         });
         initViews();
-        mIdAlumno = getIntent().getIntExtra(INTENT_ID_ALUMNO, -1);
+        //Modo Edición
+        if( (mVisita = getIntent().getParcelableExtra(INTENT_VISITA)) != null){
+            mIdAlumno = mVisita.getIdAlumno();
+            rellenarCampos();
+        }
+        //Modo Creación
+        else
+            mIdAlumno = getIntent().getIntExtra(INTENT_ID_ALUMNO, -1);
+    }
+
+    private void rellenarCampos() {
+        SimpleDateFormat formatHoras = new SimpleDateFormat("HH:mm", Locale.getDefault());
+        txtDia.setText(new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(mVisita.getDia()));
+        txtHoraInicio.setText(formatHoras.format(mVisita.getHoraInicio()));
+        txtHoraFin.setText(formatHoras.format(mVisita.getHoraFin()));
+        txtResumen.setText(mVisita.getResumen());
     }
 
     private void initViews() {
@@ -80,28 +106,46 @@ public class CreadorVisitaActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.action_save:
+                boolean confirmado = false;
                 if(comprobarDatos()){
-                    try {
-                        SimpleDateFormat formatHora = new SimpleDateFormat("HH:mm", Locale.getDefault());
-                        Date dateDia = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).parse(txtDia.getText().toString());
-                        Date dateHoraInicio = formatHora.parse(txtHoraInicio.getText().toString());
-                        Date dateHoraFin = formatHora.parse(txtHoraFin.getText().toString());
-                        Visita visita = new Visita(mIdAlumno, dateDia, dateHoraInicio, dateHoraFin, txtResumen.getText().toString());
+                    //Modo Crear
+                    if(mVisita == null){
+                        if(DAO.getInstance(this).createVisita(createVisitaFromForms()) != -1);
+                            confirmado = true;
+                    //Modo Edición
+                    }else
+                        if(DAO.getInstance(this).updateVisita(createVisitaFromForms()) > 0)
+                            confirmado = true;
 
-                        if(DAO.getInstance(this).createVisita(visita) == -1)
-                            Toast.makeText(this, "Ya existe una visita en este intervalo", Toast.LENGTH_SHORT).show();
-                        else
-                            onBackPressed();
-
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
+                    //Si se ha conseguido crear o actualizar se saldrá del creador
+                    //sino le mostrará un Toast mostrandole que no es posible crear la visita en ese intervalo.
+                    if(confirmado)
+                        onBackPressed();
+                    else
+                        Toast.makeText(this, "Ya existe una visita en este intervalo", Toast.LENGTH_SHORT).show();
                 }
                 break;
         }
 
         return true;
     }
+    private Visita createVisitaFromForms() {
+        Visita visita = null;
+        try {
+            SimpleDateFormat formatHora = new SimpleDateFormat("HH:mm", Locale.getDefault());
+            Date dateDia = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).parse(txtDia.getText().toString());
+            Date dateHoraInicio = formatHora.parse(txtHoraInicio.getText().toString());
+            Date dateHoraFin = formatHora.parse(txtHoraFin.getText().toString());
+            visita = new Visita(mIdAlumno, dateDia, dateHoraInicio, dateHoraFin, txtResumen.getText().toString());
+            //Si se está editando.
+            if(mVisita != null)
+                visita.setId(mVisita.getId());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return visita;
+    }
+
     //Permite que los editText muestren un dialogo al ser pulsados para establecer la hora o la fecha.
     public void confPicker(final EditText txt, final String titulo, final int inputType){
 
@@ -143,7 +187,7 @@ public class CreadorVisitaActivity extends AppCompatActivity {
 
                     //Si el txt está vacio se mostrará por defecto la hora actual.
                     if(txt.getText().toString().isEmpty()){
-                        hora = currentDate.get(Calendar.HOUR_OF_DAY)+1;
+                        hora = currentDate.get(Calendar.HOUR_OF_DAY);
                         minutos = currentDate.get(Calendar.MINUTE);
                     }else{
                         //Por el contrario, si ya contiene una hora, mostrará esa por defecto para elegir a partir de esa.
@@ -166,6 +210,10 @@ public class CreadorVisitaActivity extends AppCompatActivity {
 
             }
         });
+    }
+    public void finish() {
+        setResult(RESULT_OK, new Intent());
+        super.finish();
     }
 
 }

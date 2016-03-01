@@ -1,18 +1,22 @@
 package com.example.aleja.practica2.fragmentos;
 
+import android.animation.Animator;
 import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.graphics.drawable.DrawerArrowDrawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -20,6 +24,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.widget.AbsListView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -76,11 +82,10 @@ public class EditorFragment extends Fragment {
             if((mAlumno = getArguments().getParcelable(ARG_ALUMNO)) != null)
                 cargarDatosAlumno();
 
-
-
     }
 
     private void initViews() {
+        imgFoto = (ImageView) getActivity().findViewById(R.id.imgFoto);
         txtNombre = (TextView) getActivity().findViewById(R.id.txtNombre);
         txtTelefono = (TextView) getActivity().findViewById(R.id.txtTelefono);
         txtEmail = (TextView) getActivity().findViewById(R.id.txtEmail);
@@ -88,19 +93,64 @@ public class EditorFragment extends Fragment {
         txtTutor = (TextView) getActivity().findViewById(R.id.txtTutor);
         txtHorario = (TextView) getActivity().findViewById(R.id.txtHorario);
         txtDireccion = (TextView) getActivity().findViewById(R.id.txtDireccion);
-        imgFoto = (ImageView) getActivity().findViewById(R.id.imgFoto);
         configFab();
     }
 
     private void configFab() {
         fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
-        float pos = imgFoto.getLayoutParams().height - fab.getY();
-        //Si el fab no se encuentra ya encima de imgFoto, se moverá encima.
-        if(pos != 0)
-            MainActivity.translateFab(fab, 0, pos, getResources().getDrawable(R.drawable.ic_photo_camera_white_24dp));
-
-
+        moverFabDebajoImgFoto();
     }
+    private void moverFabDebajoImgFoto(){
+        imgFoto.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                //Remove the listener before proceeding
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
+                    imgFoto.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                else
+                    imgFoto.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+
+                //PosiciónY donde termina el ImageView imgFoto.
+                final int posFinalImgFoto = getPosDebajoImgFoto();
+                //Colocará el centro del FAB en el final del imageView
+                if (fab.getY() != posFinalImgFoto)
+                    //Se mueve a la misma posición adonde estaba para que su getY se actualize, porque sino fab.getY no se actualizará se moverá mal
+                    fab.hide(new FloatingActionButton.OnVisibilityChangedListener() {
+                        @Override
+                        public void onHidden(final FloatingActionButton fab) {
+                            fab.animate().translationY(0).setDuration(0).setListener(new Animator.AnimatorListener() {
+                                @Override
+                                public void onAnimationStart(Animator animation) {
+                                }
+
+                                @Override
+                                public void onAnimationEnd(Animator animation) {
+                                    MainActivity.translateFab(fab, 0, -(fab.getY() - posFinalImgFoto), R.drawable.ic_photo_camera_white_24dp);
+                                }
+
+                                @Override
+                                public void onAnimationCancel(Animator animation) {
+                                }
+
+                                @Override
+                                public void onAnimationRepeat(Animator animation) {
+                                }
+                            });
+                        }
+                    });
+
+
+            }
+        });
+    }
+    //Obtiene la posición exacta del final de imgFoto respecto a la pantalla.
+    public int getPosDebajoImgFoto(){
+        int[] posImgFoto = new int[2];
+        imgFoto.getLocationInWindow(posImgFoto);
+        return (posImgFoto[1]+ imgFoto.getLayoutParams().height/2)+ fab.getWidth()/3;
+    }
+
+
 
     //Rellena los EditText con los datos del mAlumno.
     private void cargarDatosAlumno() {
@@ -115,10 +165,6 @@ public class EditorFragment extends Fragment {
             imgFoto.setImageResource(R.drawable.icon_user_default);
         else
             imgFoto.setImageURI(Uri.fromFile(new File(mAlumno.getFoto())));
-    }
-    public void confirmarCambios(){
-
-
     }
     private boolean crearAlumno(){
         Alumno alumno = getAlumnoFromForms();
@@ -221,6 +267,7 @@ public class EditorFragment extends Fragment {
                     //Si se ha creado el alumno con éxito, se volvera a la pantalla anterior.
                     if(crearAlumno())
                         getActivity().onBackPressed();
+
                 }
                 //Modo Actualizar
                 else
@@ -270,6 +317,7 @@ public class EditorFragment extends Fragment {
         String path = c.getString(columnIndex);
         c.close();
         return path;
+
     }
 
     class Escalador extends AsyncTask<Integer, Void, Bitmap>{

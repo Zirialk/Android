@@ -1,7 +1,5 @@
 package com.example.aleja.practica2.fragmentos;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -15,7 +13,6 @@ import android.view.ViewGroup;
 
 import com.example.aleja.practica2.R;
 import com.example.aleja.practica2.actividades.CreadorVisitaActivity;
-import com.example.aleja.practica2.actividades.MainActivity;
 import com.example.aleja.practica2.adaptadores.VisitaAdapter;
 import com.example.aleja.practica2.bdd.DAO;
 import com.example.aleja.practica2.modelos.Alumno;
@@ -27,20 +24,13 @@ public class VisitasFragment extends Fragment implements VisitaAdapter.OnVisitaC
     private static final String STATE_VISITA = "stateVisitas";
     private static final String ARG_ALUMNO = "alumno";
     private ArrayList<Visita> mVisitas = new ArrayList<>();
-    private IVisitasFragment mListener;
     private RecyclerView rvVisitas;
     private VisitaAdapter mAdaptador;
     private LinearLayoutManager mLayoutManager;
-    private FloatingActionButton fab;
 
     private int idAlumno = -1;
 
 
-    // Interfaz para notificación de eventos desde el fragmento.
-    public interface IVisitasFragment {
-        // Cuando se selecciona un Alumno.
-        void onVisitaSelected(Visita visita, int position);
-    }
 
     public static VisitasFragment newInstance(Alumno alumno) {
 
@@ -70,20 +60,27 @@ public class VisitasFragment extends Fragment implements VisitaAdapter.OnVisitaC
         //Si se entra sin argumentos, se pedirá la lista de próximas visitas.
         if(getArguments() == null){
             mAdaptador = new VisitaAdapter(mVisitas, true);
-            mAdaptador.replaceAll(DAO.getInstance(getContext()).getAllProxVisitas());
+            actualizarProxVisitas();
+            ((FloatingActionButton) getActivity().findViewById(R.id.fab)).hide();
         }
         else{
             idAlumno = ((Alumno) getArguments().getParcelable(ARG_ALUMNO)).getId();
             mAdaptador = new VisitaAdapter(mVisitas, false);
             //Si existe argumento, se pedira las visitas del alumno pasado por parámetro.
-            mAdaptador.replaceAll(DAO.getInstance(getContext()).getAlumnoVisitas(idAlumno));
+            actualizarListaPersonal();
         }
         initViews();
     }
+    public void actualizarListaPersonal(){
+        mAdaptador.replaceAll(DAO.getInstance(getContext()).getAlumnoVisitas(idAlumno));
+    }
+    public void actualizarProxVisitas(){
+        mAdaptador.replaceAll(DAO.getInstance(getContext()).getAllProxVisitas());
+    }
+
 
     private void initViews() {
         configRecyclerView();
-        configFab();
     }
 
     private void configRecyclerView() {
@@ -97,29 +94,6 @@ public class VisitasFragment extends Fragment implements VisitaAdapter.OnVisitaC
         rvVisitas.setItemAnimator(new DefaultItemAnimator());
     }
 
-    private void configFab() {
-        fab = (FloatingActionButton)getActivity().findViewById(R.id.fab);
-        MainActivity.translateFab(fab, 0, 0, getResources().getDrawable(R.drawable.ic_add));
-
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        try {
-            mListener = (IVisitasFragment) context;
-        } catch (ClassCastException e) {
-            // La actividad no implementa la interfaz necesaria.
-            throw new ClassCastException(context.toString() + " must implements IVisitasFragment");
-        }
-    }
-
-
-    @Override
-    public void onDetach() {
-        mListener = null;
-        super.onDetach();
-    }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
@@ -129,8 +103,10 @@ public class VisitasFragment extends Fragment implements VisitaAdapter.OnVisitaC
 
     @Override
     public void onVisitaClick(View view, Visita visita, int position) {
+        //Si estamos en las visitas personales
+        if(idAlumno != -1)
+            CreadorVisitaActivity.startActivityForResult(getActivity(), visita, CreadorVisitaActivity.RC_CREADOR_VISITA);
 
     }
-
 
 }

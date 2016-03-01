@@ -33,7 +33,7 @@
     <dimen name="textSizeCv">20sp</dimen>
     <dimen name="marginLeftLblFecha">95dp</dimen>
     <dimen name="marginRightLblHora">20dp</dimen>
-    <dimen name="marginTopLblResumen">60dp</dimen>
+    <dimen name="marginTopLblResumen">30dp</dimen>
     <dimen name="widthLblResumen">300dp</dimen>
 
 

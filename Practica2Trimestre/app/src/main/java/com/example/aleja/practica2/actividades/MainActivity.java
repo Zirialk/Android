@@ -1,11 +1,10 @@
 package com.example.aleja.practica2.actividades;
 
 import android.animation.Animator;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -14,33 +13,34 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.FrameLayout;
-import android.widget.Toast;
 
-import com.example.aleja.practica2.bdd.DAO;
 import com.example.aleja.practica2.fragmentos.EditorFragment;
 import com.example.aleja.practica2.fragmentos.TutoriaIndividualFragment;
 import com.example.aleja.practica2.fragmentos.VisitasFragment;
 import com.example.aleja.practica2.modelos.Alumno;
 import com.example.aleja.practica2.R;
 import com.example.aleja.practica2.fragmentos.AlumnosFragment;
-import com.example.aleja.practica2.modelos.Visita;
+import com.example.aleja.practica2.utils.Constantes;
 
 
-public class MainActivity extends AppCompatActivity implements AlumnosFragment.OnAlumnoSelectedListener,VisitasFragment.IVisitasFragment, NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements AlumnosFragment.OnAlumnoSelectedListener, NavigationView.OnNavigationItemSelectedListener {
+
 
     //Variables
     private FragmentManager mGestorFragmento;
+    private static final String STATE_TAG = "tagState";
     private static final String TAG_FRG_LISTA_ALUMNOS = "Alumnos";
     private static final String TAG_FRG_EDITOR = "Editor";
     private static final String TAG_FRG_TUTORIA_INDIVIDUAL = "Tag tutoría individual";
+    private static final String TAG_FRG_VISITAS = "Visitas";
+    private static final int RC_PREFERENCES = 444;
     private static final String BACKSTACK = "backstack";
-    private static final String BACKSTACK_TUTORIA_CREADOR_ALUMNO = "Lista Alumno <-- creadorAlumno";
     //Vistas
     private Fragment frgActual;
     private FloatingActionButton fab;
@@ -50,7 +50,6 @@ public class MainActivity extends AppCompatActivity implements AlumnosFragment.O
     private DrawerLayout drawer;
     private NavigationView navigationView;
 
-    Bitmap b;
 
 
     @Override
@@ -59,16 +58,19 @@ public class MainActivity extends AppCompatActivity implements AlumnosFragment.O
         setContentView(R.layout.activity_main);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        mGestorFragmento = getSupportFragmentManager();
+        if(savedInstanceState != null)
+            frgActual = mGestorFragmento.findFragmentByTag(savedInstanceState.getString(STATE_TAG));
         initViews();
-        //DAO.getInstance(this).createAlumno(new Alumno("Alex", "956", "aa@g", "Empresa", "Tutor", "horario", "direccion", ""));
-        //DAO.getInstance(this).createVisita(new Visita(2, new Date(), new Date(), new Date(), "Tio sin foto"));
 
     }
 
+
     private void initViews() {
         configNavigation();
-        configFragments();
         configFab();
+        if(frgActual == null)
+            cargarFragmentoInicio();
 
     }
 
@@ -82,8 +84,21 @@ public class MainActivity extends AppCompatActivity implements AlumnosFragment.O
         navigationView.setNavigationItemSelectedListener(this);
     }
 
-    private void configFragments() {
-        mGestorFragmento = getSupportFragmentManager();
+    private void cargarFragmentoInicio() {
+        //Obtiene de las preferencias, cual será el fragmento cargado cuando se abra la aplicación.
+        String prefEscogida = PreferenceManager.getDefaultSharedPreferences(this).getString(Constantes.PREF_FRAGMENTO_INICIAL, getString(R.string.itemTutorias));
+        switch (prefEscogida){
+            case Constantes.FRG_INI_TUTORIAS:
+                cargarListaAlumnos();
+                break;
+            case Constantes.FRG_INI_PROX_VISITAS:
+                cargarProxVisitas();
+                break;
+        }
+
+    }
+    private void cargarListaAlumnos(){
+        toolbar.setTitle(R.string.labelCrearAlumno);
         //Si es la primera vez que se entra a la aplicación creará un nuevo fragmento de lista de alumnos.
         if(mGestorFragmento.findFragmentByTag(TAG_FRG_LISTA_ALUMNOS) == null)
             frgActual = new AlumnosFragment();
@@ -91,6 +106,11 @@ public class MainActivity extends AppCompatActivity implements AlumnosFragment.O
             frgActual = mGestorFragmento.findFragmentByTag(TAG_FRG_LISTA_ALUMNOS);
 
         mGestorFragmento.beginTransaction().replace(R.id.frmContenido, frgActual, TAG_FRG_LISTA_ALUMNOS).commit();
+    }
+    private void cargarProxVisitas(){
+        toolbar.setTitle(R.string.labelProxVisitas);
+        frgActual = new VisitasFragment();
+        mGestorFragmento.beginTransaction().replace(R.id.frmContenido, frgActual, TAG_FRG_VISITAS).commit();
     }
 
     private void configFab() {
@@ -109,7 +129,7 @@ public class MainActivity extends AppCompatActivity implements AlumnosFragment.O
                     else if (currentPage == 1) {
                         Intent intent = new Intent(MainActivity.this, CreadorVisitaActivity.class);
                         intent.putExtra(CreadorVisitaActivity.INTENT_ID_ALUMNO, ((TutoriaIndividualFragment) frgActual).getIdAlumno());
-                        startActivity(intent);
+                        startActivityForResult(intent, CreadorVisitaActivity.RC_CREADOR_VISITA);
                     }
                     //Abre el creador de alumnos
                 } else if (frg instanceof AlumnosFragment) {
@@ -127,7 +147,6 @@ public class MainActivity extends AppCompatActivity implements AlumnosFragment.O
     }
 
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -136,13 +155,9 @@ public class MainActivity extends AppCompatActivity implements AlumnosFragment.O
     }
 
 
-
-
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         String tag = "";
-        //Resetea la cola de fragmentos, para que no se hagan un lio.
-        mGestorFragmento.popBackStack();
 
         FragmentTransaction trans = mGestorFragmento.beginTransaction();
 
@@ -164,19 +179,29 @@ public class MainActivity extends AppCompatActivity implements AlumnosFragment.O
             case R.id.nav_prox_visitas:
                 toolbar.setTitle(R.string.labelProxVisitas);
                 frgActual = new VisitasFragment();
+                tag = TAG_FRG_VISITAS;
                 break;
             case R.id.nav_configuracion:
-                toolbar.setTitle(R.string.labelConfiguracion);
-                break;
+                drawer.closeDrawers();
+                startActivityForResult(new Intent(this, PreferenceActivity.class), RC_PREFERENCES);
+                //Se sale del método ya que no necesita cargar ningún fragmento.
+                return true;
             case R.id.nav_acerca:
-                toolbar.setTitle(R.string.labelAcercaDe);
-                break;
+                drawer.closeDrawers();
+                mostrarAcercaDe();
+                return true;
 
         }
-
-        //Reemplaza el fragmento actual por el seleccionado de la navigation drawer.
-        trans.replace(R.id.frmContenido, frgActual, tag).commit();
         drawer.closeDrawers();
+        //No permite que se vuelva a cargar el mismo fragmento que ya está cargado.
+        if(!mGestorFragmento.findFragmentById(R.id.frmContenido).getTag().equals(tag)){
+            //Resetea la cola de fragmentos, para que no se hagan un lio.
+            mGestorFragmento.popBackStack();
+            fab.show();
+            //Reemplaza el fragmento actual por el seleccionado de la navigation drawer.
+            trans.replace(R.id.frmContenido, frgActual, tag).commit();
+        }
+
         return true;
     }
 
@@ -186,67 +211,36 @@ public class MainActivity extends AppCompatActivity implements AlumnosFragment.O
         //Si el navigationDrawer está abierto lo cierra sino ejecuta un onBackPressed normal.
         if(drawer.isDrawerOpen(GravityCompat.START))
             drawer.closeDrawers();
-        else
+        else{
             super.onBackPressed();
+            MainActivity.translateFab(fab, 0, 0, R.drawable.ic_add);
+        }
     }
 
-    public static void translateFab(final FloatingActionButton fab, final float toPosX, final float toPosY, final Drawable drawable){
-        //Oculta el FAB
-        fab.animate().scaleX(0).scaleY(0).setListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                //Mueve el fab a la posicion deseada.
-                fab.animate().translationX(toPosX).translationY(toPosY).setListener(new Animator.AnimatorListener() {
-                    @Override
-                    public void onAnimationStart(Animator animation) {
-                        //Le cambia el icono
-                        fab.setImageDrawable(drawable);
-                    }
-
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-
-                        //Lo hace reaparecer
-                        fab.animate().scaleX(1).scaleY(1);
-                    }
-
-                    @Override
-                    public void onAnimationCancel(Animator animation) {
-
-                    }
-
-                    @Override
-                    public void onAnimationRepeat(Animator animation) {
-
-                    }
-                });
-
-
-
-            }
-
-            @Override
-            public void onAnimationCancel(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationRepeat(Animator animation) {
-
-            }
-        }).start();
-
+    //Se encarga de mover el Fab ocultandolo al principio y mostrandolo cuando ha llegado al destino.
+    public static void translateFab(final FloatingActionButton fab, final float toPosX, final float toPosY, final int idDrawable){
+        if(fab != null)
+            fab.hide(new FloatingActionButton.OnVisibilityChangedListener() {
+                @Override
+                public void onHidden(final FloatingActionButton fab) {
+                    super.onHidden(fab);
+                    fab.setImageResource(idDrawable);
+                    fab.animate().translationX(toPosX).translationY(toPosY).setListener(new Animator.AnimatorListener() {
+                        @Override
+                        public void onAnimationStart(Animator animation) {  }
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            fab.show();
+                        }
+                        @Override
+                        public void onAnimationCancel(Animator animation) {}
+                        @Override
+                        public void onAnimationRepeat(Animator animation) {}
+                    });
+                }
+            });
     }
-    //Click en una visita de la lista de fragmentVisitas
-    @Override
-    public void onVisitaSelected(Visita visita, int position) {
 
-    }
 
     //Click del fragmento de lista de alumnos.
     @Override
@@ -273,7 +267,40 @@ public class MainActivity extends AppCompatActivity implements AlumnosFragment.O
                     else
                         mGestorFragmento.findFragmentByTag(TAG_FRG_EDITOR).onActivityResult(requestCode,resultCode,data);
                     break;
+                case CreadorVisitaActivity.RC_CREADOR_VISITA:
+                    ((VisitasFragment) ((TutoriaIndividualFragment)frgActual).getItem(1)).actualizarListaPersonal();
+                    break;
+
+                case RC_PREFERENCES:
+                    Fragment frg = mGestorFragmento.findFragmentById(R.id.frmContenido);
+                    //Si está el fragmento de visitas próximas en primer plano se actualizará con el nuevo orden.
+                    if(frg instanceof VisitasFragment)
+                        ((VisitasFragment)frg).actualizarProxVisitas();
+                    //Si el fragmento de visitas personales del alumno en primer plano se actualizaran con ese orden
+                    else if(frg instanceof TutoriaIndividualFragment){
+                        TutoriaIndividualFragment tFrag =(TutoriaIndividualFragment) frg;
+                        if(tFrag.getItem(tFrag.getCurrentPage()) instanceof VisitasFragment)
+                            ((VisitasFragment) tFrag.getItem(tFrag.getCurrentPage())).actualizarListaPersonal();
+                    }
+                    break;
             }
         }
+    }
+
+    private void mostrarAcercaDe(){
+        new AlertDialog.Builder(this).setTitle(getString(R.string.tituloAcercaDe))
+                .setMessage(getString(R.string.mensajeAcercaDe))
+                .setPositiveButton(getString(R.string.btnPositiveAcercaDe), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                }).show();
+
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putString(STATE_TAG, frgActual.getTag());
+        super.onSaveInstanceState(outState);
     }
 }

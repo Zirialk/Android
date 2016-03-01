@@ -15,7 +15,7 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     
-    <!-- MENU -->
+    <!-- MENÚ -->
     <string name="action_settings">Settings</string>
     <string name="menu_guardar">Guardar</string>
 
@@ -41,5 +41,31 @@
     <string name="lblResumen">Resumen</string>
 
 
+    <!-- Preferencias -->
+        <!-- PESTAÑA INICIAL -->
+        <string name="titlePestanaInicial">Pestaña inicial</string>
+        <string name="itemTutorias">Tutorías</string>
+        <string name="itemProxVisitas">Próximas visitas</string>
 
+        <string-array name="fragmentosIniciales">
+            <item>@string/itemTutorias</item>
+            <item>@string/itemProxVisitas</item>
+        </string-array>
+
+
+        <!-- ORDEN VISITAS -->
+        <string name="titleOrdenVisitas">Orden Visitas</string>
+        <string name="itemAscendente">Ascendente</string>
+        <string name="itemDescendente">Descendente</string>
+
+
+        <string-array name="ordenes">
+            <item>@string/itemAscendente</item>
+            <item>@string/itemDescendente</item>
+        </string-array>
+
+    <!-- AcercaDe Dialogo -->
+    <string name="mensajeAcercaDe">Aplicación desarrollada por:\nAlejandro Torres Gómez</string>
+    <string name="tituloAcercaDe">Acerca de…</string>
+    <string name="btnPositiveAcercaDe">Aceptar</string>
 </resources>

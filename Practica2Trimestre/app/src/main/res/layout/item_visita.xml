@@ -2,16 +2,16 @@
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    card_view:cardCornerRadius="11dp"
-    card_view:cardElevation="5dp"
+    android:layout_marginLeft="@dimen/marginLeftMaterialList"
+    android:layout_marginStart="@dimen/marginLeftMaterialList"
+    android:layout_marginRight="@dimen/marginLeftMaterialList"
+    android:layout_marginEnd="@dimen/marginLeftMaterialList"
     >
     <TextView
         android:id="@+id/lblVisita"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/visita"
-        android:textSize="@dimen/textSizeCv"
         android:layout_marginTop="@dimen/marginTopTxtVisita"
         android:layout_marginLeft="@dimen/marginLeftLblVisita"
         android:layout_marginStart="@dimen/marginLeftLblVisita"/>
@@ -22,7 +22,6 @@
         android:layout_marginTop="@dimen/marginTopTxtVisita"
         android:layout_marginLeft="@dimen/marginLeftLblFecha"
         android:layout_marginStart="@dimen/marginLeftLblFecha"
-        android:textSize="@dimen/textSizeCv"
         android:text="10/2/2016"
         android:layout_toRightOf="@id/lblVisita"
         android:layout_toEndOf="@id/lblVisita"
@@ -32,7 +31,6 @@
         android:id="@+id/lblHora"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/textSizeCv"
         android:layout_marginTop="@dimen/marginTopTxtVisita"
         android:layout_marginRight="@dimen/marginRightLblHora"
         android:layout_marginEnd="@dimen/marginRightLblHora"
@@ -47,7 +45,8 @@
         android:layout_marginBottom="@dimen/marginTopTxtVisita"
         android:layout_marginLeft="@dimen/marginLeftLblVisita"
         android:layout_marginStart="@dimen/marginLeftLblVisita"
-        android:textSize="@dimen/textSizeCv"
+        android:maxLength="31"
+        android:textStyle="bold"
         android:text="Esto es un comentario, jeje. Me llamo alejandro torres gomez jijiji, voy por la tercera linea gg"
         />
 

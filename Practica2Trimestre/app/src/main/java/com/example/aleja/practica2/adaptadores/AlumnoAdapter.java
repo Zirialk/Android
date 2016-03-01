@@ -5,33 +5,31 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.media.ThumbnailUtils;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.amulyakhare.textdrawable.util.ColorGenerator;
-import com.example.aleja.practica2.actividades.MainActivity;
 import com.example.aleja.practica2.modelos.Alumno;
 import com.example.aleja.practica2.R;
-import com.squareup.picasso.Picasso;
 
+import java.util.Collections;
 import java.util.List;
 
 
 public class AlumnoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final List<Alumno> mDatos;
-    private OnItemClickListener onItemClickListener;
+    private IAlumnoAdapter iAlumnoAdapter;
     private View emptyView;
     private final TextDrawable.IBuilder mDrawableBuilder;
 
     // Interfaz que debe implementar el listener para cuando se haga click sobre un elemento.
-    public interface OnItemClickListener {
+    public interface IAlumnoAdapter {
         void onItemClick(View view, Alumno alumno, int position);
+        void onDeleteAlumno(Alumno alumno);
     }
 
     public AlumnoAdapter(List<Alumno> datos) {
@@ -54,8 +52,8 @@ public class AlumnoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(onItemClickListener != null)
-                    onItemClickListener.onItemClick(v, mDatos.get(viewHolder.getAdapterPosition()), viewHolder.getAdapterPosition());
+                if(iAlumnoAdapter != null)
+                    iAlumnoAdapter.onItemClick(v, mDatos.get(viewHolder.getAdapterPosition()), viewHolder.getAdapterPosition());
             }
         });
         //Se retorna el contenedor con la vista del item de alumno en su interior.
@@ -89,6 +87,7 @@ public class AlumnoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             if(alumno.getFoto().isEmpty())
                 imgAvatar.setImageDrawable(drawable);
             else{
+                //Carga una miniatura de la imagen para que no ocupe tanta memoria.
                 Bitmap thumbnail = BitmapFactory.decodeFile(alumno.getFoto(), new BitmapFactory.Options());
                 imgAvatar.setImageBitmap(ThumbnailUtils.extractThumbnail(thumbnail, imgAvatar.getLayoutParams().width, imgAvatar.getLayoutParams().height));
             }
@@ -96,11 +95,10 @@ public class AlumnoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
     }
 
-    public void addItem(Alumno alumno){
-        notifyItemInserted(mDatos.size()-1);
-        mDatos.add(alumno);
-    }
+
+
     public void removeItem(int posicion){
+        iAlumnoAdapter.onDeleteAlumno(mDatos.get(posicion));
         mDatos.remove(posicion);
         notifyItemRemoved(posicion);
         checkIfEmpty();
@@ -116,8 +114,8 @@ public class AlumnoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
 
     // Establece el listener a informar cuando se hace click sobre un elemento de la lista.
-    public void setOnItemClickListener(OnItemClickListener listener) {
-        this.onItemClickListener = listener;
+    public void setiAlumnoAdapter(IAlumnoAdapter listener) {
+        this.iAlumnoAdapter = listener;
     }
 
     private void checkIfEmpty() {

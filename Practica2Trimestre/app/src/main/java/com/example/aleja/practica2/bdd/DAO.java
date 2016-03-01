@@ -3,8 +3,10 @@ package com.example.aleja.practica2.bdd;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.preference.PreferenceManager;
 
 import com.example.aleja.practica2.modelos.Alumno;
 import com.example.aleja.practica2.modelos.Visita;
@@ -18,10 +20,11 @@ public class DAO {
     //Patrón Singletone.
     private static DAO mInstance;
     private static SQLiteHelper mHelper;
-
+    SharedPreferences preferences;
 
     private DAO(Context context){
         mHelper = new SQLiteHelper(context, BDDContract.BDD_NAME, null, BDDContract.BDD_VERSION);
+        preferences = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
     public static synchronized DAO getInstance(Context context){
@@ -38,7 +41,6 @@ public class DAO {
     public void closeDB(){
         mHelper.close();
     }
-
 
 
     //      ALUMNO
@@ -86,6 +88,10 @@ public class DAO {
 
     public boolean deleteAlumno(long id){
         SQLiteDatabase db = mHelper.getWritableDatabase();
+        //Sqlite no permite el DELETE ON CASCADE.
+        //Forma manual.
+        db.delete(BDDContract.Visita.TABLA, BDDContract.Visita.ID_ALUMNO + "=" + id, null);
+
         long resultado = db.delete(BDDContract.Alumno.TABLA, BDDContract.Alumno._ID + " = " + id, null);
         db.close();
         return resultado > 0;
@@ -136,17 +142,20 @@ public class DAO {
 
     //    VISITAS
 
-
-    public long createVisita(Visita visita){
-        long idVisitaInsertado = -1;
-
-        String condicion = String.format("%s = %d AND %s >= %d AND %s <= %d"
+    private String getCondicionVisita(Visita visita){
+        return String.format("%s = %d AND %s >= %d AND %s <= %d"
                 //%d  =  %s          En el mismo día
                 ,BDDContract.Visita.DIA, visita.getDia().getTime()
                 //                   La visita que termine despues de que empieze la nueva visita.
                 , BDDContract.Visita.HORA_FIN, visita.getHoraInicio().getTime()
                 //                   La visita que empieze antes de que termine la nueva visita.
                 , BDDContract.Visita.HORA_INICIO, visita.getHoraFin().getTime());
+    }
+
+    public long createVisita(Visita visita){
+        long idVisitaInsertado = -1;
+
+        String condicion = getCondicionVisita(visita);
 
         //Se abre la base de datos
         SQLiteDatabase db = mHelper.getWritableDatabase();
@@ -170,15 +179,55 @@ public class DAO {
         db.close();
         return idVisitaInsertado;
     }
+    public int updateVisita(Visita visita){
+        int camposActualizados = 0;
+
+        SQLiteDatabase db = mHelper.getWritableDatabase();
+        //Se crea la lista de pares clave-valor para realizar la actualización.
+        ContentValues valores = new ContentValues();
+        valores.put(BDDContract.Visita._ID, visita.getId());
+        valores.put(BDDContract.Visita.ID_ALUMNO, visita.getIdAlumno());
+        valores.put(BDDContract.Visita.DIA, visita.getDia().getTime());
+        valores.put(BDDContract.Visita.HORA_INICIO, visita.getHoraInicio().getTime());
+        valores.put(BDDContract.Visita.HORA_FIN, visita.getHoraFin().getTime());
+        valores.put(BDDContract.Visita.RESUMEN, visita.getResumen());
+
+        //Se realiza el update
+        camposActualizados = db.update(BDDContract.Visita.TABLA, valores, BDDContract.Visita._ID + "=" + visita.getId(), null);
+
+        db.close();
+        return camposActualizados;
+    }
+    public boolean deleteVisita(int idVisita){
+        SQLiteDatabase db = mHelper.getWritableDatabase();
+        long resultado = db.delete(BDDContract.Visita.TABLA, BDDContract.Visita._ID + " = " + idVisita, null);
+        db.close();
+        return resultado > 0;
+    }
+
+
+    //Obtiene el orderBy correspondiente dependiendo de las preferencias.
+    private String orderByAscDesc(){
+        String orderBy = BDDContract.Visita.DIA;
+
+        //Si la preferencia de ordenar descendentemente, se especificará en el orderBy su orden descendente.
+        if (preferences.getString(Constantes.PREF_ORDEN_VISITA, Constantes.ORDEN_ASCENDENTE).equals(Constantes.ORDEN_DESCENDENTE))
+            orderBy = BDDContract.Visita.DIA + " DESC, " + BDDContract.Visita.HORA_INICIO + " DESC";
+        return orderBy;
+    }
     public Cursor queryAlumnoVisitas(SQLiteDatabase bd, int idAlumno){
-        return bd.query(BDDContract.Visita.TABLA, BDDContract.Visita.TODOS, BDDContract.Visita.ID_ALUMNO+ "=" + idAlumno, null, null, null, BDDContract.Visita.DIA);
+
+
+        return bd.query(BDDContract.Visita.TABLA, BDDContract.Visita.TODOS, BDDContract.Visita.ID_ALUMNO + "=" + idAlumno, null, null, null, orderByAscDesc());
     }
     public Cursor queryAllProxVisitas(SQLiteDatabase bd){
-        String condicion = new Date().getTime() + "<" +BDDContract.Visita.DIA;
+        Date ahora = new Date();
+        String condicion = ahora.getTime() + "<" + BDDContract.Visita.DIA + "+" + BDDContract.Visita.HORA_INICIO;
 
         //Devuelve las visitas posteriores al momento de ejecución de esta sentencia.
-        return bd.query(BDDContract.Visita.TABLA, BDDContract.Visita.TODOS, condicion, null, null, null, BDDContract.Visita.DIA);
+        return bd.query(BDDContract.Visita.TABLA, BDDContract.Visita.TODOS, condicion, null, null, null, orderByAscDesc());
     }
+
     public List<Visita> getAllProxVisitas(){
         SQLiteDatabase db = mHelper.getWritableDatabase();
         List<Visita> lista = new ArrayList<>();

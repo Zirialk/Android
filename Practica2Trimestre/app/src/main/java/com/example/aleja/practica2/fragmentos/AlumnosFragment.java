@@ -8,7 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -24,7 +24,7 @@ import com.example.aleja.practica2.R;
 import java.util.ArrayList;
 
 
-public class AlumnosFragment extends Fragment implements AlumnoAdapter.OnItemClickListener {
+public class AlumnosFragment extends Fragment implements AlumnoAdapter.IAlumnoAdapter {
 
     private static final String STATE_ALUMNOS = "stateAlumnos";
     private ArrayList<Alumno> mAlumnos = new ArrayList<>();
@@ -66,24 +66,47 @@ public class AlumnosFragment extends Fragment implements AlumnoAdapter.OnItemCli
 
     private void initViews() {
         configRecyclerView();
-        configFab();
+        configSwipeToDismiss();
     }
 
     private void configRecyclerView() {
         rvAlumnos = (RecyclerView) getActivity().findViewById(R.id.rv);
         rvAlumnos.setHasFixedSize(true);
         mAdaptador = new AlumnoAdapter(mAlumnos);
-        mAdaptador.setOnItemClickListener(this);
+        mAdaptador.setiAlumnoAdapter(this);
         rvAlumnos.setAdapter(mAdaptador);
         mLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         rvAlumnos.setLayoutManager(mLayoutManager);
         rvAlumnos.setItemAnimator(new DefaultItemAnimator());
     }
 
-    private void configFab() {
-        fab = (FloatingActionButton)getActivity().findViewById(R.id.fab);
-        MainActivity.translateFab(fab, 0, 0, getResources().getDrawable(R.drawable.ic_add));
+    private void configSwipeToDismiss() {
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(
+                new ItemTouchHelper.SimpleCallback(
+                        ItemTouchHelper.UP | ItemTouchHelper.DOWN,
+                        ItemTouchHelper.RIGHT) {
+
+                    // Cuando se detecta un gesto drag & drop.
+                    @Override
+                    public boolean onMove(RecyclerView recyclerView,
+                                          RecyclerView.ViewHolder viewHolder,
+                                          RecyclerView.ViewHolder target) {
+
+                        return false;
+                    }
+
+                    // Cuando se detecta un gesto swipe to dismiss.
+                    @Override
+                    public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                        // Se elimina el elemento.
+                        mAdaptador.removeItem(viewHolder.getAdapterPosition());
+                    }
+                });
+        // Se enlaza con el RecyclerView.
+        itemTouchHelper.attachToRecyclerView(rvAlumnos);
     }
+
+
     //Click en un item del RecyclerView.
     @Override
     public void onItemClick(View view, Alumno alumno, int position) {
@@ -92,7 +115,15 @@ public class AlumnosFragment extends Fragment implements AlumnoAdapter.OnItemCli
     }
 
     @Override
+    public void onDeleteAlumno(Alumno alumno) {
+        DAO.getInstance(getContext()).deleteAlumno(alumno.getId());
+    }
+
+    @Override
     public void onAttach(Context context) {
+        //Solo volvera el botón a su punto inicial cuando sea ligado, no cuando un fragmento superior a este ejecute el onBackPressed().
+        fab = (FloatingActionButton)getActivity().findViewById(R.id.fab);
+        MainActivity.translateFab(fab, 0, 0, R.drawable.ic_add);
         super.onAttach(context);
         try {
             mListener = (OnAlumnoSelectedListener) context;

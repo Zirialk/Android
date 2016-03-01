@@ -37,7 +37,7 @@ public class CachedFragmentPagerAdapter extends FragmentPagerAdapter {
             return mFragmentos.size();
         }
 
-    // Al instanciar el fragmento, se añade al SparseArray la referencia débil
+        // Al instanciar el fragmento, se añade al SparseArray la referencia débil
         // al mismo.
         @Override
         public Object instantiateItem(final ViewGroup container, final int position) {
