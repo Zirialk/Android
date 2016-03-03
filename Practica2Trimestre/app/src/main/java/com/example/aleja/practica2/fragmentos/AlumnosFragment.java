@@ -14,6 +14,9 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.example.aleja.practica2.actividades.MainActivity;
 import com.example.aleja.practica2.modelos.Alumno;
@@ -67,6 +70,7 @@ public class AlumnosFragment extends Fragment implements AlumnoAdapter.IAlumnoAd
     private void initViews() {
         configRecyclerView();
         configSwipeToDismiss();
+        configurarEmptyView();
     }
 
     private void configRecyclerView() {
@@ -102,7 +106,14 @@ public class AlumnosFragment extends Fragment implements AlumnoAdapter.IAlumnoAd
         // Se enlaza con el RecyclerView.
         itemTouchHelper.attachToRecyclerView(rvAlumnos);
     }
-
+    private void configurarEmptyView(){
+        RelativeLayout emptyView = (RelativeLayout) getActivity().findViewById(R.id.emptyView);
+        mAdaptador.setEmptyView(emptyView);
+        ImageView imgEmptyView = (ImageView) getActivity().findViewById(R.id.imgEmptyView);
+        TextView lblEmptyView = (TextView) getActivity().findViewById(R.id.lblEmptyView);
+        imgEmptyView.setImageResource(R.drawable.sin_alumnos);
+        lblEmptyView.setText(R.string.sinAlumnos);
+    }
 
     //Click en un item del RecyclerView.
     @Override

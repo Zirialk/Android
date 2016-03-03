@@ -12,7 +12,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/visita"
-        android:layout_marginTop="@dimen/marginTopTxtVisita"
         android:layout_marginLeft="@dimen/marginLeftLblVisita"
         android:layout_marginStart="@dimen/marginLeftLblVisita"/>
     <TextView
@@ -22,32 +21,40 @@
         android:layout_marginTop="@dimen/marginTopTxtVisita"
         android:layout_marginLeft="@dimen/marginLeftLblFecha"
         android:layout_marginStart="@dimen/marginLeftLblFecha"
-        android:text="10/2/2016"
         android:layout_toRightOf="@id/lblVisita"
         android:layout_toEndOf="@id/lblVisita"
+        android:textStyle="bold"
 
         />
     <TextView
         android:id="@+id/lblHora"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/marginTopTxtVisita"
         android:layout_marginRight="@dimen/marginRightLblHora"
         android:layout_marginEnd="@dimen/marginRightLblHora"
         android:layout_gravity="end"
+/>
+    <TextView
+        android:id="@+id/lblTituloResumen"
+        android:layout_width="@dimen/widthLblResumen"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/marginTopLblResumen"
 
-        android:text="10:15-11:15"/>
+        android:layout_marginLeft="@dimen/marginLeftLblVisita"
+        android:layout_marginStart="@dimen/marginLeftLblVisita"
+
+        android:text="@string/resumen"
+        />
     <TextView
         android:id="@+id/lblResumen"
         android:layout_width="@dimen/widthLblResumen"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/marginTopLblResumen"
-        android:layout_marginBottom="@dimen/marginTopTxtVisita"
-        android:layout_marginLeft="@dimen/marginLeftLblVisita"
-        android:layout_marginStart="@dimen/marginLeftLblVisita"
+
+        android:layout_marginLeft="100dp"
+        android:layout_marginStart="100dp"
         android:maxLength="31"
-        android:textStyle="bold"
-        android:text="Esto es un comentario, jeje. Me llamo alejandro torres gomez jijiji, voy por la tercera linea gg"
+
         />
 
 </android.support.v7.widget.CardView>

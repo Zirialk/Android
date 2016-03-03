@@ -10,6 +10,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.example.aleja.practica2.R;
 import com.example.aleja.practica2.actividades.CreadorVisitaActivity;
@@ -18,6 +21,8 @@ import com.example.aleja.practica2.bdd.BDDContract;
 import com.example.aleja.practica2.bdd.DAO;
 import com.example.aleja.practica2.modelos.Alumno;
 import com.example.aleja.practica2.modelos.Visita;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -31,7 +36,6 @@ public class VisitasFragment extends Fragment implements VisitaAdapter.OnVisitaC
     private LinearLayoutManager mLayoutManager;
 
     private int mIdAlumno = -1;
-
 
 
     public static VisitasFragment newInstance(Alumno alumno) {
@@ -75,7 +79,8 @@ public class VisitasFragment extends Fragment implements VisitaAdapter.OnVisitaC
             //Si existe argumento, se pedira las visitas del alumno pasado por parámetro.
             actualizarListaPersonal();
         }
-        initViews();
+        configurarEmptyView();
+        configRecyclerView();
     }
     public void actualizarListaPersonal(){
         mAdaptador.replaceAll(DAO.getInstance(getContext()).getAlumnoVisitas(mIdAlumno));
@@ -84,10 +89,15 @@ public class VisitasFragment extends Fragment implements VisitaAdapter.OnVisitaC
         mAdaptador.replaceAll(DAO.getInstance(getContext()).getAllProxVisitas());
     }
 
-
-    private void initViews() {
-        configRecyclerView();
+    private void configurarEmptyView(){
+        RelativeLayout emptyView = (RelativeLayout) getActivity().findViewById(R.id.emptyView);
+        mAdaptador.setEmptyView(emptyView);
+        ImageView imgEmptyView = (ImageView) getActivity().findViewById(R.id.imgEmptyView);
+        TextView lblEmptyView = (TextView) getActivity().findViewById(R.id.lblEmptyView);
+        imgEmptyView.setImageResource(R.drawable.sin_visita);
+        lblEmptyView.setText(R.string.sinVisitas);
     }
+
 
     private void configRecyclerView() {
         rvVisitas = (RecyclerView) getActivity().findViewById(R.id.rv);
@@ -98,6 +108,7 @@ public class VisitasFragment extends Fragment implements VisitaAdapter.OnVisitaC
         mLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         rvVisitas.setLayoutManager(mLayoutManager);
         rvVisitas.setItemAnimator(new DefaultItemAnimator());
+
     }
 
 

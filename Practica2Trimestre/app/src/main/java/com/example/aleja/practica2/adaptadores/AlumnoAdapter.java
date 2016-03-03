@@ -107,6 +107,7 @@ public class AlumnoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         mDatos.clear();
         mDatos.addAll(listaAlumnos);
         notifyDataSetChanged();
+        checkIfEmpty();
     }
     public List<Alumno> getAlumnos(){
         return mDatos;

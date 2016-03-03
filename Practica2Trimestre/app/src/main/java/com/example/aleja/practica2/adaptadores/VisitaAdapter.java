@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.amulyakhare.textdrawable.util.ColorGenerator;
@@ -17,11 +18,14 @@ import com.example.aleja.practica2.R;
 import com.example.aleja.practica2.bdd.DAO;
 import com.example.aleja.practica2.modelos.Alumno;
 import com.example.aleja.practica2.modelos.Visita;
+import com.example.aleja.practica2.utils.Constantes;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -109,39 +113,48 @@ public class VisitaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         private final TextView lblNombre;
         private final TextView lblDia;
-        private final TextView lblHora;
         private final ImageView imgAvatar;
 
         public ProxVisitaViewHolder(View itemView) {
             super(itemView);
             lblDia = (TextView) itemView.findViewById(R.id.lblDia);
-            lblHora = (TextView) itemView.findViewById(R.id.lblHora);
             lblNombre = (TextView) itemView.findViewById(R.id.lblNombre);
             imgAvatar = (ImageView) itemView.findViewById(R.id.imgAvatar);
         }
         public void onBind(Visita visita){
             SimpleDateFormat formatHora = new SimpleDateFormat("HH:mm", Locale.getDefault());
+            Date fechaActual = new Date();
 
-            lblDia.setText(new SimpleDateFormat("dd/MM/yy", Locale.getDefault()).format(visita.getDia()));
-            lblHora.setText( formatHora.format(visita.getHoraInicio()) + "-" + formatHora.format(visita.getHoraFin()) );
+            //Si existe esta visita
+            if(visita.getId() != 0){
+                //Aparecerá como fecha
+                lblDia.setText(new SimpleDateFormat("dd/MM/yy", Locale.getDefault()).format(new Date(visita.getDia().getTime() + TimeUnit.DAYS.toMillis(Constantes.DIAS_PROX_VISITAS))));
+
+            //Si el alumno no ha realizado ninguna visita, le aparecerá un mensaje al usuario informandole de que debe ir cuanto antes.
+            }else
+                lblDia.setText(R.string.cuantoAntes);
+
             //Se obtiene el alumno dueño de la visita.
             Alumno alumno = DAO.getInstance(itemView.getContext()).getAlumno(visita.getIdAlumno());
             lblNombre.setText(alumno.getNombre());
+
             //Si el alumno no contiene imagen o no la encuentra cargará su primera letras más un fondo de color
             Drawable drawable = TextDrawable.builder()
-                                .beginConfig()
-                                .width(100)
-                                .height(100)
-                                .toUpperCase()
-                                .endConfig()
-                                .rect().build(alumno.getNombre().substring(0, 1), ColorGenerator.MATERIAL.getColor(alumno.getNombre()));
+                    .beginConfig()
+                    .width(100)
+                    .height(100)
+                    .toUpperCase()
+                    .endConfig()
+                    .rect().build(alumno.getNombre().substring(0, 1), ColorGenerator.MATERIAL.getColor(alumno.getNombre()));
             if(alumno.getFoto().isEmpty())
-                imgAvatar.setImageDrawable(drawable);
-            else{
+                    imgAvatar.setImageDrawable(drawable);
+            else {
                 Bitmap thumbnail = BitmapFactory.decodeFile(alumno.getFoto(), new BitmapFactory.Options());
                 imgAvatar.setImageBitmap(ThumbnailUtils.extractThumbnail(thumbnail, imgAvatar.getLayoutParams().width, imgAvatar.getLayoutParams().height));
             }
         }
+
+
     }
 
 
@@ -159,6 +172,7 @@ public class VisitaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         mDatos.clear();
         mDatos.addAll(listaVisitas);
         notifyDataSetChanged();
+        checkIfEmpty();
     }
 
     public boolean isProxVisita() {

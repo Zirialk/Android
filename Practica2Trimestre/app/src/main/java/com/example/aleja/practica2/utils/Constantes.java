@@ -9,4 +9,6 @@ public final class Constantes {
     public static final String FRG_INI_PROX_VISITAS = "Próximas visitas";
     public static final String PREF_FRAGMENTO_INICIAL = "prefFragmentoInicial";
     public static final String PREF_ORDEN_VISITA = "prefOrdenVisitas";
+
+    public static final int DIAS_PROX_VISITAS = 15;
 }

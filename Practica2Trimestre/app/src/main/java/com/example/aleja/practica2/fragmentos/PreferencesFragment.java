@@ -47,8 +47,7 @@ public class PreferencesFragment extends PreferenceFragment implements
     public void onPause() {
         // Se elimina la actividad como listener de los cambios en las
         // preferencias.
-        getPreferenceScreen().getSharedPreferences()
-                .unregisterOnSharedPreferenceChangeListener(this);
+        getPreferenceScreen().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
         super.onPause();
     }
 

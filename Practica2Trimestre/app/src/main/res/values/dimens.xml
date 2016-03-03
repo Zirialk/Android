@@ -36,6 +36,9 @@
     <dimen name="marginTopLblResumen">30dp</dimen>
     <dimen name="widthLblResumen">300dp</dimen>
 
+    <!-- item ProxVisita -->
+    <dimen name="marginLeftLblDia">47dp</dimen>
+    <dimen name="boundImgAvatarProx">62dp</dimen>
 
     <!-- Activity Creador Visita -->
     <dimen name="textSizeCreadorVisita">20sp</dimen>
@@ -43,12 +46,15 @@
     <dimen name="marginLeftImgCreador">120dp</dimen>
     <dimen name="marginLeftTxtDia">10dp</dimen>
     <dimen name="widthTxtDia">110dp</dimen>
+    <dimen name="widthTxtHora">55dp</dimen>
         <!-- Collapsing Toolbar -->
         <dimen name="text_padding">20dp</dimen>
         <dimen name="appbar_height">128dp</dimen>
         <dimen name="collapsing_titleMarginStart">32dp</dimen>
         <dimen name="heightAppBar">250dp</dimen>
-    <dimen name="widthTxtHora">55dp</dimen>
+
+    <!-- fragment_recycler_view -->
+    <dimen name="boundsImgEmptyView">100dp</dimen>
 
 
 </resources>

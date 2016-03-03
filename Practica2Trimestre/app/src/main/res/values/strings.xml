@@ -65,7 +65,14 @@
         </string-array>
 
     <!-- AcercaDe Dialogo -->
-    <string name="mensajeAcercaDe">Aplicación desarrollada por:\nAlejandro Torres Gómez</string>
+    <string name="mensajeAcercaDe">Desarrollado por:\nAlejandro Torres Gómez</string>
     <string name="tituloAcercaDe">Acerca de…</string>
     <string name="btnPositiveAcercaDe">Aceptar</string>
+
+    <!-- Item Prox Visita -->
+    <string name="lblFecha">Fecha:</string>
+    <string name="cuantoAntes">Cuanto antes</string>
+    <string name="resumen">Resumen:</string>
+    <string name="sinVisitas">Sin visitas</string>
+    <string name="sinAlumnos">Sin alumnos</string>
 </resources>

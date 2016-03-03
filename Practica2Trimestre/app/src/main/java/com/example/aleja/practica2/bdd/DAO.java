@@ -208,11 +208,13 @@ public class DAO {
 
     //Obtiene el orderBy correspondiente dependiendo de las preferencias.
     private String orderByAscDesc(){
-        String orderBy = BDDContract.Visita.DIA;
+        String orderBy;
 
         //Si la preferencia de ordenar descendentemente, se especificará en el orderBy su orden descendente.
         if (preferences.getString(Constantes.PREF_ORDEN_VISITA, Constantes.ORDEN_ASCENDENTE).equals(Constantes.ORDEN_DESCENDENTE))
             orderBy = BDDContract.Visita.DIA + " DESC, " + BDDContract.Visita.HORA_INICIO + " DESC";
+        else
+            orderBy = BDDContract.Visita.DIA + ", " + BDDContract.Visita.HORA_INICIO;
         return orderBy;
     }
     public Cursor queryAlumnoVisitas(SQLiteDatabase bd, int idAlumno){
@@ -221,11 +223,8 @@ public class DAO {
         return bd.query(BDDContract.Visita.TABLA, BDDContract.Visita.TODOS, BDDContract.Visita.ID_ALUMNO + "=" + idAlumno, null, null, null, orderByAscDesc());
     }
     public Cursor queryAllProxVisitas(SQLiteDatabase bd){
-        Date ahora = new Date();
-        String condicion = ahora.getTime() + "<" + BDDContract.Visita.DIA + "+" + BDDContract.Visita.HORA_INICIO;
-
         //Devuelve las visitas posteriores al momento de ejecución de esta sentencia.
-        return bd.query(BDDContract.Visita.TABLA, BDDContract.Visita.TODOS, condicion, null, null, null, orderByAscDesc());
+        return bd.rawQuery(String.format("SELECT a.%s, v.* FROM %s a LEFT OUTER JOIN %s v ON a.%s=%s AND v.%s = (SELECT %s FROM %s WHERE a.%s=%s ORDER BY dia DESC , 1 DESC LIMIT 1) ORDER BY %s",BDDContract.Alumno._ID, BDDContract.Alumno.TABLA, BDDContract.Visita.TABLA, BDDContract.Alumno._ID, BDDContract.Visita.ID_ALUMNO, BDDContract.Visita._ID, BDDContract.Visita._ID, BDDContract.Visita.TABLA, BDDContract.Alumno._ID, BDDContract.Visita.ID_ALUMNO, orderByAscDesc()), null);
     }
 
     public List<Visita> getAllProxVisitas(){
@@ -264,12 +263,15 @@ public class DAO {
     public Visita cursorToVisita(Cursor cursorVisita){
         Visita visita = new Visita();
         visita.setId(cursorVisita.getInt(cursorVisita.getColumnIndexOrThrow(BDDContract.Visita._ID)));
-        visita.setIdAlumno(cursorVisita.getInt(cursorVisita.getColumnIndexOrThrow(BDDContract.Visita.ID_ALUMNO)));
+        if(visita.getId() == 0)
+            visita.setIdAlumno(cursorVisita.getInt(0));
+        else
+            visita.setIdAlumno(cursorVisita.getInt(cursorVisita.getColumnIndexOrThrow(BDDContract.Visita.ID_ALUMNO)));
         visita.setDia(new Date(cursorVisita.getLong(cursorVisita.getColumnIndexOrThrow(BDDContract.Visita.DIA))));
         visita.setHoraInicio(new Date(cursorVisita.getLong(cursorVisita.getColumnIndexOrThrow(BDDContract.Visita.HORA_INICIO))));
         visita.setHoraFin(new Date(cursorVisita.getLong(cursorVisita.getColumnIndexOrThrow(BDDContract.Visita.HORA_FIN))));
         visita.setResumen(cursorVisita.getString(cursorVisita.getColumnIndexOrThrow(BDDContract.Visita.RESUMEN)));
-        //Se retorna el alumno ya configurado.
+        //Se retorna la visita ya configurada.
         return visita;
     }
 }

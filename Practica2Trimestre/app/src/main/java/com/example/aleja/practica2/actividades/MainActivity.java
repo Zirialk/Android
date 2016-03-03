@@ -189,6 +189,7 @@ public class MainActivity extends AppCompatActivity implements AlumnosFragment.O
             case R.id.nav_acerca:
                 drawer.closeDrawers();
                 mostrarAcercaDe();
+
                 return true;
 
         }
@@ -204,6 +205,7 @@ public class MainActivity extends AppCompatActivity implements AlumnosFragment.O
 
         return true;
     }
+
 
 
     @Override
