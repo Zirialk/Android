@@ -45,7 +45,6 @@ public class MainActivity extends AppCompatActivity implements AlumnosFragment.O
     private Fragment frgActual;
     private FloatingActionButton fab;
     private Toolbar toolbar;
-    private DrawerLayout nvgDrawer;
     private ActionBarDrawerToggle toggle;
     private DrawerLayout drawer;
     private NavigationView navigationView;
@@ -59,6 +58,7 @@ public class MainActivity extends AppCompatActivity implements AlumnosFragment.O
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         mGestorFragmento = getSupportFragmentManager();
+        //Si se ha girado la pantalla, recuperará el fragmento que estaba cargado buscandolo por el tag.
         if(savedInstanceState != null)
             frgActual = mGestorFragmento.findFragmentByTag(savedInstanceState.getString(STATE_TAG));
         initViews();
@@ -246,7 +246,6 @@ public class MainActivity extends AppCompatActivity implements AlumnosFragment.O
     @Override
     public void onAlumnoSelected(Alumno alumno) {
         frgActual = TutoriaIndividualFragment.newInstance(alumno);
-
         FragmentTransaction trans  = mGestorFragmento.beginTransaction();
         trans.addToBackStack(BACKSTACK);
         trans.replace(R.id.frmContenido, frgActual, TAG_FRG_TUTORIA_INDIVIDUAL).commit();

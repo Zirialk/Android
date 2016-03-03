@@ -2,7 +2,6 @@ package com.example.aleja.practica2.fragmentos;
 
 import android.animation.Animator;
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -16,7 +15,6 @@ import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v7.graphics.drawable.DrawerArrowDrawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -25,7 +23,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.widget.AbsListView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -33,7 +30,6 @@ import com.example.aleja.practica2.R;
 import com.example.aleja.practica2.actividades.MainActivity;
 import com.example.aleja.practica2.bdd.DAO;
 import com.example.aleja.practica2.modelos.Alumno;
-import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -98,7 +94,10 @@ public class EditorFragment extends Fragment {
 
     private void configFab() {
         fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
-        moverFabDebajoImgFoto();
+        if(getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)
+            fab.animate().translationY(1000);
+        else
+            moverFabDebajoImgFoto();
     }
     private void moverFabDebajoImgFoto(){
         imgFoto.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {

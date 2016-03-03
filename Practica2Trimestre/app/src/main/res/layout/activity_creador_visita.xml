@@ -16,6 +16,7 @@
             android:id="@+id/collapsingToolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:expandedTitleMarginStart="@dimen/collapsing_titleMarginStart">
 
             <android.support.v7.widget.Toolbar

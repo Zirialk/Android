@@ -3,7 +3,9 @@ package com.example.aleja.practica2.fragmentos;
 import android.animation.Animator;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
@@ -21,6 +23,8 @@ import com.example.aleja.practica2.R;
 import com.example.aleja.practica2.actividades.MainActivity;
 import com.example.aleja.practica2.adaptadores.CachedFragmentPagerAdapter;
 import com.example.aleja.practica2.modelos.Alumno;
+
+import java.util.List;
 
 
 public class TutoriaIndividualFragment extends Fragment{
@@ -48,6 +52,9 @@ public class TutoriaIndividualFragment extends Fragment{
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mAlumno = getArguments().getParcelable(ARG_ALUMNO);
+        //Mantiene la instancia de este fragmento, para que cuando se gire la pantalla al conseguir la posición
+        //relativa de imgFoto en EditorFragmento, no de null al haberse cargado de nuevo.
+        setRetainInstance(true);
         initViews();
     }
 
@@ -70,9 +77,13 @@ public class TutoriaIndividualFragment extends Fragment{
             public void onTabSelected(TabLayout.Tab tab) {
                 switch (tab.getPosition()) {
                     case 0:
-                        //Consigue la posición exacta en pantalla del final del imgFoto
-                        int posFinal = (int) (fab.getY()-((EditorFragment)getItem(0)).getPosDebajoImgFoto());
-                        moverFab(-posFinal, R.drawable.ic_photo_camera_white_24dp);
+                        if(getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)
+                            moverFab(300, R.drawable.ic_photo_camera_white_24dp);
+                        else{
+                            //Consigue la posición exacta en pantalla del final del imgFoto
+                            int posFinal = (int) (fab.getY()-((EditorFragment)getItem(0)).getPosDebajoImgFoto());
+                            moverFab(-posFinal, R.drawable.ic_photo_camera_white_24dp);
+                        }
                         break;
                     case 1:
                         moverFab(0, R.drawable.ic_add);
@@ -100,7 +111,7 @@ public class TutoriaIndividualFragment extends Fragment{
         return viewPager.getCurrentItem();
     }
 
-    public Fragment getItem(int position){
+    public Fragment getItem(int position) {
         return vpAdapter.getItem(position);
     }
     public int getIdAlumno(){
@@ -121,6 +132,7 @@ public class TutoriaIndividualFragment extends Fragment{
                 case 0:
                     if(frgEditor == null)
                         frgEditor = EditorFragment.newInstance(mAlumno);
+
                     return frgEditor;
                 case 1:
                     if(frgVisitas == null)
@@ -129,8 +141,6 @@ public class TutoriaIndividualFragment extends Fragment{
             }
             return null;
         }
-
-
 
         @Override
         public int getCount() {
@@ -155,26 +165,22 @@ public class TutoriaIndividualFragment extends Fragment{
         fab.animate().translationY(y).setInterpolator(new AccelerateInterpolator(2)).setListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animation) {
-                fab.setImageResource(idDrawable);
+
             }
+
             @Override
-            public void onAnimationEnd(Animator animation) {}
+            public void onAnimationEnd(Animator animation) {fab.setImageResource(idDrawable);
+            }
+
             @Override
-            public void onAnimationCancel(Animator animation) {}
+            public void onAnimationCancel(Animator animation) {
+            }
+
             @Override
-            public void onAnimationRepeat(Animator animation) {}
+            public void onAnimationRepeat(Animator animation) {
+            }
         }).start();
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        
-    }
 
-    @Override
-    public void onDetach() {
-        getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
-        super.onDetach();
-    }
 }
