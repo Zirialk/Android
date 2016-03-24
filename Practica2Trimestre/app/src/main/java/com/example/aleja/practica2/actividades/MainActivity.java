@@ -63,6 +63,17 @@ public class MainActivity extends AppCompatActivity implements AlumnosFragment.O
             frgActual = mGestorFragmento.findFragmentByTag(savedInstanceState.getString(STATE_TAG));
         initViews();
 
+        // Se ocupa de cambiar el título de la toolbar cuando se vuelve hacia atras en algun fragmento
+        mGestorFragmento.addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
+            @Override
+            public void onBackStackChanged() {
+                Fragment frg = mGestorFragmento.findFragmentById(R.id.frmContenido);
+                if(frg instanceof AlumnosFragment)
+                    toolbar.setTitle(getString(R.string.labelAlumnos));
+                else if(frg instanceof VisitasFragment)
+                    toolbar.setTitle(getString(R.string.labelProxVisitas));
+            }
+        });
     }
 
 
@@ -98,7 +109,7 @@ public class MainActivity extends AppCompatActivity implements AlumnosFragment.O
 
     }
     private void cargarListaAlumnos(){
-        toolbar.setTitle(R.string.labelCrearAlumno);
+        toolbar.setTitle(R.string.labelAlumnos);
         //Si es la primera vez que se entra a la aplicación creará un nuevo fragmento de lista de alumnos.
         if(mGestorFragmento.findFragmentByTag(TAG_FRG_LISTA_ALUMNOS) == null)
             frgActual = new AlumnosFragment();

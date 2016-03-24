@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Examen2</string>
+    <string name="action_settings">Settings</string>
+    <string name="lblLluvia">Lluvia:</string>
+    <string name="lblHumedad">Humedad:</string>
+    <string name="lblViento">Viento:</string>
+    <string name="lblNubosidad">Nubosidad:</string>
+    <string name="algo">Algo</string>
+    <string name="ciudadNoEncontrada">Esta ciudad no ha sido encontrada.</string>
+    <string name="errorBusqueda">No se ha podido realizar la busqueda</string>
+    <string name="lblSinLluvia">-</string>
+    <string name="lblAlarma">Alarma</string>
+    <string name="notificationContentTitle">Clima</string>
+    <string name="notificationContentText">Pulse aquí para consultar el clima.</string>
+    <string name="lblCiudad">Ciudad</string>
+
+</resources>

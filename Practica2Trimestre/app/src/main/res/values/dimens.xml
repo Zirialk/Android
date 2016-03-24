@@ -53,7 +53,7 @@
         <dimen name="collapsing_titleMarginStart">32dp</dimen>
         <dimen name="heightAppBar">250dp</dimen>
 
-    <!-- fragment_recycler_view -->
+    <!-- fragment_recycler_viewd -->
     <dimen name="boundsImgEmptyView">100dp</dimen>
 
 
